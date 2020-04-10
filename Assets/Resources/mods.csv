@@ -1,0 +1,13 @@
+terrain_plains;Plains, grasslands or farmlands. Easy to develop, quick to move through, favouring neither party in an engagement. Perfect for crushing cavalry charges and flanking manuvers.;Terrain_Icon
+terrain_mountains;Rough and inaccesible mountain ranges. Difficult to traverse and to settle. Favours defender and renders cavalry useless.;Terrain_Icon
+terrain_forest;Vast woodlands. Difficult to traverse and limiting usage of cavalry. Trees provide natural cover for defender.;Terrain_Icon
+terrain_hills;Steep hills being great defensive position. Cavalry charges uphill are not viable through and movement through such a rough terrain is a nuisance.;Terrain_Icon
+const_fort;Sample Tooltip Fluff;Const_Icon
+const_road;Sample Tooltip Fluff;Const_Icon
+const_farm;Sample Tooltip Fluff;Const_Icon
+const_resource;Sample Tooltip Fluff;Const_Icon
+const_law;Sample Tooltip Fluff;Const_Icon
+const_religion;Sample Tooltip Fluff;Const_Icon
+capital_town;This city is an administrative centre of a nation. As such, it should be defended at all cost.;Default_Icon
+trade_hub;An important trade location: many trade routes may start or end here.;Trade_Icon
+trade_route;At least one valuable trade route crosses through this province boosting its developement and giving its owner trade duties.;Trade_Icon
