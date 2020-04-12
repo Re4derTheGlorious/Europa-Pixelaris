@@ -51,7 +51,7 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
                 string newText = "";
                 newText += unit.manpower;
                 newText += " ";
-                newText += unit.type;
+                newText += unit.unitName;
                 text.text = newText;
                 icon.color = Color.white;
                 SetBar(unit.morale);
@@ -59,7 +59,7 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
             else
             {
                 string newText = "";
-                newText += "Recruiting " + unit.type;
+                newText += "Gathering: " + unit.unitName;
                 text.text = newText;
                 icon.color = Color.gray;
 

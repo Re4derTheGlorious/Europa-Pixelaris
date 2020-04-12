@@ -75,12 +75,12 @@ public class BattleGrid : MonoBehaviour
         GetComponent<RawImage>().color = newColor;
 
         //hint
-        string hintText = unit.name+" Contested by " + unit.manpower + " "+unit.owner.owner.name+" "+unit.type+"\n";
+        string hintText = unit.unitName + " Contested by " + unit.manpower + " "+unit.owner.owner.name+" "+unit.type+"\n";
         hintText += unit.morale + " morale\n\n";
         hintText += "Last tick:\n";
         if (unit.lastTarget != null)
         {
-            hintText += "Attacked " + unit.lastTarget.name + " for " + unit.dmgDealt;
+            hintText += "Attacked " + unit.lastTarget.unitName + " for " + unit.dmgDealt;
         }
         GetComponent<StaticHint>().hintText = hintText;
     }

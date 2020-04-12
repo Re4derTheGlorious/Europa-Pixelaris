@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
@@ -166,8 +167,12 @@ public class ArmyInterface : Interface, IScrollHandler
         {
             if (anotherInterface)
             {
-                anotherInterface.Disable();
+                if (transform.parent.Find("ArmyFade").GetComponent<RawImage>().raycastTarget)
+                {
+                    ReorgAction();
+                }
             }
+            MapTools.GetMap().activeArmies.Clear();
         }
         ClearFrames();
         gameObject.SetActive(false);
@@ -209,10 +214,7 @@ public class ArmyInterface : Interface, IScrollHandler
         {
             MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().HaltAction();
         }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-             MapTools.GetInterface().EnableInterface("trade");
-        }
+        
         else if (Input.GetKeyDown(KeyCode.G))
         {
             MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().MergeAction();
@@ -221,19 +223,73 @@ public class ArmyInterface : Interface, IScrollHandler
         {
             MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().SplitAction();
         }
-        else if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            MapTools.GetToast().Enable("Suprise Motherfucker\n:)");
+            MapTools.GetInterface().EnableInterface("none");
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
             MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().ReorgAction();
         }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (armies.Count == 1)
+            {
+                Camera.main.GetComponent<CameraHandler>().ZoomTo(armies.ElementAt(0).rep.transform.position, 7);
+            }
+        }
     }
     public override void MouseInput(Province prov)
     {
+        MapTools.GetInput().SelectionInput();
 
+
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+
+            //movement
+            if (Input.GetMouseButtonUp(1))
+            {
+                if (!transform.parent.Find("ArmyFade").GetComponent<RawImage>().raycastTarget)
+                {
+                    if (MapTools.GetMap().activeArmies.Count > 0)
+                    {
+                        foreach (Classes.Army a in MapTools.GetMap().activeArmies)
+                        {
+                            if (a.owner == MapTools.GetSave().GetActiveNation())
+                            {
+                                if (!a.Move(prov))
+                                {
+                                    GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("No acces to province!");
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MapTools.GetToast().Enable("Cannot move while reorganizing");
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 1000))
+                {
+                    if (hit.collider.gameObject.GetComponent<UnitHandler>() == null)
+                    {
+                        MapTools.GetInterface().EnableInterface("none");
+                        return;
+                    }
+                }
+            }
+        }
+
+        //MapTools.GetInput().BasicInput(prov);
+        MapTools.GetInput().CameraInput();
     }
+
     //Frames
     public void ClearFrames()
     {
@@ -436,6 +492,8 @@ public class ArmyInterface : Interface, IScrollHandler
         //end reorganizing
         if (anotherInterface.gameObject.activeSelf)
         {
+            transform.parent.Find("ArmyFade").GetComponent<Fade>().FadeOut(0);
+            transform.parent.Find("ArmyFade").GetComponent<RawImage>().raycastTarget = false;
             List<Classes.Army> newList = new List<Classes.Army>();
             newList.Add(armies.ElementAt(0));
             newList.Add(anotherInterface.armies.ElementAt(0));
@@ -468,6 +526,8 @@ public class ArmyInterface : Interface, IScrollHandler
     }
     public void Reorganize(Classes.Army armyA, Classes.Army armyB)
     {
+        transform.parent.Find("ArmyFade").GetComponent<Fade>().FadeIn(0.5f);
+        transform.parent.Find("ArmyFade").GetComponent<RawImage>().raycastTarget = true;
         anotherInterface.Enable();
         anotherInterface.Set(arm: armyB);
         this.Set(arm: armyA);

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -80,12 +81,36 @@ public class DiplomacyInterface : Interface
 
     public override void MouseInput(Province prov)
     {
-
+        if (!EventSystem.current.IsPointerOverGameObject()) 
+        { 
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (prov != null)
+                {
+                    Set(prov.owner, null, null);
+                }
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                MapTools.GetInterface().EnableInterface("none");
+            }
+        }
     }
     public override void KeyboardInput(Province prov)
     {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Camera.main.GetComponent<CameraHandler>().ZoomTo(owner.capital.transform.position, 7);
+        }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MapTools.GetInterface().EnableInterface("none");
+        }
+
+        MapTools.GetInput().SelectionInput();
     }
+
 
     public override void Disable()
     {
@@ -107,8 +132,8 @@ public class DiplomacyInterface : Interface
 
     public void SetSymbol(int id)
     {
-        symbol.transform.GetChild(0).gameObject.GetComponent<RawImage>().texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
-        symbol.transform.GetChild(2).gameObject.GetComponent<NationSymbolClick>().nat = MapTools.IdToNat(id);
+        symbol.transform.GetChild(0).GetComponent<RawImage>().texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
+        symbol.transform.GetChild(0).GetComponent<NationSymbolClick>().SetNation(MapTools.IdToNat(id));
     }
 
     public void FillRels()

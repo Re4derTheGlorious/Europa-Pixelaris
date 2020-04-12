@@ -27,7 +27,7 @@ public class RelFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Start();
         symbol.texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
-        clicker.nat = MapTools.IdToNat(id);
+        clicker.SetNation(MapTools.IdToNat(id));
     }
 
     public void OnPointerEnter(PointerEventData eventData)

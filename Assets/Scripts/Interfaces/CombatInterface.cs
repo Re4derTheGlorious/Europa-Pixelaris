@@ -36,6 +36,7 @@ public class CombatInterface : Interface
 
     }
 
+
     public override void Refresh()
     {
         //show stage

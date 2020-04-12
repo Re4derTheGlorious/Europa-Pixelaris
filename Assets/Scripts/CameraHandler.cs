@@ -24,19 +24,30 @@ public class CameraHandler : MonoBehaviour
 
     void Update()
     {
-        float speed = Time.deltaTime * speedModifier * Camera.main.orthographicSize *2;
-
-        //Set zoom
         
+    }
 
-        
+    public void CameraInput()
+    {
+        float speed = Time.deltaTime * speedModifier * Camera.main.orthographicSize * 2;
 
         //Move on a plane
-        transform.Translate(new Vector3(Input.GetAxis("Horizontal")*speed, Input.GetAxis("Vertical") * speed, 0));
+        if (!Input.GetAxis("Horizontal").Equals(Vector3.zero) || !Input.GetAxis("Vertical").Equals(Vector3.zero))
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                StopZooming();
+            }
+            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            {
+                StopZooming();
+            }
+        }
+        transform.Translate(new Vector3(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed, 0));
 
         //fix x axis
         float currX = transform.position.x;
-        float maxX = map.GetComponent<MeshRenderer>().bounds.size.x/2;
+        float maxX = map.GetComponent<MeshRenderer>().bounds.size.x / 2;
         if (currX > maxX)
         {
             transform.position = new Vector3(-maxX, transform.position.y, cameraLayer);
@@ -46,16 +57,14 @@ public class CameraHandler : MonoBehaviour
             transform.position = new Vector3(maxX, transform.position.y, cameraLayer);
         }
 
-
-
         //fix y axis
         float currY = transform.position.y;
-        float maxY = map.GetComponent<MeshRenderer>().bounds.size.y/2 - Camera.main.orthographicSize;
+        float maxY = map.GetComponent<MeshRenderer>().bounds.size.y / 2 - Camera.main.orthographicSize;
         if (currY > maxY)
         {
             transform.position = new Vector3(transform.position.x, maxY, cameraLayer);
         }
-        else if(currY < -maxY)
+        else if (currY < -maxY)
         {
             transform.position = new Vector3(transform.position.x, -maxY, cameraLayer);
         }
@@ -64,6 +73,13 @@ public class CameraHandler : MonoBehaviour
         if (Input.GetMouseButton(2))
         {
             Camera.main.transform.position -= new Vector3(Input.GetAxis("Mouse X") * speed, Input.GetAxis("Mouse Y") * speed, 0);
+            StopZooming();
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            Camera.main.GetComponent<CameraHandler>().OnMouseScroll();
+            StopZooming();
         }
     }
 
@@ -112,7 +128,7 @@ public class CameraHandler : MonoBehaviour
         //zoom
         Camera.main.orthographicSize += (targetZoom - Camera.main.orthographicSize) * speedFactor;
 
-        if (zoomIteration >= 1000)
+        if (zoomIteration >= 250)
         {
             CancelInvoke();
         }

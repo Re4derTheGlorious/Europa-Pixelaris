@@ -47,6 +47,7 @@ public class StartInterface : Interface
         MapTools.GetInput().CameraInput();
     }
 
+
     public override bool IsSet()
     {
         return false;
@@ -74,6 +75,7 @@ public class StartInterface : Interface
     {
         if (MapTools.GetSave().GetActiveNation() != null)
         {
+            GameObject.Find("UI_Top/Symbol").GetComponent<Button>().interactable = true;
             GameObject.Find("Canvas").GetComponent<InterfaceHandler>().SetSymbol(GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetActiveNation().id);
             GameObject.Find("Canvas").transform.Find("UI_Time").gameObject.SetActive(true);
             GameObject.Find("Canvas").transform.Find("UI_Mapmode").gameObject.SetActive(true);

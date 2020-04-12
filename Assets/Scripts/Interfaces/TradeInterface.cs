@@ -49,6 +49,7 @@ public class TradeInterface : Interface
 
     }
 
+
     public override void Disable()
     {
         nat = null;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class NationSymbolClick : MonoBehaviour, IPointerDownHandler
+public class NationSymbolClick : MonoBehaviour
 {
-    public Classes.Nation nat;
+    private Classes.Nation nat;
 
     // Start is called before the first frame update
     void Start()
@@ -19,24 +19,32 @@ public class NationSymbolClick : MonoBehaviour, IPointerDownHandler
         
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void SetNation(Classes.Nation nat)
     {
-        if (GameObject.Find("UI_Start") == null)
-        {
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().activeProvince = null;
-            if (GameObject.Find("Canvas").GetComponent<InterfaceHandler>().interface_province.gameObject.activeSelf)
-            {
-                GameObject.Find("Canvas").GetComponent<InterfaceHandler>().interface_province.SetActive(false);
-            }
+        this.nat = nat;
+    }
 
-            if (nat == null)
-            {
-                GameObject.Find("Canvas").GetComponent<InterfaceHandler>().EnableInterface("diplomacy", GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetActiveNation(), null, null);
-            }
-            else
-            {
-                GameObject.Find("Canvas").GetComponent<InterfaceHandler>().EnableInterface("diplomacy", nat, null, null);
-            }
+    public Classes.Nation GetNation()
+    {
+        if (nat == null)
+        {
+            return MapTools.GetSave().GetActiveNation();
+        }
+        return nat;
+    }
+
+    public void Button_Symbol()
+    {
+        Classes.Nation targetNation = GetNation();
+
+        if (MapTools.GetInterface().GetActiveInterface().Equals("diplomacy"))
+        {
+            MapTools.GetInterface().activeInterface.Set(targetNation, null, null);
+        }
+        else
+        {
+            MapTools.GetInterface().EnableInterface("diplomacy", targetNation, null, null);
+            MapTools.GetInterface().activeInterface.Set(targetNation, null, null);
         }
     }
 }

@@ -438,6 +438,8 @@ public class Classes : MonoBehaviour
 
             owner.armies.Add(this);
             MapTools.GetSave().GetArmies().Add(this);
+
+            GenerateName();
         }
         public void Representate()
         {
@@ -978,6 +980,10 @@ public class Classes : MonoBehaviour
                 }
             }
         }
+        public void GenerateName()
+        {
+            name = owner.name + " Army";
+        }
 
         //setget
         public bool IsOccupied()
@@ -1196,7 +1202,7 @@ public class Classes : MonoBehaviour
         public int manpower;//
         public float morale;//
         public Army owner;//
-        public string name = "" + Random.Range(0, 1000);//
+        public string unitName = "";//
 
 
         //Other
@@ -1220,7 +1226,7 @@ public class Classes : MonoBehaviour
             morale = unit_as.morale;
             owner = GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetArmies().Find(x => x.id == unit_as.owner);
             owner.AddUnit(this);
-            name = unit_as.name;
+            unitName = unit_as.name;
             return this;
         }
         public int MaxManpower()
@@ -1296,7 +1302,43 @@ public class Classes : MonoBehaviour
         }
         public UnitAsSaveable AsSaveable()
         {
-            return new UnitAsSaveable(type, manpower, morale, owner.id, name);
+            return new UnitAsSaveable(type, manpower, morale, owner.id, unitName);
+        }
+        public void GenerateName(Province prov, Army arm)
+        {
+            unitName = "";
+            if (prov != null)
+            {
+                unitName += prov.name;
+            }
+            else if (arm != null)
+            {
+                if(arm.location.owner == arm.owner)
+                {
+                    unitName += arm.location.name;
+                }
+                else
+                {
+                    unitName += "Auxilary";
+                }
+            }
+
+            if (type.StartsWith("inf_"))
+            {
+                unitName += " Infantry Regiment";
+            }
+            else if (type.StartsWith("cav_"))
+            {
+                unitName += " Cavalry Squad";
+            }
+            else if (type.StartsWith("art_")){
+                unitName += " Siege Team";
+            }
+
+            if (unitName.Equals(""))
+            {
+                unitName = "Unit";
+            }
         }
 
         public Unit(string type, int size, Army owner, float morale = 0)
@@ -1314,6 +1356,8 @@ public class Classes : MonoBehaviour
             {
                 longRanged = true;
             }
+
+            GenerateName(null, owner);
         }
     }
     [System.Serializable]
@@ -1785,7 +1829,11 @@ public class Classes : MonoBehaviour
                 }
 
                 GetOwnerNation().ChangeManpower(-regimentSize, "Recruitement");
-                recruitementQueue.Add(new Unit(type, regimentSize, null));
+
+                Unit newUnit = new Unit(type, regimentSize, null);
+                newUnit.GenerateName(holderProv, holderArmy);
+
+                recruitementQueue.Add(newUnit);
             }
         }
         public void TickRecruitement()

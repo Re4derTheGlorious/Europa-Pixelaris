@@ -98,6 +98,7 @@ public class InterfaceHandler : MonoBehaviour
         interfaces.Add(interface_diplo.GetComponent<DiplomacyInterface>());
         interfaces.Add(interface_menu.GetComponent<MenuInterface>());
         interfaces.Add(interface_start.GetComponent<StartInterface>());
+        interfaces.Add(GetComponent<NoneInterface>());
         interface_combat.SetActive(false);
         interface_trade.SetActive(false);
         interface_army.SetActive(false);
@@ -159,24 +160,6 @@ public class InterfaceHandler : MonoBehaviour
         {
             rect_selection.SetActive(false);
         }
-
-        //trade
-        //if (GameObject.Find("Center").GetComponent<MapHandler>().mapMode == 3)
-        //{
-        //    //show trade hubs
-        //    foreach (Province prov in GameObject.Find("Map/Center").GetComponent<MapHandler>().provinces)
-        //    {
-        //        prov.RefreshIcon();
-        //    }
-        //}
-        //else
-        //{
-        //    //hide trade hubs
-        //    foreach (Province prov in GameObject.Find("Map/Center").GetComponent<MapHandler>().provinces)
-        //    {
-        //        prov.RefreshIcon();
-        //    }
-        //}
     }
 
  
@@ -215,7 +198,12 @@ public class InterfaceHandler : MonoBehaviour
         {
             return "start";
         }
-        return "none";
+        else if (activeInterface == GetComponent<NoneInterface>())
+        {
+            return "none";
+        }
+
+        return null;
     }
 
     public void EnableMapMode(string name)
@@ -265,7 +253,7 @@ public class InterfaceHandler : MonoBehaviour
         //Debug.Log("Interface enabled: "+name);
         if (name.Equals("none"))
         {
-            activeInterface = null;
+            activeInterface = GetComponent<NoneInterface>();
         }
         else if(name.Equals("province"))
         {

@@ -27,5 +27,9 @@ public abstract class Interface: MonoBehaviour
     public abstract void Enable();
     public abstract void MouseInput(Province prov);
     public abstract void KeyboardInput(Province prov);
-
+    public void Inputs(Province prov)
+    {
+        MouseInput(prov);
+        KeyboardInput(prov);
+    }
 }
