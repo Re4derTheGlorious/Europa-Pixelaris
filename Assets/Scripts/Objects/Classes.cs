@@ -84,8 +84,8 @@ public class Classes : MonoBehaviour
         {
             for(int i = route.Count-1; i>0; i--)
             {
-                GameObject arr = GameObject.Instantiate(GameObject.Find("Map/Center").GetComponent<MapHandler>().arrowPrefab, GameObject.Find("Map/Arrows/TradeRoutes").transform);
-                arr.GetComponent<ArrowPlacer>().Place(GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(route.ElementAt(i).center), GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(route.ElementAt(i-1).center));
+                GameObject arr = GameObject.Instantiate(MapTools.GetMap().arrowPrefab, GameObject.Find("Map/Arrows/TradeRoutes").transform);
+                arr.GetComponent<ArrowPlacer>().Place(MapTools.LocalToScale(route.ElementAt(i).center), MapTools.LocalToScale(route.ElementAt(i-1).center));
                 arrows.Add(arr);
             }
         }
@@ -145,8 +145,8 @@ public class Classes : MonoBehaviour
         }
         public void StartRoute(Province prov)
         {
-            GameObject arr = GameObject.Instantiate(GameObject.Find("Map/Center").GetComponent<MapHandler>().arrowPrefab, GameObject.Find("Map/Arrows/TradeRoutes").transform);
-            arr.GetComponent<ArrowPlacer>().PlaceTail(GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(prov.center));
+            GameObject arr = GameObject.Instantiate(MapTools.GetMap().arrowPrefab, GameObject.Find("Map/Arrows/TradeRoutes").transform);
+            arr.GetComponent<ArrowPlacer>().PlaceTail(MapTools.LocalToScale(prov.center));
             arrows.Add(arr);
             route.Add(prov);
         }
@@ -262,12 +262,12 @@ public class Classes : MonoBehaviour
 
             foreach(int id in nation_as.provinces)
             {
-                provinces.Add(GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToProv(id));
+                provinces.Add(MapTools.IdToProv(id));
                 provinces.ElementAt(provinces.Count - 1).owner = this;
             }
 
             //set capital
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToProv(nation_as.capital).DesignateCapital();
+            MapTools.IdToProv(nation_as.capital).DesignateCapital();
 
 
             return this;
@@ -427,7 +427,7 @@ public class Classes : MonoBehaviour
 
         public Army(Province loc, Nation own)
         {
-            id = GameObject.Find("Map/Center").GetComponent<MapHandler>().newId();
+            id = MapTools.NewId();
             location = loc;
             owner = own;
             Representate();
@@ -437,7 +437,7 @@ public class Classes : MonoBehaviour
             path = new List<Province>();
 
             owner.armies.Add(this);
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetArmies().Add(this);
+            MapTools.GetSave().GetArmies().Add(this);
         }
         public void Representate()
         {
@@ -446,7 +446,7 @@ public class Classes : MonoBehaviour
                 rep = Instantiate(Resources.Load("Prefabs/Army") as GameObject, GameObject.Find("Map").transform.Find("Armies"));
                 rep.name = name;
 
-                Vector3 newPos = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(location.center);
+                Vector3 newPos = MapTools.LocalToScale(location.center);
                 newPos.z = rep.transform.position.z;
                 rep.transform.position = newPos;
                 rep.GetComponent<UnitHandler>().owners.Add(this);
@@ -471,18 +471,18 @@ public class Classes : MonoBehaviour
             //Loaded
             name = army_as.name;
             id = army_as.id;
-            owner = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToNat(army_as.owner);
-            location = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToProv(army_as.location);
+            owner = MapTools.IdToNat(army_as.owner);
+            location = MapTools.IdToProv(army_as.location);
             location.armies.Add(this);
             if (army_as.destLocation >=0)
             {
-                destProvince = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToProv(army_as.destLocation);
+                destProvince = MapTools.IdToProv(army_as.destLocation);
                 movementStage = army_as.movementStage;
                 moveProgress = army_as.moveProgress;
                 path = new List<Province>();
                 foreach(int id in army_as.path)
                 {
-                    path.Add(GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToProv(id));
+                    path.Add(MapTools.IdToProv(id));
                 }
             }
             else
@@ -497,7 +497,7 @@ public class Classes : MonoBehaviour
             {
                 rep.SetActive(true);
 
-                Vector3 newPos = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(TickMovement(GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetTime().hour, true));
+                Vector3 newPos = MapTools.LocalToScale(TickMovement(MapTools.GetSave().GetTime().hour, true));
                 newPos.z = rep.transform.position.z;
                 rep.transform.position = newPos;
             }
@@ -507,22 +507,22 @@ public class Classes : MonoBehaviour
         }
         public bool IsActive()
         {
-            return GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Contains(this);
+            return MapTools.GetMap().activeArmies.Contains(this);
         }
         public void SetActive(bool a)
         {
             if (a)
             {
-                if (!GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Contains(this))
+                if (!MapTools.GetMap().activeArmies.Contains(this))
                 {
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Add(this);
+                    MapTools.GetMap().activeArmies.Add(this);
                 }
             }
             else
             {
-                if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Contains(this))
+                if (MapTools.GetMap().activeArmies.Contains(this))
                 {
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Remove(this);
+                    MapTools.GetMap().activeArmies.Remove(this);
                 }
             }
         }
@@ -628,8 +628,8 @@ public class Classes : MonoBehaviour
         }
         public void SetPathTo(Province prov)
         {
-            Vector2 start = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(location.center);
-            Vector2 end = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(prov.center);
+            Vector2 start = MapTools.LocalToScale(location.center);
+            Vector2 end = MapTools.LocalToScale(prov.center);
 
             path.Clear();
             var p = rep.GetComponent<Seeker>().StartPath(start, end, OnPathComplete);
@@ -640,11 +640,11 @@ public class Classes : MonoBehaviour
         {
             foreach (Vector3 vec in p.vectorPath)
             {
-                path.Add(GameObject.Find("Map/Center").GetComponent<MapHandler>().ScaleToProv(vec));
+                path.Add(MapTools.ScaleToProv(vec));
             }
             if (path.Count > 1)
             {
-                if (GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetTime().hour != 0)
+                if (MapTools.GetSave().GetTime().hour != 0)
                 {
                     waitingToMove = true;
                 }
@@ -948,7 +948,7 @@ public class Classes : MonoBehaviour
         public void Tick(TimeAndPace time)
         {
             //hourly
-            Vector3 newPos = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(TickMovement(time.hour));
+            Vector3 newPos = MapTools.LocalToScale(TickMovement(time.hour));
             newPos.z = rep.transform.position.z;
             rep.transform.position = newPos;
 

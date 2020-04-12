@@ -27,6 +27,15 @@ public class CombatInterface : Interface
         
     }
 
+    public override void MouseInput(Province prov)
+    {
+
+    }
+    public override void KeyboardInput(Province prov)
+    {
+
+    }
+
     public override void Refresh()
     {
         //show stage

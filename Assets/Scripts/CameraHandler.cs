@@ -11,6 +11,11 @@ public class CameraHandler : MonoBehaviour
     public GameObject map;
     public int cameraLayer = -20;
 
+    //zoom
+    private Vector3 targetPosition;
+    private int targetZoom;
+    private int zoomIteration;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, cameraLayer);
@@ -87,9 +92,38 @@ public class CameraHandler : MonoBehaviour
 
     public void ZoomTo(Vector2 location, int size)
     {
-        Camera.main.orthographicSize = size;
-        Vector3 newPos = location;
+        //Camera.main.orthographicSize = size;
+        targetPosition = location;
+        targetZoom = size;
+        zoomIteration = 0;
+
+        InvokeRepeating("ZoomAsync", 0, 0.01f);
+    }
+
+    public void ZoomAsync()
+    {
+        float speedFactor = 0.02f;
+
+        //pos
+        Vector3 newPos = Vector3.Lerp(transform.position, targetPosition, speedFactor);
         newPos.z = cameraLayer;
         Camera.main.transform.position = newPos;
+
+        //zoom
+        Camera.main.orthographicSize += (targetZoom - Camera.main.orthographicSize) * speedFactor;
+
+        if (zoomIteration >= 1000)
+        {
+            CancelInvoke();
+        }
+        else
+        {
+            zoomIteration++;
+        }
+    }
+
+    public void StopZooming()
+    {
+        CancelInvoke();
     }
 }

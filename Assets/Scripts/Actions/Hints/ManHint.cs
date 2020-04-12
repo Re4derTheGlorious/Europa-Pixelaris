@@ -21,17 +21,17 @@ public class ManHint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (GameObject.Find("UI_Start") == null)
+        if (MapTools.GameStarted())
         {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetActiveNation().manBook.GetFinanses());
+            MapTools.GetHint().Enable(MapTools.GetSave().GetActiveNation().manBook.GetFinanses(), transform.position);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (GameObject.Find("UI_Start") == null)
+        if (MapTools.GameStarted())
         {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+            MapTools.GetHint().Disable();
         }
     }
 }

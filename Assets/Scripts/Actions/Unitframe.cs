@@ -26,8 +26,9 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
     public bool goTop = false;
     public bool actAll = false;
     public bool goBottom = false;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         bar_0 = this.gameObject.transform.GetChild(0).GetChild(0).gameObject;
         bar_1 = this.gameObject.transform.GetChild(0).GetChild(1).gameObject;
@@ -163,7 +164,6 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
 
     public void SetArmy(List<Classes.Army> armies)
     {
-        Start();
         this.armies.Clear();
         goBottom = false;
         goTop = false;
@@ -241,12 +241,12 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
 
     public void SetUnit(Classes.Unit unit, Classes.Recruiter rec = null)
     {
-        Start();
         goTop = false;
         goBottom = false;
         actAll = false;
         if (unit!=null && unit != this.unit)
         {
+            recruiter = null;
             this.unit = unit;
             SetUnitIcon();
             if (rec != null)
@@ -265,7 +265,6 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
 
     public void SetUnitIcon()
     {
-        Start();
         if (unit.type.Equals("inf_skirmish"))
         {
             icon.texture = Resources.Load("Icons/Inf_Skirmish") as Texture2D;

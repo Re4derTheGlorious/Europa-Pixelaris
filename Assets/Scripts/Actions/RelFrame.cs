@@ -27,7 +27,7 @@ public class RelFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Start();
         symbol.texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
-        clicker.nat = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToNat(id);
+        clicker.nat = MapTools.IdToNat(id);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -37,11 +37,11 @@ public class RelFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             hintText += transform.parent.parent.parent.GetComponent<DiplomacyInterface>().owner.rel.GetRelationToward(nat).GetFinanses();
             hintText += "\n\nTheir treaties being:\n\n";
             hintText += transform.parent.parent.parent.GetComponent<DiplomacyInterface>().owner.rel.GetTreatiesWith(nat);
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(hintText);
+            MapTools.GetHint().Enable(hintText, transform.position);
         }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+        MapTools.GetHint().Disable();
     }
 }

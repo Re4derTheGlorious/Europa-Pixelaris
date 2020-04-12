@@ -19,12 +19,12 @@ public class PopHint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeProvince.growthMods.GetFinanses());
+        MapTools.GetHint().Enable(MapTools.GetMap().activeProvince.growthMods.GetFinanses(), transform.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+        MapTools.GetHint().Disable();
     }
 }
 

@@ -21,17 +21,17 @@ public class WealthTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (GameObject.Find("UI_Start") == null)
-        { 
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetActiveNation().expBook.GetFinanses());
+        if (MapTools.GameStarted())
+        {
+            MapTools.GetHint().Enable(MapTools.GetSave().GetActiveNation().expBook.GetFinanses(), transform.position);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (GameObject.Find("UI_Start") == null)
+        if (MapTools.GameStarted())
         {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+            MapTools.GetHint().Disable();
         }
     }
 }

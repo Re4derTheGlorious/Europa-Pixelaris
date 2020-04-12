@@ -262,7 +262,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -524,3 +524,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58d1e852c0cc90438550cb103731f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuInterface: {fileID: 0}
+  path: 

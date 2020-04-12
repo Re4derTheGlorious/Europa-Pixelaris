@@ -33,6 +33,22 @@ public class TradeInterface : Interface
         }
     }
 
+    public override void MouseInput(Province prov)
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            MapTools.GetInterface().interface_trade.GetComponent<TradeInterface>().AddToRoute(prov);
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            MapTools.GetInterface().interface_trade.GetComponent<TradeInterface>().RemoveFromRoute(prov);
+        }
+    }
+    public override void KeyboardInput(Province prov)
+    {
+
+    }
+
     public override void Disable()
     {
         nat = null;
@@ -160,8 +176,8 @@ public class TradeInterface : Interface
 
     public List<Province> SetPathTo(Province prov)
     {
-        Vector2 start = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(route.route.ElementAt(0).center);
-        Vector2 end = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(prov.center);
+        Vector2 start = MapTools.LocalToScale(route.route.ElementAt(0).center);
+        Vector2 end = MapTools.LocalToScale(prov.center);
 
         var p = GetComponent<Seeker>().StartPath(start, end, OnPathComplete);
 
@@ -170,7 +186,7 @@ public class TradeInterface : Interface
         List<Province> path = new List<Province>();
         foreach (Vector3 vec in p.vectorPath)
         {
-            path.Add(GameObject.Find("Map/Center").GetComponent<MapHandler>().ScaleToProv(vec));
+            path.Add(MapTools.ScaleToProv(vec));
         }
         return path;
     }

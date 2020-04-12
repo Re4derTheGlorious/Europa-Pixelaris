@@ -13,123 +13,61 @@ public class InputHandler : MonoBehaviour
     private int x = 0;
     private int y = 0;
 
-    private MapHandler map;
-    private InterfaceHandler inter;
     private bool inputBlocked = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        map = GameObject.Find("Map/Center").GetComponent<MapHandler>();
-        inter = GameObject.Find("Canvas").GetComponent<InterfaceHandler>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Keyboard
-        if (!inter.GetActiveInterface().Equals("menu") && !inter.GetActiveInterface().Equals("selection"))
+        if (!inputBlocked)
         {
-            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            //get click position
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            x = (int)MapTools.ScaleToLocal(pos).x;
+            y = (int)MapTools.ScaleToLocal(pos).y;
+
+            //get color
+            Color color = MapTools.GetMap().map_template.GetPixel(x, y);
+
+            Province prov = MapTools.IdToProv(MapTools.ColToId(color));
+
+
+            if (!MapTools.GetInterface().GetActiveInterface().Equals("none"))
             {
-                if (map.GameStarted())
-                {
-                    map.save.GetTime().Faster();
-                }
+                MapTools.GetInterface().activeInterface.MouseInput(prov);
+                MapTools.GetInterface().activeInterface.KeyboardInput(prov);
             }
-            else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            else 
             {
-                if (map.GameStarted())
-                {
-                    map.save.GetTime().Slower();
-                }
+                CameraInput();
+                BasicInput(prov);
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (map.GameStarted())
-                {
-                    map.save.GetTime().Pause();
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (inter.GetActiveInterface().Equals("none"))
-                {
-                    if (map.GameStarted())
-                    {
-                        inter.EnableInterface("menu");
-                    }
-                }
-                else if (inter.GetActiveInterface().Equals("menu") && inter.activeInterface.IsSet())
-                {
-                    inter.activeInterface.GetComponent<MenuInterface>().Button_Return();
-                }
-                else
-                {
-                    inter.EnableInterface("none");
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.N))
-            {
-                if (inter.GetActiveInterface().Equals("army"))
-                {
-                    inter.interface_army.GetComponent<ArmyInterface>().NewArmyAction();
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.H))
-            {
-                if (inter.GetActiveInterface().Equals("army"))
-                {
-                    inter.interface_army.GetComponent<ArmyInterface>().HaltAction();
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.T))
-            {
-                if (map.GameStarted())
-                {
-                    inter.EnableInterface("trade");
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.G))
-            {
-                if (inter.GetActiveInterface().Equals("army"))
-                {
-                    inter.interface_army.GetComponent<ArmyInterface>().MergeAction();
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.F))
-            {
-                if (inter.GetActiveInterface().Equals("army"))
-                {
-                    inter.interface_army.GetComponent<ArmyInterface>().SplitAction();
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.V))
-            {
-                GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Suprise Motherfucker\n:)");
-            }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                if (inter.GetActiveInterface().Equals("army"))
-                {
-                    inter.interface_army.GetComponent<ArmyInterface>().ReorgAction();
-                }
-            }
+
+        }
+        else
+        {
+            inputBlocked = false;
         }
     }
 
     public void StartSelection(float x, float y)
     {
-        if (map.GameStarted())
+        if (MapTools.GameStarted())
         {
-            //isSelecting = true;
+            Camera.main.GetComponent<CameraHandler>().StopZooming();
             selection = new Rect(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0, 0);
         }
     }
     public void UpdateSelection(float x, float y)
     {
-        if (map.GameStarted())
+        if (MapTools.GameStarted())
         {
+            Camera.main.GetComponent<CameraHandler>().StopZooming();
             if (selection.size.x != 0 || selection.size.y != 0)
             {
                 isSelecting = true;
@@ -139,7 +77,7 @@ public class InputHandler : MonoBehaviour
     }
     public void FinalizeSelection()
     {
-        if (map.GameStarted())
+        if (MapTools.GameStarted())
         {
             if (IsSelecting())
             {
@@ -164,19 +102,19 @@ public class InputHandler : MonoBehaviour
                     selection.size = newSize;
                 }
 
-                foreach (Classes.Army a in map.save.GetActiveNation().armies)
+                foreach (Classes.Army a in MapTools.GetSave().GetActiveNation().armies)
                 {
                     if (selection.Contains(a.rep.transform.position))
                     {
-                        if (!map.activeArmies.Contains(a))
+                        if (!MapTools.GetMap().activeArmies.Contains(a))
                         {
-                            map.activeArmies.Add(a);
+                            MapTools.GetMap().activeArmies.Add(a);
                         }
                     }
                 }
-                if (map.activeArmies.Count > 0)
+                if (MapTools.GetMap().activeArmies.Count > 0)
                 {
-                    inter.EnableInterface("army");
+                    MapTools.GetInterface().EnableInterface("army");
                 }
 
                 selection = new Rect(0, 0, 0, 0);
@@ -194,48 +132,6 @@ public class InputHandler : MonoBehaviour
         inputBlocked = true;
     }
 
-    public void ProcessInput(MapHandler map)
-    {
-        if (!inputBlocked)
-        {
-            if (!inter.GetActiveInterface().Equals("menu"))
-            {
-                if (!EventSystem.current.IsPointerOverGameObject())
-                {
-                    //get click position
-                    Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    x = (int)map.ScaleToLocal(pos).x;
-                    y = (int)map.ScaleToLocal(pos).y;
-
-
-                    //get color
-                    Color color = map.map_template.GetPixel(x, y);
-                    Province prov = map.IdToProv(map.ColToId(color));
-
-                    //selection screen
-                    CountrySelectionInput(map, prov);
-
-                    CameraInput();
-
-                    //trade
-                    if (inter.GetActiveInterface().Equals("trade"))
-                    {
-                        TradeInput(map, prov);
-                        return;
-                    }
-
-
-                    BasicInput(map, prov);
-
-                }
-            }
-        }
-        else
-        {
-            inputBlocked = false;
-        }
-    }
-
     //Inputs
     public void CameraInput()
     {
@@ -244,142 +140,115 @@ public class InputHandler : MonoBehaviour
             Camera.main.GetComponent<CameraHandler>().OnMouseScroll();
         }
     }
-    private void BasicInput(MapHandler map, Province prov)
+    public void BasicInput(Province prov)
     {
+        //Keyboard
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            MapTools.GetSave().GetTime().Faster();
+        }
+        else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            MapTools.GetSave().GetTime().Slower();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            MapTools.GetSave().GetTime().Pause();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            MapTools.GetInterface().EnableInterface("menu");
+        }
+
         //Mouse
-        if (Input.GetMouseButtonDown(0))
-        {
-            //rectangle select
-            StartSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            //rectangle select
-            UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-
-            //clear selection
-            if (map.activeArmies.Count > 0)
-            {
-                map.activeArmies.Clear();
-                inter.EnableInterface("none");
-            }
-            if (map.activeProvince != null)
-            {
-                map.activeArmies.Clear();
-                inter.EnableInterface("none");
-            }
-
-            //select province
-            if (map.GameStarted())
-            {
-                if (!inter.GetActiveInterface().Equals("army"))
-                {
-                    if (prov == null)
-                    {
-                        inter.EnableInterface("none");
-                        map.activeProvince = null;
-                        map.activeArmies.Clear();
-                    }
-                    else
-                    {
-                        if (inter.GetActiveInterface().Equals("diplomacy"))
-                        {
-                            inter.EnableInterface("none");
-                            inter.EnableInterface("diplomacy", prov.owner, null, null);
-                        }
-                        else if(!IsSelecting())
-                        {
-                            map.activeProvince = prov;
-                            inter.EnableInterface("province", null, prov, null);
-                        }
-                    }
-                }
-            }
-
-            //rectangle select
-            if (IsSelecting())
-            {
-                UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-                FinalizeSelection();
-            }
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-
-
-            //movement
-            if (map.activeArmies.Count > 0)
-            {
-                foreach (Classes.Army a in map.activeArmies)
-                {
-                    if (a.owner == map.save.GetActiveNation())
-                    {
-                        if (!a.Move(prov))
-                        {
-                            GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("No acces to province!");
-                        }
-                    }
-                }
-            }
-
-            //selection
-            else
-            {
-                map.activeProvince = null;
-                inter.EnableInterface("none", null, null, null);
-            }
-        }
-    }
-    private void CountrySelectionInput(MapHandler map, Province prov)
-    {
-        if (inter.GetActiveInterface().Equals("start"))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (prov != null)
+                //rectangle select
+                StartSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                //rectangle select
+                UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+
+                //clear selection
+                if (MapTools.GetMap().activeArmies.Count > 0)
                 {
-                    GameObject.Find("UI_Nation").GetComponent<TextMeshProUGUI>().text = prov.owner.name;
-                    map.save.GetActiveNation() = prov.owner;
-                    inter.SetSymbol(map.save.GetActiveNation().id);
-                    map.HighlightBorder(map.save.GetActiveNation().id, Color.yellow);
+                    MapTools.GetMap().activeArmies.Clear();
+                    MapTools.GetInterface().EnableInterface("none");
                 }
+                if (MapTools.GetMap().activeProvince != null)
+                {
+                    MapTools.GetMap().activeArmies.Clear();
+                    MapTools.GetInterface().EnableInterface("none");
+                }
+
+                //select province
+                if (MapTools.GameStarted())
+                {
+                    if (!MapTools.GetInterface().GetActiveInterface().Equals("army"))
+                    {
+                        if (prov == null)
+                        {
+                            MapTools.GetInterface().EnableInterface("none");
+                            MapTools.GetMap().activeProvince = null;
+                            MapTools.GetMap().activeArmies.Clear();
+                        }
+                        else
+                        {
+                            if (MapTools.GetInterface().GetActiveInterface().Equals("diplomacy"))
+                            {
+                                MapTools.GetInterface().EnableInterface("none");
+                                MapTools.GetInterface().EnableInterface("diplomacy", prov.owner, null, null);
+                            }
+                            else if (!IsSelecting())
+                            {
+                                MapTools.GetMap().activeProvince = prov;
+                                MapTools.GetInterface().EnableInterface("province", null, prov, null);
+                            }
+                        }
+                    }
+                }
+
+                //rectangle select
+                if (IsSelecting())
+                {
+                    UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+                    FinalizeSelection();
+                }
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+
+
+                //movement
+                if (MapTools.GetMap().activeArmies.Count > 0)
+                {
+                    foreach (Classes.Army a in MapTools.GetMap().activeArmies)
+                    {
+                        if (a.owner == MapTools.GetSave().GetActiveNation())
+                        {
+                            if (!a.Move(prov))
+                            {
+                                GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("No acces to province!");
+                            }
+                        }
+                    }
+                }
+
+                //selection
                 else
                 {
-                    GameObject.Find("UI_Nation").GetComponent<TextMeshProUGUI>().text = "Nation";
-                    map.save.GetActiveNation() = null;
-                    inter.SetSymbol(-1);
-                    map.HighlightBorder(-1, Color.black);
+                    MapTools.GetMap().activeProvince = null;
+                    MapTools.GetInterface().EnableInterface("none", null, null, null);
                 }
             }
         }
-    }
-    private void TradeInput(MapHandler map, Province prov)
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            inter.interface_trade.GetComponent<TradeInterface>().AddToRoute(prov);
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            inter.interface_trade.GetComponent<TradeInterface>().RemoveFromRoute(prov);
-        }
-    }
-    private void Army(MapHandler map, Province prov)
-    {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    if (map.ScaleToProv(Camera.main.ScreenToWorldPoint(Input.mousePosition)).owner == map.activeNation)
-        //    {
-        //        inter.wheel_units.GetComponent<Unitwheel>().Pivot(map.ScaleToProv(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
-        //        inter.wheel_units.GetComponent<Unitwheel>().Activate(true, 4);
-        //    }
-        //}
-        //else if (Input.GetMouseButtonDown(1))
-        //{
-        //    inter.wheel_units.GetComponent<Unitwheel>().Activate(false, 0);
-        //}
     }
 }

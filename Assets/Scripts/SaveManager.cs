@@ -66,8 +66,8 @@ public class SaveManager
         try
         {
             Directory.CreateDirectory(location_path);
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().save.Prepare();
-            string saveAsJson = JsonUtility.ToJson(GameObject.Find("Map/Center").GetComponent<MapHandler>().save);
+            MapTools.GetSave().Prepare();
+            string saveAsJson = JsonUtility.ToJson(MapTools.GetSave());
             if (saveAsJson.Length == 0)
             {
                 return false;
@@ -88,7 +88,7 @@ public class SaveManager
             writer.Close();
             file.Close();
 
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().save.Clear();
+            MapTools.GetSave().Clear();
         }catch(Exception e)
         {
             Debug.Log(e.Message);

@@ -9,9 +9,6 @@ using System.Linq;
 
 public class InterfaceHandler : MonoBehaviour
 {
-    public GameObject hint;
-
-
     TextMeshProUGUI text_wealth;
     TextMeshProUGUI text_manpower;
     GameObject text_time;
@@ -27,9 +24,6 @@ public class InterfaceHandler : MonoBehaviour
 
     public GameObject selectorPrefab;
     public GameObject hubPrefab;
-
-    private MapHandler map;
-    private InputHandler input;
 
     //layers
     public GameObject layer_features;
@@ -56,11 +50,7 @@ public class InterfaceHandler : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Interface start");
-
-        map = GameObject.Find("Map/Center").GetComponent<MapHandler>();
-        input = GameObject.Find("Map/Center").GetComponent<InputHandler>();
-
+        ApplyScale();
 
         interface_top = GameObject.Find("UI_Top");
         rect_selection = GameObject.Find("Select_Rect");
@@ -116,35 +106,30 @@ public class InterfaceHandler : MonoBehaviour
         interface_menu.SetActive(false);
 
         activeInterface = interface_start.GetComponent<StartInterface>(); ;
-        interface_start.SetActive(true);
-
-        //for fade out
-        //interface_menu.SetActive(true);
-        //interface_menu.GetComponent<MenuInterface>().Disable();
-        //interface_menu.GetComponent<MenuInterface>().transform.Find("Fade").GetComponent<RawImage>().color = Color.black;
+        activeInterface.Enable();
     }
 
     void Update()
     {
         //refresh wealth and power
-        if (map.save.GetActiveNation() != null && !GetActiveInterface().Equals("start")) {
-            text_wealth.GetComponent<TextMeshProUGUI>().text = map.save.GetActiveNation().wealth.ToString("F0");
-            text_manpower.GetComponent<TextMeshProUGUI>().text = map.save.GetActiveNation().man.ToString();
+        if (MapTools.GetSave().GetActiveNation() != null && !GetActiveInterface().Equals("start")) {
+            text_wealth.GetComponent<TextMeshProUGUI>().text = MapTools.GetSave().GetActiveNation().wealth.ToString("F0");
+            text_manpower.GetComponent<TextMeshProUGUI>().text = MapTools.GetSave().GetActiveNation().man.ToString();
         }
 
         //refresh time
-        int year = map.save.GetTime().startYear + map.save.GetTime().year;
-        int day = map.save.GetTime().day;
-        int hour = map.save.GetTime().hour;
-        string month = map.save.GetTime().GetMonthName();
+        int year = MapTools.GetSave().GetTime().startYear + MapTools.GetSave().GetTime().year;
+        int day = MapTools.GetSave().GetTime().day;
+        int hour = MapTools.GetSave().GetTime().hour;
+        string month = MapTools.GetSave().GetTime().GetMonthName();
         if (hour > 23)
         {
             hour = 23;
         }
         frame_time.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = ""+day+" "+month+"\n"+year;
         frame_time.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = ""+hour;
-        frame_time.transform.GetChild(0).GetComponent<RawImage>().texture = Resources.Load("Pacers/Pacer_"+ map.save.GetTime().GetPaceAbsolute()) as Texture2D;
-        if (map.save.GetTime().IsPaused())
+        frame_time.transform.GetChild(0).GetComponent<RawImage>().texture = Resources.Load("Pacers/Pacer_"+ MapTools.GetSave().GetTime().GetPaceAbsolute()) as Texture2D;
+        if (MapTools.GetSave().GetTime().IsPaused())
         {
             frame_time.transform.GetChild(0).GetComponent<RawImage>().color = Color.gray;
         }
@@ -154,15 +139,15 @@ public class InterfaceHandler : MonoBehaviour
         }
 
         //selection rectangle
-        if(GameObject.Find("Map/Center").GetComponent<MapHandler>().input.IsSelecting())
+        if(MapTools.GetInput().IsSelecting())
         {
             Vector3 newSize = new Vector2(0, 0);
-            newSize = GameObject.Find("Map/Center").GetComponent<MapHandler>().input.selection.size;
+            newSize = MapTools.GetInput().selection.size;
             newSize.z = newSize.y;
             newSize.y = 1;
             rect_selection.transform.localScale = newSize/10;
 
-            Vector3 newPos = GameObject.Find("Map/Center").GetComponent<MapHandler>().input.selection.position;
+            Vector3 newPos = MapTools.GetInput().selection.position;
             newPos.x += newSize.x / 2;
             newPos.y += newSize.z / 2;
             newPos.z = rect_selection.transform.position.z;
@@ -192,6 +177,12 @@ public class InterfaceHandler : MonoBehaviour
         //        prov.RefreshIcon();
         //    }
         //}
+    }
+
+ 
+    public void ApplyScale()
+    {
+        GetComponent<CanvasScaler>().scaleFactor = PlayerPrefs.GetFloat("UI_scale");
     }
 
     public string GetActiveInterface()
@@ -291,14 +282,14 @@ public class InterfaceHandler : MonoBehaviour
         else if (name.Equals("trade"))
         {
             activeInterface = interface_trade.GetComponent<TradeInterface>();
-            activeInterface.Set(map.save.GetActiveNation());
+            activeInterface.Set(MapTools.GetSave().GetActiveNation());
             activeInterface.Enable();
         }
         else if (name.Equals("army"))
         {
             activeInterface = interface_army.GetComponent<ArmyInterface>();
-            activeInterface.Set(armies:map.activeArmies);
             activeInterface.Enable();
+            activeInterface.Set(armies: MapTools.GetMap().activeArmies);
         }
         else if (name.Equals("combat"))
         {
@@ -342,14 +333,14 @@ public class InterfaceHandler : MonoBehaviour
             {
                 activeInterface.Refresh();
             }
-            if (map.save.GetTime().hour == 0)
+            if (MapTools.GetSave().GetTime().hour == 0)
             {
                 if (activeInterface.dailyTick == true)
                 {
                     activeInterface.Refresh();
                 }
             }
-            if (map.save.GetTime().day == 1 && map.save.GetTime().hour == 0)
+            if (MapTools.GetSave().GetTime().day == 1 && MapTools.GetSave().GetTime().hour == 0)
             {
                 if (activeInterface.monthlyTick == true)
                 {

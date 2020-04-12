@@ -55,10 +55,10 @@ public class ModIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(type + "\n" + tip);
+        MapTools.GetHint().Enable(type + "\n" + tip, transform.position);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+        MapTools.GetHint().Disable();
     }
 }

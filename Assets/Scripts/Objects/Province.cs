@@ -77,7 +77,7 @@ public class Province: MonoBehaviour
     public void Init(Vector2 center, string provName)
     {
         this.center = center;
-        transform.position = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(center);
+        transform.position = MapTools.LocalToScale(center);
 
         traits = new List<string>();
         links = new List<Province>();

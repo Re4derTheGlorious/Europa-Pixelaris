@@ -73,7 +73,7 @@ public class SaveFile
         //Armies
         foreach (Classes.Army.ArmyAsSaveable a in armies_as)
         {
-            Classes.Army newArmy = new Classes.Army(GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToProv(a.location), GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToNat(a.owner)).Restore(a, saveBase);
+            Classes.Army newArmy = new Classes.Army(MapTools.IdToProv(a.location), MapTools.IdToNat(a.owner)).Restore(a, saveBase);
             armies.Add(newArmy);
         }
 
@@ -83,7 +83,7 @@ public class SaveFile
             new Classes.Unit("", 0, null).Restore(u, saveBase);
         }
 
-        activeNation = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToNat(activeNation_as);
+        activeNation = MapTools.IdToNat(activeNation_as);
 
         Clear();
     }

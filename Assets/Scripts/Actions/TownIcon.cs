@@ -24,6 +24,6 @@ public class TownIcon : MonoBehaviour
 
     public void Locate(Vector2 pos)
     {
-        transform.position = GameObject.Find("Center").GetComponent<MapHandler>().LocalToScale(pos);
+        transform.position = MapTools.LocalToScale(pos);
     }
 }

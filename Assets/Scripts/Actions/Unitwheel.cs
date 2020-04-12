@@ -309,7 +309,7 @@ public class Unitwheel : MonoBehaviour
         }
         else if (pivotProv != null)
         {
-            Vector3 pos = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(pivotProv.center);
+            Vector3 pos = MapTools.LocalToScale(pivotProv.center);
             pos.z = mapLayer;
             transform.position = pos;
         }

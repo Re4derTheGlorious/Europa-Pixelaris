@@ -10,6 +10,7 @@ public class SaveFrame : MonoBehaviour
     public MenuInterface menuInterface;
     public string path;
     private SaveFile save;
+    DateTime modDate;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class SaveFrame : MonoBehaviour
         menuInterface = inter;
         this.path = path;
         this.save = save;
+        this.modDate = modDate;
 
         transform.Find("Text_Date").gameObject.GetComponent<TextMeshProUGUI>().text = modDate.ToString();
         transform.Find("Text_Name").gameObject.GetComponent<TextMeshProUGUI>().text = name;
@@ -38,6 +40,16 @@ public class SaveFrame : MonoBehaviour
         {
             GetComponent<Button>().interactable = false;
         }
+    }
+    public void ShowDetails(Transform frame)
+    {
+        frame.Find("Nation").GetComponent<TextMeshProUGUI>().text = MapTools.IdToNat(save.activeNation_as).name;
+        frame.Find("Date").GetComponent<TextMeshProUGUI>().text = save.GetTime().day+" "+save.GetTime().GetMonthName()+" "+(save.GetTime().year+save.GetTime().startYear);
+
+
+        frame.Find("Created").GetComponent<TextMeshProUGUI>().text = "Created on " + modDate.Date.Day + "." + modDate.Date.Month + "." + modDate.Date.Year;
+        frame.Find("Version").GetComponent<TextMeshProUGUI>().text = save.GetVersion();
+
     }
 
     public bool IsCompatible()
@@ -66,5 +78,7 @@ public class SaveFrame : MonoBehaviour
         menuInterface.saveSelected = this;
 
         transform.parent.parent.parent.parent.Find("Buttons/Load").GetComponent<Button>().interactable = true;
+
+        menuInterface.ShowDetails();
     }
 }

@@ -78,6 +78,15 @@ public class DiplomacyInterface : Interface
         return owner != null;
     }
 
+    public override void MouseInput(Province prov)
+    {
+
+    }
+    public override void KeyboardInput(Province prov)
+    {
+
+    }
+
     public override void Disable()
     {
         ExitNegotiations();
@@ -99,7 +108,7 @@ public class DiplomacyInterface : Interface
     public void SetSymbol(int id)
     {
         symbol.transform.GetChild(0).gameObject.GetComponent<RawImage>().texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
-        symbol.transform.GetChild(2).gameObject.GetComponent<NationSymbolClick>().nat = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToNat(id);
+        symbol.transform.GetChild(2).gameObject.GetComponent<NationSymbolClick>().nat = MapTools.IdToNat(id);
     }
 
     public void FillRels()

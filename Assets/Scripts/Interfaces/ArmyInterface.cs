@@ -174,6 +174,8 @@ public class ArmyInterface : Interface, IScrollHandler
     }
     public override void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null)
     {
+        
+
         ClearFrames();
         if (armies != null)
         {
@@ -197,7 +199,41 @@ public class ArmyInterface : Interface, IScrollHandler
         shift = 0;
         RefreshSize();
     }
+    public override void KeyboardInput(Province prov)
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().NewArmyAction();
+        }
+        else if (Input.GetKeyDown(KeyCode.H))
+        {
+            MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().HaltAction();
+        }
+        else if (Input.GetKeyDown(KeyCode.T))
+        {
+             MapTools.GetInterface().EnableInterface("trade");
+        }
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().MergeAction();
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().SplitAction();
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            MapTools.GetToast().Enable("Suprise Motherfucker\n:)");
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            MapTools.GetInterface().interface_army.GetComponent<ArmyInterface>().ReorgAction();
+        }
+    }
+    public override void MouseInput(Province prov)
+    {
 
+    }
     //Frames
     public void ClearFrames()
     {
@@ -432,10 +468,9 @@ public class ArmyInterface : Interface, IScrollHandler
     }
     public void Reorganize(Classes.Army armyA, Classes.Army armyB)
     {
-
+        anotherInterface.Enable();
         anotherInterface.Set(arm: armyB);
         this.Set(arm: armyA);
-        anotherInterface.Enable();
     }
     public void HaltAction()
     {

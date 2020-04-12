@@ -25,4 +25,7 @@ public abstract class Interface: MonoBehaviour
     public abstract bool IsSet();
     public abstract void Disable();
     public abstract void Enable();
+    public abstract void MouseInput(Province prov);
+    public abstract void KeyboardInput(Province prov);
+
 }

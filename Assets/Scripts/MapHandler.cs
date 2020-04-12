@@ -36,17 +36,12 @@ public class MapHandler : MonoBehaviour
     public bool linkerActive;
     public bool refreshActive;
 
-    public InputHandler input;
-    public InterfaceHandler inter;
-
     // Start is called before the first frame update
     void Start()
     {
         save = new SaveFile();
 
         activeArmies = new List<Classes.Army>();
-        input = GetComponent<InputHandler>();
-        inter = GameObject.Find("Canvas").GetComponent<InterfaceHandler>();
 
         //load provinces
         StreamReader reader = new StreamReader(path_definitions);
@@ -82,7 +77,7 @@ public class MapHandler : MonoBehaviour
                 string key = GetFields(fields[i], " ")[0];
                 
                 float value = float.Parse(GetFields(fields[i], " ")[1]);
-                IdToProv(id).mods.AddMod(key, value, -1);
+                MapTools.IdToProv(id).mods.AddMod(key, value, -1);
             }
         }
         reader.Close();
@@ -97,13 +92,13 @@ public class MapHandler : MonoBehaviour
             int id = int.Parse(GetFields(line, ",")[0]);
             foreach (string linkId in fields)
             {
-                IdToProv(id).links.Add(IdToProv(int.Parse(linkId)));
+                MapTools.IdToProv(id).links.Add(MapTools.IdToProv(int.Parse(linkId)));
             }
             //crossings
             fields = GetFields(GetFields(line, ",")[8], " ");
             foreach (string linkId in fields)
             {
-                IdToProv(id).crossings.Add(IdToProv(int.Parse(linkId)));
+                MapTools.IdToProv(id).crossings.Add(MapTools.IdToProv(int.Parse(linkId)));
             }
             //IdToProv(id).Restore();
         }
@@ -124,12 +119,12 @@ public class MapHandler : MonoBehaviour
             string[] insideProvs = GetFields(fields[2], " ");
             foreach (string id in insideProvs)
             {
-                nation.provinces.Add(IdToProv(int.Parse(id)));
-                IdToProv(int.Parse(id)).owner = nation;
+                nation.provinces.Add(MapTools.IdToProv(int.Parse(id)));
+                MapTools.IdToProv(int.Parse(id)).owner = nation;
             }
 
             ColorUtility.TryParseHtmlString(fields[3], out nation.color);
-            nation.capital = IdToProv(int.Parse(fields[4]));
+            nation.capital = MapTools.IdToProv(int.Parse(fields[4]));
             nation.capital.mods.AddMod("capital_town", 1, -1);
             nation.capital.mods.AddMod("trade_hub", 1, -1);
             nation.mods.PassMods(dict);
@@ -149,11 +144,11 @@ public class MapHandler : MonoBehaviour
             {
                 nat.rel.FillRelations(save.GetNations());
             }
-            IdToNat(15).rel.grantsAcces.Add(IdToNat(13));
-            IdToNat(15).rel.grantsAcces.Add(IdToNat(18));
-            IdToNat(15).rel.grantsAcces.Add(IdToNat(12));
-            save.GetWars().Add(new Classes.War(IdToNat(16), IdToNat(17)));
-            save.GetWars().Add(new Classes.War(IdToNat(9), IdToNat(4)));
+            MapTools.IdToNat(15).rel.grantsAcces.Add(MapTools.IdToNat(13));
+            MapTools.IdToNat(15).rel.grantsAcces.Add(MapTools.IdToNat(18));
+            MapTools.IdToNat(15).rel.grantsAcces.Add(MapTools.IdToNat(12));
+            save.GetWars().Add(new Classes.War(MapTools.IdToNat(16), MapTools.IdToNat(17)));
+            save.GetWars().Add(new Classes.War(MapTools.IdToNat(9), MapTools.IdToNat(4)));
 
 
             //load units
@@ -162,7 +157,7 @@ public class MapHandler : MonoBehaviour
             {
                 string line = reader.ReadLine();
                 string[] fields = GetFields(line, ",");
-                Classes.Army newArmy = new Classes.Army(IdToProv(int.Parse(fields[0])), IdToNat(int.Parse(fields[1])));
+                Classes.Army newArmy = new Classes.Army(MapTools.IdToProv(int.Parse(fields[0])), MapTools.IdToNat(int.Parse(fields[1])));
 
                 if (newArmy.owner.id == 16)
                 {
@@ -229,7 +224,7 @@ public class MapHandler : MonoBehaviour
     void Update()
     {
 
-        if (!inter.GetActiveInterface().Equals("menu") && !inter.GetActiveInterface().Equals("start"))
+        if (!MapTools.GetInterface().GetActiveInterface().Equals("menu") && MapTools.GameStarted())
         {
             float increment = 0;
             if (save.GetTime().GetPace() == 0)
@@ -308,12 +303,12 @@ public class MapHandler : MonoBehaviour
                 }
 
                 //update interfaces
-                inter.TickInterface();
+                MapTools.GetInterface().TickInterface();
 
                 //autosave
                 if (!Autosave())
                 {
-                    GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Cannot autosave");
+                    MapTools.GetToast().Enable("Cannot autosave");
                 }
 
                 //increment time
@@ -343,7 +338,7 @@ public class MapHandler : MonoBehaviour
             //add nodes
             foreach (Province prov in save.GetProvinces())
             {
-                graph.AddNode((Int3)(Vector3)(LocalToScale(prov.center)));
+                graph.AddNode((Int3)(Vector3)(MapTools.LocalToScale(prov.center)));
             }
 
             //connect nodes
@@ -351,8 +346,8 @@ public class MapHandler : MonoBehaviour
             {
                 foreach(Province link in prov.links)
                 {
-                    var node1 = AstarPath.active.GetNearest(LocalToScale(prov.center)).node;
-                    var node2 = AstarPath.active.GetNearest(LocalToScale(link.center)).node;
+                    var node1 = AstarPath.active.GetNearest(MapTools.LocalToScale(prov.center)).node;
+                    var node2 = AstarPath.active.GetNearest(MapTools.LocalToScale(link.center)).node;
                     var cost = (uint)1;//(uint)(node2.position - node1.position).costMagnitude;
                     node1.AddConnection(node2, cost);
                 }
@@ -363,80 +358,7 @@ public class MapHandler : MonoBehaviour
 
     void OnMouseOver()  
     {
-        input.ProcessInput(this);
-    }
-
-    public Vector2 ScaleToLocal(Vector2 scale)
-    {
-        float xScale = transform.localScale.x * 10;
-        float yScale = transform.localScale.z * 10;
-        float xRes = map_ingame.width;
-        float yRes = map_ingame.height;
-        float x = ((scale.x / xScale) * xRes) + (xRes / 2);
-        float y = ((scale.y / yScale) * yRes) + (yRes / 2);
-        return new Vector2(x, y);
-    }
-    public Vector2 LocalToScale(Vector2 local)
-    {
-        float xScale = transform.localScale.x * 10;
-        float yScale = transform.localScale.z * 10;
-        float xRes = map_ingame.width;
-        float yRes = map_ingame.height;
-        float x = ((local.x-(xRes/2))/xRes)*xScale;
-        float y = ((local.y - (yRes / 2)) / yRes) * yScale;
-        return new Vector2(x, y);
-    }
-    public int ColToId(Color col)
-    {
-        string hex = ColorUtility.ToHtmlStringRGB(col);
-        if (!hex.StartsWith("FF"))
-        {
-            return -1;
-        }
-        int id = int.Parse(hex.Substring(2));
-        if (id > save.GetProvinces().Count)
-        {
-            return -1;
-        }
-        return id;
-    }
-    public Province IdToProv(int id)
-    {
-        foreach(Province prov in save.GetProvinces())
-        {
-            if (prov.id == id)
-            {
-                return prov;
-            }
-        }
-        return null;
-    }
-    public Classes.Nation IdToNat(int id)
-    {
-        foreach(Classes.Nation nat in save.GetNations())
-        {
-            if (nat.id == id)
-            {
-                return nat;
-            }
-        }
-        return null;
-    }
-    public Province ScaleToProv(Vector2 scale)
-    {
-        Vector2 local = ScaleToLocal(scale);
-        return IdToProv(ColToId(map_template.GetPixel((int)local.x, (int)local.y)));
-    }
-    public Classes.Army IdToArm(int id)
-    {
-        foreach(Classes.Army a in save.GetArmies())
-        {
-            if (a.id == id)
-            {
-                return a;
-            }
-        }
-        return null;
+        //MapTools.GetInput().MouseInput(this);
     }
 
     public void Paint(bool paintProv, bool paintBord)
@@ -454,7 +376,7 @@ public class MapHandler : MonoBehaviour
                         {
                             map_ingame.SetPixel((int)x, (int)y, Color.black);
                         }
-                        else if (ColToId(map_template.GetPixel((int)x, (int)y)) == prov.id)
+                        else if (MapTools.ColToId(map_template.GetPixel((int)x, (int)y)) == prov.id)
                         {
                             map_ingame.SetPixel((int)x, (int)y, prov.owner.color);
                         }
@@ -533,15 +455,6 @@ public class MapHandler : MonoBehaviour
         map_ingame.Apply();
     }
 
-    public bool GameStarted()
-    {
-        if (GameObject.Find("UI_Start") != null)
-        {
-            return false;
-        }
-        return true;
-    }
-
     public string[] GetFields(string line, string separator)
     {
         List<string> fields = new List<string>();
@@ -567,7 +480,7 @@ public class MapHandler : MonoBehaviour
             {
                 for(int y = 0; y<map_template.height; y++)
                 {
-                    if(ColToId(map_template.GetPixel(x, y)) == prov.id)
+                    if(MapTools.ColToId(map_template.GetPixel(x, y)) == prov.id)
                     {
                         if (x < minX) {
                             minX = x;
@@ -605,18 +518,18 @@ public class MapHandler : MonoBehaviour
             {
                 for (int y = (int)(prov.graphicalCenter.y - prov.graphicalSize.y / 2); y < (int)(prov.graphicalCenter.y + prov.graphicalSize.y / 2) + 2; y++)
                 {
-                    if(ColToId(map_template.GetPixel(x, y)) == prov.id)
+                    if(MapTools.ColToId(map_template.GetPixel(x, y)) == prov.id)
                     {
                         for (int inX = -2; inX <= 2; inX++)
                         {
                             for (int inY = -2; inY <= 2; inY++)
                             {
                                 Color pixCol = map_template.GetPixel(x + inX, y + inY);
-                                if (ColToId(pixCol) != prov.id && pixCol!=Color.black && pixCol!=backCol)
+                                if (MapTools.ColToId(pixCol) != prov.id && pixCol!=Color.black && pixCol!=backCol)
                                 {
                                     foreach(Province dest in save.GetProvinces())
                                     {
-                                        if (dest.id == ColToId(pixCol))
+                                        if (dest.id == MapTools.ColToId(pixCol))
                                         {
                                             prov.links.Add(dest);
                                             break;
@@ -679,51 +592,34 @@ public class MapHandler : MonoBehaviour
             {
                 if (freq == 1)
                 {
-                    if (new SaveManager().SaveGame(autosave: true))
+                    if (!new SaveManager().SaveGame(autosave: true))
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else if (save.GetTime().day == 1)
                 {
                     if (freq == 2)
                     {
-                        if (new SaveManager().SaveGame(autosave: true))
+                        if (!new SaveManager().SaveGame(autosave: true))
                         {
-                            return true;
+                            return false;
                         }
                     }
                     else if (save.GetTime().month == 0)
                     {
                         if (freq == 3)
                         {
-                            if (new SaveManager().SaveGame(autosave: true))
+                            if (!new SaveManager().SaveGame(autosave: true))
                             {
-                                return true;
+                                return false;
                             }
                         }
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
-    public int newId()
-    {
-        bool isUnique = true;
-        int randId = 0;
-        do
-        {
-            randId = UnityEngine.Random.Range(0, 1000000000);
-            foreach (Classes.Army a in save.GetArmies())
-            {
-                if (a.id == randId)
-                {
-                    isUnique = false;
-                    break;
-                }
-            }
-        } while (!isUnique);
-        return randId;
-    }
+
 }

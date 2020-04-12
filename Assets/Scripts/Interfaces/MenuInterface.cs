@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,31 +23,46 @@ public class MenuInterface : Interface
     public override void Disable()
     {
         Camera.main.GetComponent<CameraHandler>().enabled = true;
-        CancelInvoke();
-        transform.Find("Contents").gameObject.SetActive(false);
-        InvokeRepeating("FadeOut", 0f, 0.01f);
+        gameObject.SetActive(false);
+
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeOut(0);
     }
     public override void Enable()
     {
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeIn(0.5f);
+
+
         Camera.main.GetComponent<CameraHandler>().enabled = false;
 
         transform.Find("Contents/Settings").gameObject.SetActive(false);
         transform.Find("Contents/Saves").gameObject.SetActive(false);
         transform.Find("Contents/Buttons").gameObject.SetActive(true);
-
-        CancelInvoke();
+        transform.Find("Contents/Details").gameObject.SetActive(false);
         transform.Find("Contents").gameObject.SetActive(true);
         gameObject.SetActive(true);
-        InvokeRepeating("FadeIn", 0f, 0.01f);
+
     }
     public override void Refresh()
     {
         
     }
+    public override void KeyboardInput(Province prov)
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Button_Return();
+        }
+    }
+    public override void MouseInput(Province prov)
+    {
 
+    }
 
     public void SavePrefs()
     {
+        //Video
+        PlayerPrefs.SetFloat("UI_scale", float.Parse(transform.Find("Contents/Settings/Contents/Video/UI_Scale/Slider").gameObject.GetComponent<Slider>().value.ToString("F2")));
+
         //audio
         PlayerPrefs.SetFloat("vol_music", transform.Find("Contents/Settings/Contents/Audio/Volume_Music/Slider").gameObject.GetComponent<Slider>().value);
         PlayerPrefs.SetFloat("vol_audio", transform.Find("Contents/Settings/Contents/Audio/Volume_Audio/Slider").gameObject.GetComponent<Slider>().value);
@@ -57,6 +73,12 @@ public class MenuInterface : Interface
     }
     public void LoadPrefs()
     {
+        
+        //Video
+        transform.Find("Contents/Settings/Contents/Video/UI_Scale/Slider").gameObject.GetComponent<Slider>().value = PlayerPrefs.GetFloat("UI_scale");
+        Slider_Scale(transform.Find("Contents/Settings/Contents/Video/UI_Scale/Slider").gameObject.GetComponent<Slider>());
+
+
         //audio
         transform.Find("Contents/Settings/Contents/Audio/Volume_Music/Slider").gameObject.GetComponent<Slider>().value = PlayerPrefs.GetFloat("vol_music");
         transform.Find("Contents/Settings/Contents/Audio/Volume_Audio/Slider").gameObject.GetComponent<Slider>().value = PlayerPrefs.GetFloat("vol_audio");
@@ -64,6 +86,7 @@ public class MenuInterface : Interface
 
         //gameplay
         transform.Find("Contents/Settings/Contents/Gameplay/Autosave_Freq/Slider").gameObject.GetComponent<Slider>().value = PlayerPrefs.GetInt("autosave_frequency");
+        Slider_Freq(transform.Find("Contents/Settings/Contents/Gameplay/Autosave_Freq/Slider").gameObject.GetComponent<Slider>());
     }
 
     public void SaveGame()
@@ -80,14 +103,31 @@ public class MenuInterface : Interface
         if (saveFile!=null && saveFile.IsValid())
         {
             PlayerPrefs.SetString("LoadSave", saveSelected.path);
-            SceneManager.LoadSceneAsync("Scene_Map", LoadSceneMode.Single);
+            PlayerPrefs.SetString("TransitionMode", "Scene_Map");
+            GameObject.Find("UI_Fade").GetComponent<Fade>().FadeIn(1);
+
+            transform.Find("Contents").gameObject.SetActive(false);
+            InvokeRepeating("WaitThenLoad", 0, 0.1f);
         }
         else
         {
             GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Cannot Load");
         }
     }
-
+    private void WaitThenLoad()
+    {
+        if (GameObject.Find("UI_Fade").GetComponent<RawImage>().color.a >= 1)
+        {
+            SceneManager.LoadSceneAsync("Scene_Load", LoadSceneMode.Single);
+        }
+    }
+    private void WaitThenQuit()
+    {
+        if (GameObject.Find("UI_Fade").GetComponent<RawImage>().color.a >= 1)
+        {
+            Application.Quit();
+        }
+    }
 
     public void LoadSaves()
     {
@@ -106,26 +146,12 @@ public class MenuInterface : Interface
             }
         }
     }
-
-    private void FadeIn()
+    public void ShowDetails()
     {
-        Color newColor = transform.Find("Fade").GetComponent<RawImage>().color;
-        newColor.a += (float)(0.01);
-        transform.Find("Fade").GetComponent<RawImage>().color = newColor;
-        if (newColor.a > 0.5)
+        if (saveSelected != null)
         {
-            CancelInvoke();
-        }
-    }
-    private void FadeOut()
-    {
-        Color newColor = transform.Find("Fade").GetComponent<RawImage>().color;
-        newColor.a -= (float)(0.01);
-        transform.Find("Fade").GetComponent<RawImage>().color = newColor;
-        if (newColor.a <= 0)
-        {
-            CancelInvoke();
-            gameObject.SetActive(false);
+            saveSelected.ShowDetails(transform.Find("Contents/Details"));
+            transform.Find("Contents/Details").gameObject.SetActive(true);
         }
     }
 
@@ -149,6 +175,10 @@ public class MenuInterface : Interface
             slider.transform.parent.Find("Text").GetComponent<TextMeshProUGUI>().text += "Yearly";
         }
     }
+    public void Slider_Scale(Slider slider)
+    {
+        slider.transform.parent.Find("Text").GetComponent<TextMeshProUGUI>().text = "UI Scale: " + slider.value.ToString("F2");
+    }
 
     public void Button_Save()
     {
@@ -167,12 +197,18 @@ public class MenuInterface : Interface
     public void Button_Exit()
     {
         SaveGame();
-        Application.Quit();
+
+        transform.Find("Contents").gameObject.SetActive(false);
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeIn(1);
+        InvokeRepeating("WaitThenQuit", 0, 0.1f);
     }
     public void Button_Menu()
     {
         SaveGame();
-        SceneManager.LoadScene("Scene_Menu", LoadSceneMode.Single);
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeIn(1);
+        transform.Find("Contents").gameObject.SetActive(false);
+        PlayerPrefs.SetString("TransitionMode", "Scene_Menu");
+        InvokeRepeating("WaitThenLoad", 0, 0.1f);
     }
     public void Button_Settings()
     {
@@ -181,7 +217,7 @@ public class MenuInterface : Interface
         transform.Find("Contents/Settings").gameObject.SetActive(true);
         transform.Find("Contents/Saves").gameObject.SetActive(false);
 
-        Button_Gameplay();
+        Button_Audio();
     }
 
     public void Button_Return()
@@ -191,6 +227,9 @@ public class MenuInterface : Interface
             transform.Find("Contents/Buttons").gameObject.SetActive(true);
             transform.Find("Contents/Settings").gameObject.SetActive(false);
             transform.Find("Contents/Saves").gameObject.SetActive(false);
+            transform.Find("Contents/Details").gameObject.SetActive(false);
+
+            saveSelected = null;
         }
         else
         {
@@ -202,6 +241,7 @@ public class MenuInterface : Interface
         if (transform.Find("Contents/Settings").gameObject.activeSelf)
         { 
             SavePrefs();
+            MapTools.GetInterface().ApplyScale();
             Button_Return();
         }
         else if(transform.Find("Contents/Saves").gameObject.activeSelf)

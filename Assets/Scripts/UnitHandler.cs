@@ -27,7 +27,7 @@ public class UnitHandler : MonoBehaviour
 
     public void RelocateTo(Province prov) {
 
-        Vector3 newPos = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(prov.center);
+        Vector3 newPos = MapTools.LocalToScale(prov.center);
         newPos.z = transform.position.z;
         transform.position = newPos;
     }
@@ -146,14 +146,14 @@ public class UnitHandler : MonoBehaviour
         {
             foreach (Classes.Army o in owners)
             {
-                GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Add(o);
+                MapTools.GetMap().activeArmies.Add(o);
             }
         }
         else
         {
             foreach (Classes.Army o in owners)
             {
-                GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Remove(o);
+                MapTools.GetMap().activeArmies.Remove(o);
             }
         }
         ActOrRefInterface();
@@ -162,7 +162,7 @@ public class UnitHandler : MonoBehaviour
     {
         ArrowPlacer arr = Instantiate(Resources.Load("Prefabs/ArrowPointer") as GameObject, GameObject.Find("Map/Arrows/Movement").transform).GetComponent<ArrowPlacer>();
 
-        arr.Place(GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(start), GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(end));
+        arr.Place(MapTools.LocalToScale(start), MapTools.LocalToScale(end));
         return arr;
     }
     public bool IsActive()
@@ -170,7 +170,7 @@ public class UnitHandler : MonoBehaviour
         bool isActive = false;
         foreach (Classes.Army o in owners)
         {
-            if (GameObject.Find("Center").GetComponent<MapHandler>().activeArmies.Contains(o))
+            if (MapTools.GetMap().activeArmies.Contains(o))
             {
                 isActive = true;
                 break;
@@ -184,13 +184,14 @@ public class UnitHandler : MonoBehaviour
     }
     public void ActOrRefInterface()
     {
-        if (!GameObject.Find("Canvas").GetComponent<InterfaceHandler>().GetActiveInterface().Equals("army"))
+        if (!MapTools.GetInterface().GetActiveInterface().Equals("army"))
         {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().EnableInterface("army");
+            MapTools.GetInterface().EnableInterface("army");
         }
         else
         {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().RefreshInterface();
+            MapTools.GetInterface().activeInterface.Set(armies: owners);
+
         }
     }
     void OnMouseDown()
@@ -198,7 +199,7 @@ public class UnitHandler : MonoBehaviour
         //rect selection
         if (Input.GetMouseButton(0))
         {
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().input.StartSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+            MapTools.GetInput().StartSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         }
     }
 
@@ -211,9 +212,9 @@ public class UnitHandler : MonoBehaviour
                 //single selection
                 foreach (Classes.Army o in owners)
                 {
-                    if (GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetActiveNation() == o.owner)
+                    if (MapTools.GetSave().GetActiveNation() == o.owner)
                     {
-                        if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Contains(o))
+                        if (MapTools.GetMap().activeArmies.Contains(o))
                         {
                                 //GameObject.Find("Canvas").GetComponent<InterfaceHandler>().wheel_units.GetComponent<Unitwheel>().Pivot(owners.ElementAt(0));
                                 //GameObject.Find("Canvas").GetComponent<InterfaceHandler>().wheel_units.GetComponent<Unitwheel>().Activate(true, 4);
@@ -221,9 +222,9 @@ public class UnitHandler : MonoBehaviour
                             SetUnitsActive(false);
                             return;
                         }
-                        else if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Count > 0)
+                        else if (MapTools.GetMap().activeArmies.Count > 0)
                         {
-                            GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Clear();
+                            MapTools.GetMap().activeArmies.Clear();
                             SetUnitsActive(true);
                             ActOrRefInterface();
                             return;
@@ -242,38 +243,35 @@ public class UnitHandler : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable("Boom");
-        }
+        
 
         if (Input.GetMouseButtonUp(0))
         {
             //rect selection
-            if (GameObject.Find("Map/Center").GetComponent<MapHandler>().input.IsSelecting())
+            if (MapTools.GetInput().IsSelecting())
             {
-                GameObject.Find("Map/Center").GetComponent<MapHandler>().input.UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-                GameObject.Find("Map/Center").GetComponent<MapHandler>().input.FinalizeSelection();
+                MapTools.GetInput().UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+                MapTools.GetInput().FinalizeSelection();
             }
         }
 
         //rect selection
         if (Input.GetMouseButton(0))
         {
-            GameObject.Find("Map/Center").GetComponent<MapHandler>().input.UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+            MapTools.GetInput().UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         }
 
         //Camera
-        GameObject.Find("Map/Center").GetComponent<InputHandler>().CameraInput();
+        MapTools.GetInput().CameraInput();
     }
 
     void OnMouseEnter()
     {
-
+        
     }
 
     void OnMouseExit()
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+        
     }
 }

@@ -68,6 +68,28 @@ public class ProvinceInterface : Interface
         
     }
 
+    public override void MouseInput(Province prov)
+    {
+
+
+
+    }
+    public override void KeyboardInput(Province prov)
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Camera.main.GetComponent<CameraHandler>().ZoomTo(prov.transform.position, 7);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+        }
+
+        MapTools.GetInput().CameraInput();
+        MapTools.GetInput().BasicInput(prov);
+    }
+
+
     public override void Refresh()
     {
         nameText.text = prov.provName;
@@ -118,6 +140,7 @@ public class ProvinceInterface : Interface
     {
         prov = null;
         gameObject.SetActive(false);
+        MapTools.GetMap().activeProvince = null;
     }
 
     public override void Enable()
@@ -157,7 +180,7 @@ public class ProvinceInterface : Interface
     public void SetSymbol(int id)
     {
         symbol.transform.GetChild(0).gameObject.GetComponent<RawImage>().texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
-        symbol.transform.GetChild(2).gameObject.GetComponent<NationSymbolClick>().nat = GameObject.Find("Map/Center").GetComponent<MapHandler>().IdToNat(id);
+        symbol.transform.GetChild(2).gameObject.GetComponent<NationSymbolClick>().nat = MapTools.IdToNat(id);
     }
 
     public void SetImage()

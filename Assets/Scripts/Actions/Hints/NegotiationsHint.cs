@@ -28,13 +28,13 @@ public class NegotiationsHint : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 newText += "\n\n" + transform.parent.parent.GetComponent<DiplomacyInterface>().neg.NegValueBreakdown();
 
 
-                GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(newText);
+                MapTools.GetHint().Enable(newText, transform.position);
             }
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+        MapTools.GetHint().Disable();
     }
 }

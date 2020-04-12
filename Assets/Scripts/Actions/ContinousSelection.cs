@@ -23,17 +23,17 @@ public class ContinousSelection : MonoBehaviour,  IPointerExitHandler, IPointerE
         {
             if (Input.GetMouseButton(0))
             {
-                if (GameObject.Find("Map/Center").GetComponent<MapHandler>().input.IsSelecting())
+                if (MapTools.GetInput().IsSelecting())
                 {
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().input.UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+                    MapTools.GetInput().UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
                 }
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (GameObject.Find("Map/Center").GetComponent<MapHandler>().input.IsSelecting())
+                if (MapTools.GetInput().IsSelecting())
                 {
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().input.UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().input.FinalizeSelection();
+                    MapTools.GetInput().UpdateSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+                    MapTools.GetInput().FinalizeSelection();
                 }
             }
         }
@@ -44,7 +44,7 @@ public class ContinousSelection : MonoBehaviour,  IPointerExitHandler, IPointerE
         pointerOver = true;
         if (alsoClearHint)
         {
-            GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+            MapTools.GetHint().Disable();
         }
     }
 

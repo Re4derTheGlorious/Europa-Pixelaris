@@ -69,7 +69,7 @@ public class Battle
         this.location = location;
 
         representation = Object.Instantiate(Resources.Load("Prefabs/Battle") as GameObject, GameObject.Find("Map/Battles").transform);
-        Vector3 loc = GameObject.Find("Map/Center").GetComponent<MapHandler>().LocalToScale(attacker.location.center);
+        Vector3 loc = MapTools.LocalToScale(attacker.location.center);
         loc.z = -5;
         representation.transform.position = loc;
     }

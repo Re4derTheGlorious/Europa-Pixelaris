@@ -21,11 +21,11 @@ public class StaticHint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Enable(hintText);
+        MapTools.GetHint().Enable(hintText, transform.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GameObject.Find("Canvas").GetComponent<InterfaceHandler>().hint.GetComponent<Hint>().Disable();
+        MapTools.GetHint().Disable();
     }
 }

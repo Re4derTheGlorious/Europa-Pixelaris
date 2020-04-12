@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -12,6 +13,28 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerPrefs.GetFloat("UI_scale", -123) == -123)
+        {
+            PlayerPrefs.SetFloat("UI_scale", 1f);
+        }
+        if (PlayerPrefs.GetInt("autosave_frequency", -123) == -123)
+        {
+            PlayerPrefs.SetInt("autosave_frequency", 2);
+        }
+        if (PlayerPrefs.GetFloat("vol_master", -123) == -123)
+        {
+            PlayerPrefs.SetFloat("vol_master", 1);
+        }
+        if (PlayerPrefs.GetFloat("vol_music", -123) == -123)
+        {
+            PlayerPrefs.SetFloat("vol_music", 1);
+        }
+        if (PlayerPrefs.GetFloat("vol_audio", -123) == -123)
+        {
+            PlayerPrefs.SetFloat("vol_audio", 1);
+        }
+
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeOut(0);
         if (Directory.EnumerateFiles(new SaveManager().location_path).Where(x => new SaveManager().GetSaveFile(x).IsValid()).Count() == 0){
             transform.Find("Continue_Button").GetComponent<Button>().interactable = false;
         }
@@ -19,6 +42,8 @@ public class MainMenu : MonoBehaviour
         {
             transform.Find("Continue_Button").GetComponent<Button>().interactable = true;
         }
+
+        GameObject.Find("Version").GetComponent<TextMeshProUGUI>().text = Application.version;
     }
 
     // Update is called once per frame
@@ -29,7 +54,8 @@ public class MainMenu : MonoBehaviour
 
     public void Button_Exit()
     {
-        Application.Quit();
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeIn(1);
+        InvokeRepeating("WaitThenQuit", 0f, 0.1f);
     }
 
     public void Button_Start()
@@ -52,29 +78,23 @@ public class MainMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        transform.Find("Fade").gameObject.SetActive(true);
-        InvokeRepeating("FadeInAndStart", 0f, 0.01f);
+        transform.Find("UI_Fade").gameObject.SetActive(true);
+        PlayerPrefs.SetString("TransitionMode", "Scene_Map");
+        GameObject.Find("UI_Fade").GetComponent<Fade>().FadeIn(1);
+        InvokeRepeating("WaitThenStart", 0f, 0.1f);
     }
-    private void FadeInAndStart()
+    private void WaitThenStart()
     {
-        Color newColor = transform.Find("Fade").GetComponent<RawImage>().color;
-        newColor.a += (float)(0.01);
-        transform.Find("Fade").GetComponent<RawImage>().color = newColor;
-        if (newColor.a >= 0.95)
+        if (GameObject.Find("UI_Fade").GetComponent<RawImage>().color.a >= 1)
         {
-            CancelInvoke();
-            SceneManager.LoadScene("Scene_Map", LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync("Scene_Load", LoadSceneMode.Single);
         }
     }
-    private void FadeOut()
+    private void WaitThenQuit()
     {
-        Color newColor = transform.Find("Fade").GetComponent<RawImage>().color;
-        newColor.a -= (float)(0.01);
-        transform.Find("Fade").GetComponent<RawImage>().color = newColor;
-        if (newColor.a <= 0)
+        if (GameObject.Find("UI_Fade").GetComponent<RawImage>().color.a >= 1)
         {
-            CancelInvoke();
-            gameObject.SetActive(false);
+            Application.Quit();
         }
     }
 }
