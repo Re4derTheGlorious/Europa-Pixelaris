@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class CombatInterface : Interface
 {
@@ -15,9 +16,9 @@ public class CombatInterface : Interface
 
     void Start()
     {
-        field_front = transform.Find("Battlefield/Frontline");
-        field_left = transform.Find("Battlefield/Left Flank");
-        field_right = transform.Find("Battlefield/Right Flank");
+        field_front = transform.Find("Battlefield/Center/Frontline");
+        field_left = transform.Find("Battlefield/Center/Left Flank");
+        field_right = transform.Find("Battlefield/Center/Right Flank");
         field_att_back = transform.Find("Battlefield/Attacker Backline");
         field_def_back = transform.Find("Battlefield/Defender Backline");
     }
@@ -33,43 +34,46 @@ public class CombatInterface : Interface
     }
     public override void KeyboardInput(Province prov)
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MapTools.GetInterface().EnableInterface("none");
+        }
     }
 
 
     public override void Refresh()
     {
         //show stage
-        if (battle.stage == 1)
+        if (battle.stage == 0)
         {
             transform.Find("Stage/Stage1").gameObject.GetComponent<RawImage>().color = Color.green;
+            transform.Find("Balance/Bars/Defender/Icon").GetComponent<RawImage>().texture = Resources.Load("Icons/Inf_Skirmish") as Texture2D;
+
+            
         }
-        else if (battle.stage == 2)
+        else if (battle.stage == 1)
         {
             transform.Find("Stage/Stage1").gameObject.GetComponent<RawImage>().color = Color.gray;
             transform.Find("Stage/Stage2").gameObject.GetComponent<RawImage>().color = Color.green;
+            transform.Find("Balance/Bars/Defender/Icon").GetComponent<RawImage>().texture = Resources.Load("Icons/Army_Engaged") as Texture2D;
+
+            
+
         }
-        else if(battle.stage == 3)
+        else if(battle.stage == 2)
         {
             transform.Find("Stage/Stage1").gameObject.GetComponent<RawImage>().color = Color.gray;
             transform.Find("Stage/Stage2").gameObject.GetComponent<RawImage>().color = Color.gray;
             transform.Find("Stage/Stage3").gameObject.GetComponent<RawImage>().color = Color.green;
+            transform.Find("Balance/Bars/Defender/Icon").GetComponent<RawImage>().texture = Resources.Load("Icons/Army_Routing") as Texture2D;
+
         }
 
-        //refresh info
-        transform.Find("Defender Info/Casualities").GetComponent<TextMeshProUGUI>().text = "Casualities: " + battle.defenderCasualities;
-        transform.Find("Attacker Info/Casualities").GetComponent<TextMeshProUGUI>().text = "Casualities: " + battle.attackerCasualities;
-        transform.Find("Defender Info/In Reserves").GetComponent<TextMeshProUGUI>().text = "In reserve: " + battle.defenderReserves;
-        transform.Find("Attacker Info/In Reserves").GetComponent<TextMeshProUGUI>().text = "In reserve: " + battle.attackerReserves;
-        transform.Find("Defender Info/Engaged").GetComponent<TextMeshProUGUI>().text = "In combat: " + battle.defenderEngaged;
-        transform.Find("Attacker Info/Engaged").GetComponent<TextMeshProUGUI>().text = "In combat: " + battle.attackerEngaged;
-        transform.Find("Defender Info/Routed").GetComponent<TextMeshProUGUI>().text = "Routed: " + battle.defenderRouted;
-        transform.Find("Attacker Info/Routed").GetComponent<TextMeshProUGUI>().text = "Routed: " + battle.attackerRouted;
-
-        //refresh units positions
         OverlayUnits();
+        LoadStats();
+        SetBalance(battle.powerBalance);
     }
-    public override void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null)
+    public override void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null)
     {
         if (battle != null)
         {
@@ -78,6 +82,10 @@ public class CombatInterface : Interface
             OverlayTerrain();
             OverlayUnits();
             Refresh();
+
+            transform.Find("Balance/Bars/Defender").GetComponent<RawImage>().color = battle.defenders.ElementAt(0).owner.color;
+            transform.Find("Balance/Bars/Attacker").GetComponent<RawImage>().color = battle.attackers.ElementAt(0).owner.color;
+
         }
     }
     public override bool IsSet()
@@ -90,8 +98,35 @@ public class CombatInterface : Interface
     }
     public override void Enable()
     {
-        Start();
+        
+
+        MapTools.GetSave().GetTime().SetPace(1);
+        MapTools.GetSave().GetTime().Pause();
+
         gameObject.SetActive(true);
+
+        Start();
+    }
+
+    public void LoadStats()
+    {
+        transform.Find("Battlefield/AttackerStats/Reserve/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.attackerReserveSize;
+        transform.Find("Battlefield/DefenderStats/Reserve/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.defenderReserveSize;
+
+        transform.Find("Battlefield/AttackerStats/Engaged/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.attackerFieldedSize;
+        transform.Find("Battlefield/DefenderStats/Engaged/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.defenderFieldedSize;
+
+        transform.Find("Battlefield/AttackerStats/Captured/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.attackerCaptured;
+        transform.Find("Battlefield/DefenderStats/Captured/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.defenderCaptured;
+
+        transform.Find("Battlefield/AttackerStats/Wounded/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.attackerWounded;
+        transform.Find("Battlefield/DefenderStats/Wounded/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.defenderWounded;
+
+        transform.Find("Battlefield/AttackerStats/Dead/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.attackerCasualities;
+        transform.Find("Battlefield/DefenderStats/Dead/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.defenderCasualities;
+
+        transform.Find("Battlefield/AttackerStats/Routed/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.attackerRouted;
+        transform.Find("Battlefield/DefenderStats/Routed/Text").GetComponent<TextMeshProUGUI>().text = "" + battle.defenderRouted;
     }
 
     public void ResetStage()
@@ -100,7 +135,19 @@ public class CombatInterface : Interface
         transform.Find("Stage/Stage2").gameObject.GetComponent<RawImage>().color = Color.white;
         transform.Find("Stage/Stage3").gameObject.GetComponent<RawImage>().color = Color.white;
     }
+    public void SetBalance(float balance)
+    {
+        float offset = (transform.Find("Balance/Bars").GetComponent<RectTransform>().rect.width - 8f) * balance;
+        transform.Find("Balance/Bars/Defender").GetComponent<RectTransform>().offsetMin = new Vector2(offset, transform.Find("Balance/Bars/Defender").GetComponent<RectTransform>().offsetMin.y);
+        transform.Find("Balance/Bars/Attacker/Morale").GetComponent<RectTransform>().offsetMax = new Vector2(-offset, transform.Find("Balance/Bars/Attacker/Morale").GetComponent<RectTransform>().offsetMax.y);
 
+        offset = (((transform.Find("Balance/Bars").GetComponent<RectTransform>().rect.width - 8f)-offset) * battle.attackerMorale);
+        transform.Find("Balance/Bars/Attacker/Morale").GetComponent<RectTransform>().offsetMin = new Vector2(offset, transform.Find("Balance/Bars/Defender/Morale").GetComponent<RectTransform>().offsetMin.y);
+
+        offset = transform.Find("Balance/Bars/Defender").GetComponent<RectTransform>().rect.width * battle.defenderMorale;
+        transform.Find("Balance/Bars/Defender/Morale").GetComponent<RectTransform>().offsetMax = new Vector2(-offset, transform.Find("Balance/Bars/Defender/Morale").GetComponent<RectTransform>().offsetMax.y);
+    }
+    
     private void ResetTerrain()
     {
         foreach(Transform trans in field_front)
@@ -142,23 +189,25 @@ public class CombatInterface : Interface
                 }
             }
             //backlines
-            for (int y = 0; y < battle.attackerBack.GetLength(1); y++)
-            {
-                if (battle.attackerBack[x, y].impassable)
+            if (x < battle.attackerBack.GetLength(0)) {
+                for (int y = 0; y < battle.attackerBack.GetLength(1); y++)
                 {
-                    GetTile(field_def_back, x, y, battle.defenderBack).GetComponent<BattleGrid>().SetImpass();
-                }
-                else
-                {
-                    GetTile(field_def_back, x, y, battle.defenderBack).GetComponent<BattleGrid>().SetEmpty();
-                }
-                if (battle.defenderBack[x, y].impassable)
-                {
-                    GetTile(field_att_back, x, y, battle.attackerBack).GetComponent<BattleGrid>().SetImpass();
-                }
-                else
-                {
-                    GetTile(field_att_back, x, y, battle.attackerBack).GetComponent<BattleGrid>().SetEmpty();
+                    if (battle.attackerBack[x, y].impassable)
+                    {
+                        GetTile(field_def_back, x, y, battle.defenderBack).GetComponent<BattleGrid>().SetImpass();
+                    }
+                    else
+                    {
+                        GetTile(field_def_back, x, y, battle.defenderBack).GetComponent<BattleGrid>().SetEmpty();
+                    }
+                    if (battle.defenderBack[x, y].impassable)
+                    {
+                        GetTile(field_att_back, x, y, battle.attackerBack).GetComponent<BattleGrid>().SetImpass();
+                    }
+                    else
+                    {
+                        GetTile(field_att_back, x, y, battle.attackerBack).GetComponent<BattleGrid>().SetEmpty();
+                    }
                 }
             }
         }
@@ -201,18 +250,15 @@ public class CombatInterface : Interface
                 }
 
                 //backlines
-                if (y < battle.attackerBack.GetLength(1))
+                if (x < battle.attackerBack.GetLength(0) && y < battle.attackerBack.GetLength(1))
                 {
-                    if (battle.defenderBack[x, y].contester != null)
+                    if (battle.attackerBack[x, y].contester != null)
                     {
                         GetTile(field_att_back, x, y, battle.attackerBack).GetComponent<BattleGrid>().SetUnit(battle.attackerBack[x, y].contester);
                     }
-                }
-                else
-                {
-                    if (battle.defenderBack[x, y- battle.defenderBack.GetLength(1)].contester != null)
+                    if (battle.defenderBack[x, battle.defenderBack.GetLength(1)-1-y].contester != null)
                     {
-                        GetTile(field_def_back, x, y- battle.defenderBack.GetLength(1), battle.defenderBack).GetComponent<BattleGrid>().SetUnit(battle.defenderBack[x, y- battle.defenderBack.GetLength(1)].contester);
+                        GetTile(field_def_back, x, battle.defenderBack.GetLength(1) - 1 - y, battle.defenderBack).GetComponent<BattleGrid>().SetUnit(battle.defenderBack[x, battle.defenderBack.GetLength(1) - 1 - y].contester);
                     }
                 }
             }

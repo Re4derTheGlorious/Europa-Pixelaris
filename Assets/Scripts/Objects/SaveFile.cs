@@ -21,25 +21,25 @@ public class SaveFile
     [SerializeField]
     public List<Province.ProvinceAsSaveable> provinces_as;
 
-    private List<Classes.Nation> nations;
+    private List<Nation> nations;
     [SerializeField]
-    public List<Classes.Nation.NationAsSaveable> nations_as;
+    public List<Nation.NationAsSaveable> nations_as;
 
     private List<Battle> battles;
     private List<Classes.War> wars;
 
-    private List<Classes.Army> armies;
+    private List<Army> armies;
     [SerializeField]
-    public List<Classes.Army.ArmyAsSaveable> armies_as;
+    public List<Army.ArmyAsSaveable> armies_as;
     [SerializeField]
-    public List<Classes.Unit.UnitAsSaveable> units_as;
+    public List<Unit.UnitAsSaveable> units_as;
 
     //time
     [SerializeField]
     private Classes.TimeAndPace time;
 
     //active entities
-    private Classes.Nation activeNation;
+    private Nation activeNation;
     [SerializeField]
     public int activeNation_as;
 
@@ -49,8 +49,8 @@ public class SaveFile
         wars = new List<Classes.War>();
         battles = new List<Battle>();
         provinces = new List<Province>();
-        nations = new List<Classes.Nation>();
-        armies = new List<Classes.Army>();
+        nations = new List<Nation>();
+        armies = new List<Army>();
     }
 
     public void Restore(SaveFile saveBase)
@@ -64,23 +64,23 @@ public class SaveFile
         }
 
         //Nations
-        foreach(Classes.Nation.NationAsSaveable nat in nations_as)
+        foreach(Nation.NationAsSaveable nat in nations_as)
         {
-            Classes.Nation newNation = new Classes.Nation().Restore(nat, saveBase);
+            Nation newNation = new Nation().Restore(nat, saveBase);
             nations.Add(newNation);
         }
 
         //Armies
-        foreach (Classes.Army.ArmyAsSaveable a in armies_as)
+        foreach (Army.ArmyAsSaveable a in armies_as)
         {
-            Classes.Army newArmy = new Classes.Army(MapTools.IdToProv(a.location), MapTools.IdToNat(a.owner)).Restore(a, saveBase);
+            Army newArmy = new Army(MapTools.IdToProv(a.location), MapTools.IdToNat(a.owner)).Restore(a, saveBase);
             armies.Add(newArmy);
         }
 
         //Units
-        foreach(Classes.Unit.UnitAsSaveable u in units_as)
+        foreach(Unit.UnitAsSaveable u in units_as)
         {
-            new Classes.Unit("", 0, null).Restore(u, saveBase);
+            new Unit("", 0, null).Restore(u, saveBase);
         }
 
         activeNation = MapTools.IdToNat(activeNation_as);
@@ -90,21 +90,21 @@ public class SaveFile
     public void Prepare()
     {
         provinces_as = new List<Province.ProvinceAsSaveable>();
-        nations_as = new List<Classes.Nation.NationAsSaveable>();
-        armies_as = new List<Classes.Army.ArmyAsSaveable>();
-        units_as = new List<Classes.Unit.UnitAsSaveable>();
+        nations_as = new List<Nation.NationAsSaveable>();
+        armies_as = new List<Army.ArmyAsSaveable>();
+        units_as = new List<Unit.UnitAsSaveable>();
         foreach(Province prov in provinces)
         {
             provinces_as.Add(prov.AsSaveable());
         }
-        foreach(Classes.Nation nat in nations)
+        foreach(Nation nat in nations)
         {
             nations_as.Add(nat.AsSaveable());
         }
-        foreach (Classes.Army a in armies)
+        foreach (Army a in armies)
         {
             armies_as.Add(a.AsSaveable());
-            foreach(Classes.Unit u in a.units)
+            foreach(Unit u in a.units)
             {
                 units_as.Add(u.AsSaveable());
             }
@@ -153,7 +153,7 @@ public class SaveFile
     {
         return provinces;
     }
-    public List<Classes.Nation> GetNations()
+    public List<Nation> GetNations()
     {
         return nations;
     }
@@ -171,12 +171,12 @@ public class SaveFile
         return ref time;
     }
 
-    public ref Classes.Nation GetActiveNation()
+    public ref Nation GetActiveNation()
     {
         return ref activeNation;
     }
 
-    public List<Classes.Army> GetArmies()
+    public List<Army> GetArmies()
     {
         return armies;
     }

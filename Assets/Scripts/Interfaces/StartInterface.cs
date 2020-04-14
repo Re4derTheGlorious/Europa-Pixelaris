@@ -52,7 +52,7 @@ public class StartInterface : Interface
     {
         return false;
     }
-    public override void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null)
+    public override void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null)
     {
 
     }
@@ -75,6 +75,11 @@ public class StartInterface : Interface
     {
         if (MapTools.GetSave().GetActiveNation() != null)
         {
+            MapTools.GetSave().GetTime().Faster();
+            MapTools.GetSave().GetTime().Faster();
+            MapTools.GetSave().GetTime().Faster();
+            MapTools.GetSave().GetTime().Pause();
+
             GameObject.Find("UI_Top/Symbol").GetComponent<Button>().interactable = true;
             GameObject.Find("Canvas").GetComponent<InterfaceHandler>().SetSymbol(GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetActiveNation().id);
             GameObject.Find("Canvas").transform.Find("UI_Time").gameObject.SetActive(true);

@@ -10,7 +10,7 @@ public class TradeInterface : Interface
     private GameObject selectors;
     private GameObject frames;
     private Classes.TradeRoute route;
-    private Classes.Nation nat;
+    private Nation nat;
 
     void Start()
     {
@@ -104,7 +104,7 @@ public class TradeInterface : Interface
         }
     }
 
-    public override void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null)
+    public override void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null)
     {
         Start();
         this.nat = nat;

@@ -13,8 +13,12 @@ public class CameraHandler : MonoBehaviour
 
     //zoom
     private Vector3 targetPosition;
-    private int targetZoom;
+    private float targetZoom;
     private int zoomIteration;
+    float speedFactor = 0.02f;
+
+    //drag
+    public Vector3 dragPivot;
 
     void Start()
     {
@@ -70,16 +74,25 @@ public class CameraHandler : MonoBehaviour
         }
 
         //Mouse wheel move
+        if (Input.GetMouseButtonDown(2))
+        {
+            dragPivot = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            dragPivot = Camera.main.ScreenToWorldPoint(dragPivot);
+        }
         if (Input.GetMouseButton(2))
         {
-            Camera.main.transform.position -= new Vector3(Input.GetAxis("Mouse X") * speed, Input.GetAxis("Mouse Y") * speed, 0);
+            
             StopZooming();
+
+            Camera.main.GetComponent<CameraHandler>().OnMouseDrag();
         }
+
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0)
         {
-            Camera.main.GetComponent<CameraHandler>().OnMouseScroll();
             StopZooming();
+
+            Camera.main.GetComponent<CameraHandler>().OnMouseScroll();
         }
     }
 
@@ -89,37 +102,48 @@ public class CameraHandler : MonoBehaviour
         Vector3 zoomPivot = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 shift = zoomPivot - Camera.main.transform.position;
 
-        Camera.main.orthographicSize -= Input.mouseScrollDelta.y * (Camera.main.orthographicSize / (map.GetComponent<MeshRenderer>().bounds.size.y / 2)) * Time.deltaTime * 750;
+        float ortho = Camera.main.orthographicSize - Input.mouseScrollDelta.y * (Camera.main.orthographicSize / (map.GetComponent<MeshRenderer>().bounds.size.y / 2)) * Time.deltaTime * 2500;
 
-        if (Camera.main.orthographicSize < minSize)
+        if (ortho < minSize)
         {
-            Camera.main.orthographicSize = minSize;
+            ortho = minSize;
         }
-        else if (Camera.main.orthographicSize > map.GetComponent<MeshRenderer>().bounds.size.y / 2)
+        else if (ortho > map.GetComponent<MeshRenderer>().bounds.size.y / 2)
         {
-            Camera.main.orthographicSize = map.GetComponent<MeshRenderer>().bounds.size.y / 2;
+            ortho = map.GetComponent<MeshRenderer>().bounds.size.y / 2;
         }
 
-        float zoomRatio = Camera.main.orthographicSize / initialZoom;
+        float zoomRatio = ortho / initialZoom;
         Vector3 newPos = zoomPivot - shift * zoomRatio;
         newPos.z = cameraLayer;
-        Camera.main.transform.position = newPos;
+
+        ZoomTo(newPos, ortho, true);
+    }
+    public void OnMouseDrag()
+    {
+        Vector3 currentPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        currentPos = Camera.main.ScreenToWorldPoint(currentPos);
+        Vector3 offset = dragPivot - currentPos;
+        transform.position = transform.position + offset;
     }
 
-    public void ZoomTo(Vector2 location, int size)
+    public void ZoomTo(Vector2 location, float size, bool scroll = false)
     {
-        //Camera.main.orthographicSize = size;
         targetPosition = location;
         targetZoom = size;
         zoomIteration = 0;
-
-        InvokeRepeating("ZoomAsync", 0, 0.01f);
+        if (!scroll)
+        {
+            InvokeRepeating("ZoomAsync", 0, 0.01f);
+        }
+        else
+        {
+            InvokeRepeating("ZoomAsync", 0, 0.001f);
+        }
     }
 
     public void ZoomAsync()
     {
-        float speedFactor = 0.02f;
-
         //pos
         Vector3 newPos = Vector3.Lerp(transform.position, targetPosition, speedFactor);
         newPos.z = cameraLayer;

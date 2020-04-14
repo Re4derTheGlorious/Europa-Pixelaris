@@ -19,7 +19,7 @@ public class Unitwheel : MonoBehaviour
     private GameObject activeLayer;
 
     public Province pivotProv;
-    public Classes.Army pivotArmy;
+    public Army pivotArmy;
 
     public int mapLayer;
 
@@ -48,7 +48,7 @@ public class Unitwheel : MonoBehaviour
         transform.localScale = orginalScale * zoom * 2 * ratio * 3;
     }
 
-    public void Pivot(Classes.Army army)
+    public void Pivot(Army army)
     {
         pivotArmy = army;
         pivotProv = null;

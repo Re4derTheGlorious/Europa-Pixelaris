@@ -18,37 +18,56 @@ public class Battle
         public bool impassable = false;
         public bool cover = false;
         public bool highGround = false;
-        public Classes.Unit contester;
+        public Unit contester;
+    }
+    public class SkirmishRound
+    {
+        public Classes.FinanseBook defenderCasualities = new Classes.FinanseBook();
+        public Classes.FinanseBook attackerCasualities = new Classes.FinanseBook();
+        public string name = "";
+        public bool attackerInitiates = false;
+
+        public SkirmishRound()
+        {
+
+        }
     }
     public int stage = 0;
+    public int attackerInitiative = 0;
+    public int defenderInitiative = 0;
     public GameObject representation;
 
     //sides stats
     public int attackerCasualities = 0;
     public int defenderCasualities = 0;
+    public Classes.FinanseBook attackerTotal = new Classes.FinanseBook();
+    public Classes.FinanseBook defenderTotal = new Classes.FinanseBook();
     public int attackerRouted = 0;
     public int defenderRouted = 0;
-    public int attackerEngaged = 0;
-    public int defenderEngaged = 0;
-    public int attackerReserves = 0;
-    public int defenderReserves = 0;
+    public int attackerFieldedSize = 0;
+    public int defenderFieldedSize = 0;
+    public int attackerReserveSize = 0;
+    public int defenderReserveSize = 0;
+    public int attackerCaptured = 0;
+    public int defenderCaptured = 0;
+    public int attackerWounded = 0;
+    public int defenderWounded = 0;
+    public float powerBalance = 0.5f;
+    public float attackerMorale = 1;
+    public float defenderMorale = 1;
+
 
     //setting
-    public List<Classes.Army> attackers;
-    public List<Classes.Army> defenders;
+    public List<Army> defenders;
+    public List<Army> attackers;
     public Province location;
 
     //reserves
-    public List<Classes.Unit> attackerReserveUnits;
-    public List<Classes.Unit> defenderReserveUnits;
-    public List<Classes.Unit> attSkirmishers = new List<Classes.Unit>();
-    public List<Classes.Unit> defSkirmishers = new List<Classes.Unit>();
-    public List<Classes.Unit> attLight = new List<Classes.Unit>();
-    public List<Classes.Unit> defLight = new List<Classes.Unit>();
-    public List<Classes.Unit> attHeavy = new List<Classes.Unit>();
-    public List<Classes.Unit> defHeavy = new List<Classes.Unit>();
-    public List<Classes.Unit> attArt = new List<Classes.Unit>();
-    public List<Classes.Unit> defArt = new List<Classes.Unit>();
+    public List<Unit> attackerReserve;
+    public List<Unit> defenderReserve;
+    public List<Unit> attackerFielded;
+    public List<Unit> defenderFielded;
+
 
     //battlefield
     public Grid[,] frontLine;
@@ -58,10 +77,15 @@ public class Battle
     public Grid[,] defenderBack;
 
 
-    public Battle(Classes.Army attacker, Classes.Army defender, Province location)
+    public Battle(Army attacker, Army defender, Province location)
     {
-        attackers = new List<Classes.Army>();
-        defenders = new List<Classes.Army>();
+        attackers = new List<Army>();
+        defenders = new List<Army>();
+        defenderFielded = new List<Unit>();
+        attackerFielded = new List<Unit>();
+        defenderReserve = new List<Unit>();
+        attackerReserve = new List<Unit>();
+
 
         attackers.Add(attacker);
         defenders.Add(defender);
@@ -77,25 +101,33 @@ public class Battle
     //setting
     public void StartBattle()
     {
-        foreach (Classes.Army attacker in attackers)
+        foreach (Army attacker in attackers)
         {
             attacker.SetEngaged(true);
+            attackerReserve = new List<Unit>();
+            attackerReserve.AddRange(attacker.units);
+            attackerReserveSize += attacker.CurrentManpower();
         }
-        foreach (Classes.Army defender in defenders)
+        foreach (Army defender in defenders)
         {
             defender.SetEngaged(true);
+            defenderReserve = new List<Unit>();
+            defenderReserve.AddRange(defender.units);
+            defenderReserveSize += defender.CurrentManpower();
+
         }
 
-        RefreshReserves();
+        CountAllStats();
         SetBattlefield();
+        Tick(0);
     }
     public void EndBattle()
     {
-        foreach (Classes.Army attacker in attackers)
+        foreach (Army attacker in attackers)
         {
             attacker.SetEngaged(false);
         }
-        foreach (Classes.Army defender in defenders)
+        foreach (Army defender in defenders)
         {
             defender.SetEngaged(false);
             defender.Route();
@@ -103,9 +135,70 @@ public class Battle
 
         Object.Destroy(representation);
     }
-    public void JoinArmy()
+    public bool Tick(int hour)
     {
+        CountAllStats();
 
+        if (stage == 0)
+        {
+            UnitsMovement();
+            UnitsRollout();
+            ApplyDamage();
+
+            if (hour == 23)
+            {
+                stage++;
+            }
+        }
+        else if(stage == 1)
+        {
+
+        }
+        else if(stage == 2)
+        {
+
+        }
+
+        return false;
+    }
+    public void ApplyDamage()
+    {
+        foreach(Unit u in attackerReserve)
+        {
+            int dmg = (int)System.Math.Round(u.dmgReceived);
+            if (dmg > u.manpower)
+            {
+                dmg = u.manpower;
+            }
+
+            attackerCasualities += dmg;
+
+            u.manpower -= dmg;
+        }
+        foreach (Unit u in defenderReserve)
+        {
+            int dmg = (int)System.Math.Round(u.dmgReceived);
+            if (dmg > u.manpower)
+            {
+                dmg = u.manpower;
+            }
+
+            defenderCasualities += dmg;
+
+            u.manpower -= dmg;
+        }
+    }
+    public void EngageUnits(Unit attacker, Unit defender)
+    {
+        float attackerDamage = attacker.GetCombatStrength(stage);
+        float defenderDamage = defender.GetCombatStrength(stage);
+        float ratio = attackerDamage / defenderDamage;
+        attackerDamage *= ratio;
+
+        attacker.dmgDealt = attackerDamage;
+        defender.dmgDealt = defenderDamage;
+        defender.dmgReceived = attackerDamage;
+        attacker.dmgReceived = defenderDamage;
     }
     public void SetBattlefield()
     {
@@ -121,9 +214,9 @@ public class Battle
         {
             width++;
         }
-        if (width > 20)
+        if (width > 40)
         {
-            width = 20;
+            width = 40;
         }
         else if (width < 6)
         {
@@ -134,9 +227,9 @@ public class Battle
         {
             flankWidth++;
         }
-        if (flankWidth > 8)
+        if (flankWidth > 12)
         {
-            flankWidth = 8;
+            flankWidth = 12;
         }
         else if (flankWidth < 2)
         {
@@ -171,11 +264,11 @@ public class Battle
         }
 
         //set battlefield
-        frontLine = new Grid[width, 4];
+        frontLine = new Grid[width, 6];
         leftFlank = new Grid[flankWidth, 4];
         rightFlank = new Grid[flankWidth, 4];
-        attackerBack = new Grid[width, 2];
-        defenderBack = new Grid[width, 2];
+        attackerBack = new Grid[width-2, 2];
+        defenderBack = new Grid[width-2, 2];
 
         //fill grids
         do
@@ -261,246 +354,296 @@ public class Battle
             }
         }
     }
-    public void RollOutSkirmishers()
+
+    public void UnitsRollout()
     {
-        //determine skirmish size
-        int attSkirmishSize = 0;
-        int defSkirmishSize = 0;
-        int skirmishSize = 0;
-        foreach (Grid g in frontLine)
-        {
-            if (g.contester != null)
-            {
-                if (g.contester.attacking)
-                {
-                    attSkirmishSize++;
-                }
-                else
-                {
-                    defSkirmishSize++;
-                }
-            }
-        }
-        skirmishSize = Mathf.Max(defSkirmishSize, attSkirmishSize);
+        Rollout_Frontline();
+        Rollout_Backline();
+        Rollout_Flanks();
+    }
+    public void Rollout_Frontline()
+    {
+        List<Unit> attRoll = attackerReserve.Where(x => x.type.Equals("inf_skirmish")).OrderBy((x) => (x.manpower)).ToList<Unit>();
+        attRoll.AddRange(attackerReserve.Where(x => x.type.Equals("inf_light")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+        attRoll.AddRange(attackerReserve.Where(x => x.type.Equals("inf_heavy")).OrderBy((x) => (x.manpower)).ToList<Unit>());
 
-        //determine available space
-        List<Grid> attAvailable = new List<Grid>();
-        List<Grid> defAvailable = new List<Grid>();
-        for (int x = 0; x<frontLine.GetLength(0); x++)
-        {
-            if(frontLine[x, 0].contester == null)
-            {
-                attAvailable.Add(frontLine[x, 0]);
-            }
-            if(frontLine[x, frontLine.GetLength(1) - 1].contester == null)
-            {
-                defAvailable.Add(frontLine[x, frontLine.GetLength(1) - 1]);
-            }
-        }
+        List<Unit> defRoll = defenderReserve.Where(x => x.type.Equals("inf_skirmish")).OrderBy((x) => (x.manpower)).ToList<Unit>();
+        defRoll.AddRange(defenderReserve.Where(x => x.type.Equals("inf_light")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+        defRoll.AddRange(defenderReserve.Where(x => x.type.Equals("inf_heavy")).OrderBy((x) => (x.manpower)).ToList<Unit>());
 
-        //rollout attackers
-        while (attAvailable.Count > 0)
+        int frontLength = frontLine.GetLength(0);
+        int i = 0;
+        int attY = frontLine.GetLength(1) - 1;
+        for (int x = frontLength / 2; x < frontLength; x += (int)System.Math.Pow(-1, i) * i)
         {
-            int i = Random.Range(0, attAvailable.Count);
-            if (attSkirmishers.Count > 0)
+            if (frontLine[x, 0].contester == null && defRoll.Count > 0)
             {
-                attAvailable.ElementAt(i).contester = attSkirmishers.ElementAt(0);
-                attSkirmishers.ElementAt(0).position = attAvailable.ElementAt(i);
-                attSkirmishers.RemoveAt(0);
-                break;
+                PlaceUnit(frontLine[x, 0], defRoll.ElementAt(defRoll.Count - 1));
+                defenderReserve.Remove(frontLine[x, 0].contester);
+                defRoll.Remove(frontLine[x, 0].contester);
+                defenderFielded.Add(frontLine[x, 0].contester);
+                defenderFieldedSize += frontLine[x, 0].contester.manpower;
+                defenderReserveSize -= frontLine[x, 0].contester.manpower;
             }
-            else if (attSkirmishSize < skirmishSize) {
-                if (attLight.Count > 0)
-                {
-                    attAvailable.ElementAt(i).contester = attLight.ElementAt(0);
-                    attLight.ElementAt(0).position = attAvailable.ElementAt(i);
-                    attLight.RemoveAt(0);
-                    break;
-                }
-                else if (attHeavy.Count > 0)
-                {
-                    attAvailable.ElementAt(i).contester = attHeavy.ElementAt(0);
-                    attHeavy.ElementAt(0).position = attAvailable.ElementAt(i);
-                    attHeavy.RemoveAt(0);
-                    break;
-                }
-                else if (attArt.Count > 0)
-                {
-                    attAvailable.ElementAt(i).contester = attArt.ElementAt(0);
-                    attArt.ElementAt(0).position = attAvailable.ElementAt(i);
-                    attArt.RemoveAt(0);
-                    break;
-                }
-            }
-            break;
-        }
-
-        //rollout defenders
-        while (defAvailable.Count > 0)
-        {
-            int i = Random.Range(0, defAvailable.Count);
-            if (defSkirmishers.Count > 0)
+            if (frontLine[x, attY].contester == null && attRoll.Count > 0)
             {
-                defAvailable.ElementAt(i).contester = defSkirmishers.ElementAt(0);
-                defSkirmishers.ElementAt(0).position = defAvailable.ElementAt(i);
-                defSkirmishers.RemoveAt(0);
-                break;
+                PlaceUnit(frontLine[x, attY], attRoll.ElementAt(attRoll.Count - 1));
+                attackerReserve.Remove(frontLine[x, attY].contester);
+                attRoll.Remove(frontLine[x, attY].contester);
+                attackerFielded.Add(frontLine[x, attY].contester);
+                attackerFieldedSize += frontLine[x, attY].contester.manpower;
+                attackerReserveSize -= frontLine[x, attY].contester.manpower;
             }
-            else if (defSkirmishSize < skirmishSize)
-            {
-                if (defLight.Count > 0)
-                {
-                    defAvailable.ElementAt(i).contester = defLight.ElementAt(0);
-                    defLight.ElementAt(0).position = defAvailable.ElementAt(i);
-                    defLight.RemoveAt(0);
-                    break;
-                }
-                else if (defHeavy.Count > 0)
-                {
-                    defAvailable.ElementAt(i).contester = defHeavy.ElementAt(0);
-                    defHeavy.ElementAt(0).position = defAvailable.ElementAt(i);
-                    defHeavy.RemoveAt(0);
-                    break;
-                }
-                else if (defArt.Count > 0)
-                {
-                    defAvailable.ElementAt(i).contester = defArt.ElementAt(0);
-                    defArt.ElementAt(0).position = defAvailable.ElementAt(i);
-                    defArt.RemoveAt(0);
-                    break;
-                }
-            }
-            break;
+            i++;
         }
     }
-    public void RetrieveUnits(Grid[,] field)
+    public void Rollout_Backline()
     {
-        foreach(Grid g in field)
+        List<Unit> attRoll = attackerReserve.Where(x => x.type.Equals("art_siege")).OrderBy((x) => (x.manpower)).ToList<Unit>();
+        attRoll.AddRange(attackerReserve.Where(x => x.type.Equals("art_heavy")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+        attRoll.AddRange(attackerReserve.Where(x => x.type.Equals("art_field")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+
+        List<Unit>  defRoll = defenderReserve.Where(x => x.type.Equals("art_siege")).OrderBy((x) => (x.manpower)).ToList<Unit>();
+        defRoll.AddRange(defenderReserve.Where(x => x.type.Equals("art_heavy")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+        defRoll.AddRange(defenderReserve.Where(x => x.type.Equals("art_field")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+
+        int frontLength = attackerBack.GetLength(0);
+        int i = 0;
+        for (int y = 0; y < attackerBack.GetLength(1); y++)
         {
-            if (g.contester != null)
+            i = 0;
+            for (int x = frontLength / 2; x < frontLength; x += (int)System.Math.Pow(-1, i) * i)
             {
-                g.contester.position = null;
-                g.contester = null;
+                if (defenderBack[x, defenderBack.GetLength(1) - y - 1].contester == null && defRoll.Count > 0)
+                {
+                    PlaceUnit(defenderBack[x, defenderBack.GetLength(1) - y - 1], defRoll.ElementAt(defRoll.Count - 1));
+                    defenderReserve.Remove(defenderBack[x, defenderBack.GetLength(1) - y - 1].contester);
+                    defRoll.Remove(defenderBack[x, defenderBack.GetLength(1) - y - 1].contester);
+                    defenderFielded.Add(defenderBack[x, defenderBack.GetLength(1) - y - 1].contester);
+                    defenderFieldedSize += defenderBack[x, defenderBack.GetLength(1) - y - 1].contester.manpower;
+                    defenderReserveSize -= defenderBack[x, defenderBack.GetLength(1) - y - 1].contester.manpower;
+                }
+                if (attackerBack[x, y].contester == null && attRoll.Count > 0)
+                {
+                    PlaceUnit(attackerBack[x, y], attRoll.ElementAt(attRoll.Count - 1));
+                    attackerReserve.Remove(attackerBack[x, y].contester);
+                    attRoll.Remove(attackerBack[x, y].contester);
+                    attackerFielded.Add(attackerBack[x, y].contester);
+                    attackerFieldedSize += attackerBack[x, y].contester.manpower;
+                    attackerReserveSize -= attackerBack[x, y].contester.manpower;
+                }
+                i++;
             }
         }
-        RefreshReserves();
     }
-    public void RollOutCombatants()
+    public void Rollout_Flanks()
     {
-        //determine front
-        List<Classes.Unit> attFront = new List<Classes.Unit>();
-        foreach (Classes.Unit u in attHeavy)
-        {
-            if (u.type == "inf_heavy")
-            {
-                attFront.Add(u);
-            }
-        }
-        foreach (Classes.Unit u in attLight)
-        {
-            if (u.type == "inf_light")
-            {
-                attFront.Add(u);
-            }
-        }
-        foreach (Classes.Unit u in attSkirmishers)
-        {
-            if (u.type == "inf_skirmish")
-            {
-                attFront.Add(u);
-            }
-        }
-        List<Classes.Unit> defFront = new List<Classes.Unit>();
-        foreach (Classes.Unit u in defHeavy)
-        {
-            if (u.type == "inf_heavy")
-            {
-                defFront.Add(u);
-            }
-        }
-        foreach (Classes.Unit u in defLight)
-        {
-            if (u.type == "inf_light")
-            {
-                defFront.Add(u);
-            }
-        }
-        foreach (Classes.Unit u in defSkirmishers)
-        {
-            if (u.type == "inf_skirmish")
-            {
-                defFront.Add(u);
-            }
-        }
-        attFront = attFront.Distinct().ToList();
-        defFront = defFront.Distinct().ToList();
+        List<Unit> attRoll = attackerReserve.Where(x => x.type.Equals("cav_missile")).OrderBy((x) => (x.manpower)).ToList<Unit>();
+        attRoll.AddRange(attackerReserve.Where(x => x.type.Equals("cav_light")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+        attRoll.AddRange(attackerReserve.Where(x => x.type.Equals("cav_shock")).OrderBy((x) => (x.manpower)).ToList<Unit>());
 
-        for (int x = 1; x<frontLine.GetLength(0)/2+1; x++)
-        {
-            for(int i = 0; i<2; i++)
-            {
-                int trueX = 0;
-                if (i == 0)
-                {
-                    trueX = frontLine.GetLength(0) / 2 - x;
-                }
-                else
-                {
-                    trueX = frontLine.GetLength(0) / 2 + x-1;
-                }
+        List<Unit> defRoll = defenderReserve.Where(x => x.type.Equals("cav_missile")).OrderBy((x) => (x.manpower)).ToList<Unit>();
+        defRoll.AddRange(defenderReserve.Where(x => x.type.Equals("cav_light")).OrderBy((x) => (x.manpower)).ToList<Unit>());
+        defRoll.AddRange(defenderReserve.Where(x => x.type.Equals("cav_shock")).OrderBy((x) => (x.manpower)).ToList<Unit>());
 
-                if (attFront.Count > 0)
+        int frontLength = leftFlank.GetLength(0);
+        int attY = leftFlank.GetLength(1) - 1;
+        int i = 0;
+        for (int x = i; i < frontLength;)
+        {
+            if ((x + i) % 2 == 0)
+            {
+                if (leftFlank[frontLength - 1 - x, 0].contester == null && defRoll.Count > 0)
                 {
-                    frontLine[trueX, 0].contester = attFront.ElementAt(0);
-                    attFront.ElementAt(0).position = frontLine[trueX, 0];
-                    attFront.RemoveAt(0);
+                    PlaceUnit(leftFlank[frontLength - x - 1, 0], defRoll.ElementAt(defRoll.Count - 1));
+                    defenderReserve.Remove(leftFlank[frontLength - x - 1, 0].contester);
+                    defRoll.Remove(leftFlank[frontLength - x - 1, 0].contester);
+                    defenderFielded.Add(leftFlank[frontLength - x - 1, 0].contester);
+                    defenderFieldedSize += leftFlank[frontLength - x - 1, 0].contester.manpower;
+                    defenderReserveSize -= leftFlank[frontLength - x - 1, 0].contester.manpower;
                 }
-                if (defFront.Count > 0)
+                if (leftFlank[frontLength - 1 - x, attY].contester == null && attRoll.Count > 0)
                 {
-                    frontLine[trueX, frontLine.GetLength(1) - 1].contester = defFront.ElementAt(0);
-                    defFront.ElementAt(0).position = frontLine[trueX, frontLine.GetLength(1)-1];
-                    defFront.RemoveAt(0);
+                    PlaceUnit(leftFlank[frontLength - 1 - x, attY], attRoll.ElementAt(attRoll.Count - 1));
+                    attackerReserve.Remove(leftFlank[frontLength - x - 1, attY].contester);
+                    attRoll.Remove(leftFlank[frontLength - x - 1, attY].contester);
+                    attackerFielded.Add(leftFlank[frontLength - x - 1, attY].contester);
+                    attackerFieldedSize += leftFlank[frontLength - x - 1, attY].contester.manpower;
+                    attackerReserveSize -= leftFlank[frontLength - x - 1, attY].contester.manpower;
                 }
+                x++;
+            }
+            else
+            {
+                if (rightFlank[i, 0].contester == null && defRoll.Count > 0)
+                {
+                    PlaceUnit(rightFlank[i, 0], defRoll.ElementAt(defRoll.Count - 1));
+                    defenderReserve.Remove(rightFlank[i, 0].contester);
+                    defRoll.Remove(rightFlank[i, 0].contester);
+                    defenderFielded.Add(rightFlank[i, 0].contester);
+                    defenderFieldedSize += rightFlank[i, 0].contester.manpower;
+                    defenderReserveSize -= rightFlank[i, 0].contester.manpower;
+                }
+                if (rightFlank[i, attY].contester == null && attRoll.Count > 0)
+                {
+                    PlaceUnit(rightFlank[i, attY], attRoll.ElementAt(attRoll.Count - 1));
+                    attackerReserve.Remove(rightFlank[i, attY].contester);
+                    attRoll.Remove(rightFlank[i, attY].contester);
+                    attackerFielded.Add(rightFlank[i, attY].contester);
+                    attackerFieldedSize += rightFlank[i, attY].contester.manpower;
+                    attackerReserveSize -= rightFlank[i, attY].contester.manpower;
+                }
+                i++;
             }
         }
-        
     }
-    public void RollOutSupports()
-    {
-        for (int x = 1; x < frontLine.GetLength(0) / 2 + 1; x++)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                int trueX = 0;
-                if (i == 0)
-                {
-                    trueX = frontLine.GetLength(0) / 2 - x;
-                }
-                else
-                {
-                    trueX = frontLine.GetLength(0) / 2 + x - 1;
-                }
 
-                if (attSkirmishers.Count > 0)
-                {
-                    if(frontLine[trueX, 0].contester == null)
-                    {
-                        frontLine[trueX, 0].contester = attSkirmishers.ElementAt(0);
-                        attSkirmishers.ElementAt(0).position = frontLine[trueX, 0];
-                        attSkirmishers.RemoveAt(0);
-                    }
-                }
-                else if (defSkirmishers.Count > 0)
-                {
-                    if (frontLine[trueX, frontLine.GetLength(1)-1].contester == null)
-                    {
-                        frontLine[trueX, frontLine.GetLength(1) - 1].contester = defSkirmishers.ElementAt(0);
-                        defSkirmishers.ElementAt(0).position = frontLine[trueX, frontLine.GetLength(1) - 1];
-                        defSkirmishers.RemoveAt(0);
-                    }
-                }
+    public void UnitsMovement()
+    {
+        List<Unit> units = new List<Unit>();
+        units.AddRange(attackerFielded);
+        units.AddRange(defenderFielded);
+        foreach (Unit u in units.Where((x) => !x.routing))
+        {
+            int x = u.position.x;
+            int y = u.position.y;
+            if (u.type.StartsWith("inf_"))
+            {
+                Movement_Frontline(u, x, y);
+            }
+            else if (u.type.StartsWith("cav_"))
+            {
+                Movement_Flanks(u, x, y);
+            }
+            else if (u.type.StartsWith("art_"))
+            {
+                Movement_Backline(u, x, y);
             }
         }
+    }
+    public void Movement_Frontline(Unit u, int x, int y)
+    {
+        int dir = 0;
+        if (y > frontLine.GetLength(1) / 2)
+        {
+            dir = -1;
+        }
+        else if (y < frontLine.GetLength(1) / 2)
+        {
+            dir = 1;
+        }
+
+        if (dir != 0 && frontLine[x, y + dir].contester == null)
+        {
+            PlaceUnit(frontLine[x, y + dir], u);
+        }
+        else if (x > frontLine.GetLength(0) / 2 && frontLine[x - 1, y].contester == null)
+        {
+            PlaceUnit(frontLine[x - 1, y], u);
+        }
+        else if (x < frontLine.GetLength(0) / 2 && frontLine[x + 1, y].contester == null)
+        {
+            PlaceUnit(frontLine[x + 1, y], u);
+        }
+    }
+    public void Movement_Backline(Unit u, int x, int y)
+    {
+        bool att = attackers.Contains(u.owner);
+
+        if (att)
+        {
+            if (attackerBack[x, System.Math.Max(y - 1, 0)].contester == null)
+            {
+                PlaceUnit(attackerBack[x, y - 1], u);
+            }
+            else if (x > attackerBack.GetLength(0) / 2 && attackerBack[x - 1, y].contester == null)
+            {
+                PlaceUnit(attackerBack[x - 1, y], u);
+            }
+            else if (x < attackerBack.GetLength(0) / 2 && attackerBack[x + 1, y].contester == null)
+            {
+                PlaceUnit(attackerBack[x + 1, y], u);
+            }
+        }
+        else
+        {
+            if (defenderBack[x, System.Math.Min(y + 1, attackerBack.GetLength(1) - 1)].contester == null)
+            {
+                PlaceUnit(defenderBack[x, y + 1], u);
+            }
+            else if (x > defenderBack.GetLength(0) / 2 && defenderBack[x - 1, y].contester == null)
+            {
+                PlaceUnit(defenderBack[x - 1, y], u);
+            }
+            else if (x < defenderBack.GetLength(0) / 2 && defenderBack[x + 1, y].contester == null)
+            {
+                PlaceUnit(defenderBack[x + 1, y], u);
+            }
+        }
+    }
+    public void Movement_Flanks(Unit u, int x, int y)
+    {
+        bool left = leftFlank[x, y].contester==u;
+        int dir = 0;
+        if (y >= frontLine.GetLength(1) / 2)
+        {
+            dir = -1;
+        }
+        else if (y < frontLine.GetLength(1) / 2)
+        {
+            dir = 1;
+        }
+
+        if (left)
+        {
+            if (y+dir<leftFlank.GetLength(1) && y+dir>0 && leftFlank[x, y+dir].contester == null)
+            {
+                PlaceUnit(leftFlank[x, y + dir], u);
+            }
+            else if (x + 1 < leftFlank.GetLength(0) && leftFlank[x + 1, y].contester == null)
+            {
+                PlaceUnit(leftFlank[x + 1, y], u);
+            }
+        }
+        else
+        {
+            if (y + dir < rightFlank.GetLength(1) && y + dir > 0 && rightFlank[rightFlank.GetLength(0)-1-x, y + dir].contester == null)
+            {
+                PlaceUnit(rightFlank[rightFlank.GetLength(0) - 1 - x, y + dir], u);
+            }
+            else if (x-1 > 0 && rightFlank[x - 1, y].contester == null)
+            {
+                PlaceUnit(rightFlank[x - 1, y], u);
+            }
+        }
+    }
+
+    public void UnitsEngage()
+    {
+        Engage_Frontline();
+        Engage_Backline();
+        Engage_Flanks();
+    }
+    public void Engage_Frontline()
+    {
+
+    }
+    public void Engage_Backline()
+    {
+
+    }
+    public void Engage_Flanks()
+    {
+
+    }
+
+    public void PlaceUnit(Grid grid, Unit u) {
+        grid.contester = u;
+        if (u.position != null)
+        {
+            u.position.contester = null;
+        }
+        u.position = grid;
     }
     public Grid RandomGrid()
     {
@@ -531,552 +674,53 @@ public class Battle
         }
         return null;
     }
-    public void RefreshReserves()
-    {
-        //add
-        attackerReserves = 0;
-        attackerReserveUnits = new List<Classes.Unit>();
-        foreach (Classes.Army a in attackers)
-        {
-            foreach (Classes.Unit u in a.units)
-            {
-                if (!attackerReserveUnits.Contains(u))
-                {
-                    if (u.position == null && u.routed == false)
-                    {
-                        attackerReserveUnits.Add(u);
-                        attackerReserves += u.manpower;
-                        u.attacking = true;
-                    }
-                }
-            }
-        }
-        defenderReserves = 0;
-        defenderReserveUnits = new List<Classes.Unit>();
-        foreach (Classes.Army a in defenders)
-        {
-            foreach (Classes.Unit u in a.units)
-            {
-                if (!defenderReserveUnits.Contains(u))
-                {
-                    if (u.position == null && u.routed == false)
-                    {
-                        defenderReserveUnits.Add(u);
-                        defenderReserves += u.manpower;
-                        u.attacking = false;
-                    }
-                }
-            }
-        }
-
-        //sort out
-        foreach (Classes.Unit u in attackerReserveUnits)
-        {
-            if (u.type.Equals("inf_skirmish") || u.type.Equals("cav_missile"))
-            {
-                attSkirmishers.Add(u);
-            }
-            else if (u.type.Equals("inf_light") || u.type.Equals("cav_light"))
-            {
-                attLight.Add(u);
-            }
-            else if (u.type.Equals("inf_heavy") || u.type.Equals("cav_shock"))
-            {
-                attHeavy.Add(u);
-            }
-            else if (u.type.Equals("art_field") || u.type.Equals("art_heavy") || u.type.Equals("art_siege"))
-            {
-                attArt.Add(u);
-            }
-        }
-        foreach (Classes.Unit u in defenderReserveUnits)
-        {
-            if (u.type.Equals("inf_skirmish") || u.type.Equals("cav_missile"))
-            {
-                defSkirmishers.Add(u);
-            }
-            else if (u.type.Equals("inf_light") || u.type.Equals("cav_light"))
-            {
-                defLight.Add(u);
-            }
-            else if (u.type.Equals("inf_heavy") || u.type.Equals("cav_shock"))
-            {
-                defHeavy.Add(u);
-            }
-            else if (u.type.Equals("art_field") || u.type.Equals("art_heavy") || u.type.Equals("art_siege"))
-            {
-                defArt.Add(u);
-            }
-        }
-    }
     public bool IsTerrainValid()
     {
 
         return true;
     }
 
-    //resolving
-    public bool Tick(Classes.TimeAndPace time)
+    public void CountAllStats()
     {
-        if (stage == 0)
-        {
-            //preparations
-            if (time.hour == 0)
-            {
-                stage++;
-            }
-        }
-        if (stage == 1)
-        {
-            //skirmishes
-            ResetVariables();
-            EngageUnits();
-            UnitsMovement();
-            ApplyDamage();
-            RollOutSkirmishers();
-            if (time.hour == 23) {
-                if (CheckForSkirmishEnd())
-                {
-                    RetrieveUnits(frontLine);
-                    RollOutCombatants();
-                }
-            }
-        }
-        else if (stage == 2)
-        {
-            //battle
-            
-            ResetVariables();
-            EngageUnits();
-            UnitsMovement();
-            ApplyDamage();
-            if (time.hour == 23) { 
-                CheckForBattleEnd();
-            }
-        }
-        else if (stage == 3)
-        {
-            //disengagement
-            ResetVariables();
-            EngageUnits();
-            UnitsMovement();
-            ApplyDamage();
-            stage++;
-        }
-        else if (stage == 4)
-        {
-            stage++;
-        }
-
-        return false;
+        CountMorale();
+        CountBalance();
     }
-    public bool CheckForSkirmishEnd()
+    public void CountBalance()
     {
-
-
-        if(Random.Range(0, 1f) > 0.5)
-        {
-            stage++;
-            Debug.Log("Skirmish end");
-            return true;
-        }
-        else if(GetUnits(frontLine, true).Count+GetUnits(frontLine, false).Count < 4)
-        {
-            stage++;
-            Debug.Log("Skirmish end");
-            return true;
-        }
-        return false;
+        powerBalance = (float) (attackerReserveSize/2+ attackerFieldedSize) / ((attackerReserveSize/2 + attackerFieldedSize) + (defenderReserveSize/2 + defenderFieldedSize));
     }
-    public void CheckForBattleEnd()
+    public void CountMorale()
     {
-        bool attackerRouted = true;
-        bool defenderRouted = true;
-        foreach(Classes.Unit u in GetUnits(frontLine, true))
+        int man = 1;
+        float mor = 1;
+        float result = 1;
+        foreach (Unit u in defenderFielded)
         {
-            if (!u.routing)
-            {
-                attackerRouted = false;
-                break;
-            }
+            mor += u.morale * u.manpower;
+            man += u.manpower;
         }
-        foreach (Classes.Unit u in GetUnits(frontLine, false))
+        foreach (Unit u in defenderReserve)
         {
-            if (!u.routing)
-            {
-                defenderRouted = false;
-                break;
-            }
+            mor += (u.morale * u.manpower)/2;
+            man += u.manpower/2;
         }
-        if (attackerRouted)
-        {
-            //defender victory
-            Debug.Log("Def win");
-            stage++;
-        }
-        else if(defenderRouted)
-        {
-            //attacker victory
-            Debug.Log("Att win");
-            stage++;
-        }
-    }
+        result = mor / man;
+        defenderMorale = result;
 
-    public void UnitsMovement()
-    {
-        //frontline
-        List<Classes.Unit> attUnits = GetUnits(frontLine, true);
-        List<Classes.Unit> defUnits = GetUnits(frontLine, false);
-
-        foreach (Classes.Unit u in attUnits)
+        man = 1;
+        mor = 1;
+        result = 1;
+        foreach (Unit u in attackerFielded)
         {
-            MoveUnit(u, frontLine);
+            mor += u.morale * u.manpower;
+            man += u.manpower;
         }
-        foreach (Classes.Unit u in defUnits)
+        foreach (Unit u in attackerReserve)
         {
-            MoveUnit(u, frontLine);
+            mor += (u.morale * u.manpower) / 2;
+            man += u.manpower / 2;
         }
-    }
-    public void MoveUnit(Classes.Unit u, Grid[,] field)
-    {
-        //set direction
-        int direction = 1;
-        if (!u.attacking)
-        {
-            direction = -1;
-        }
-        int x = u.position.x;
-        int y = u.position.y;
-
-        //routing
-        if (u.routing)
-        {
-            if (y - direction < 0 || y - direction >= field.GetLength(1))
-            {
-                u.position.contester = null;
-                u.position = null;
-                u.routed = true;
-                if (u.attacking)
-                {
-                    attackerRouted += u.manpower;
-                }
-                else
-                {
-                    defenderRouted += u.manpower;
-                }
-                return;
-            }
-            else if (y - direction >= 0 && y - direction < field.GetLength(1))
-            {
-                if (field[x, y - direction].contester == null && !field[x, y - direction].impassable)
-                {
-                    MoveTo(x, y-direction, frontLine, u);
-                    Debug.Log(1);
-                    return;
-                }
-                else if (!field[x, y - direction].impassable && !field[x, y - direction].contester.routing && !field[x, y - direction].contester.moved)
-                {
-                    //switch units
-                    MoveTo(x, y-direction, frontLine, u);
-                    Debug.Log(2);
-                    return;
-                }
-            }
-        }
-
-        //regular movement
-        else if (!u.moved)
-        {
-            if (u.dmgReceived + u.dmgDealt == 0)
-            {
-                //move toward front
-                if (u.attacking && y + 1 < field.GetLength(1) / 2)
-                {
-                    if (field[x, y + 1].contester == null)
-                    {
-                        MoveTo(x, y + 1, frontLine, u);
-                        return;
-                    }
-                }
-                else if (!u.attacking && y - 1 >= field.GetLength(1) / 2)
-                {
-                    if (field[x, y - 1].contester == null)
-                    {
-                        MoveTo(x, y - 1, frontLine, u);
-                        return;
-                    }
-                }
-                //move toward center
-                if (x >= field.GetLength(0) / 2)
-                {
-                    if (field[x - 1, y].contester == null)
-                    {
-                        MoveTo(x - 1, y, frontLine, u);
-                        return;
-                    }
-                }
-                else
-                {
-                    if (field[x + 1, y].contester == null)
-                    {
-                        MoveTo(x + 1, y, frontLine, u);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-    public void MoveTo(int x, int y, Grid[,] field, Classes.Unit u)
-    {
-        if(field[x, y].contester != null)
-        {
-            field[u.position.x, u.position.y].contester = field[x, y].contester;
-            field[x, y].contester.position = field[u.position.x, u.position.y];
-            field[x, y].contester = u;
-            u.position = field[x, y];
-            u.moved = true;
-            field[u.position.x, u.position.y].contester.moved = true;
-        }
-        else
-        {
-            u.position.contester = null;
-            u.position = field[x, y];
-            field[x, y].contester = u;
-            u.moved = true;
-        }
-    }
-    public void FindTarget(Classes.Unit u, Grid[,] field)
-    {
-        //set direction
-        int direction = 1;
-        if (!u.attacking)
-        {
-            direction = -1;
-        }
-        int x = u.position.x;
-        int y = u.position.y;
-
-        //long range
-
-        //ranged
-        if (u.ranged || u.longRanged)
-        {
-            if (field[x, y + 2 * direction].contester != null)
-            {
-                if (field[x, y + 2 * direction].contester.attacking != u.attacking)
-                {
-                    if (field[x, y + 2 * direction].contester.ranged || field[x, y + 2 * direction].contester.longRanged)
-                    {
-                        ResolveCombat(u, field[x, y + 2 * direction].contester, true);
-                    }
-                    else
-                    {
-                        ResolveCombat(u, field[x, y + 2 * direction].contester, false);
-                    }
-                    return;
-                }
-            }
-            if (x + 1 < field.GetLength(0) && field[x + 1, y + 2 * direction].contester != null)
-            {
-                if (field[x + 1, y + 2 * direction].contester.attacking != u.attacking)
-                {
-                    if (field[x + 1, y + 2 * direction].contester.ranged || field[x + 1, y + 2 * direction].contester.longRanged)
-                    {
-                        ResolveCombat(u, field[x + 1, y + 2 * direction].contester, true);
-                    }
-                    else
-                    {
-                        ResolveCombat(u, field[x + 1, y + 2 * direction].contester, false);
-                    }
-                    return;
-                }
-            }
-            if (x - 1 >= 0 && field[x - 1, y + 2 * direction].contester != null)
-            {
-                if (field[x - 1, y + 2 * direction].contester.attacking != u.attacking)
-                {
-                    if (field[x - 1, y + 2 * direction].contester.ranged || field[x - 1, y + 2 * direction].contester.longRanged)
-                    {
-                        ResolveCombat(u, field[x - 1, y + 2 * direction].contester, true);
-                    }
-                    else
-                    {
-                        ResolveCombat(u, field[x - 1, y + 2 * direction].contester, false);
-                    }
-                    return;
-                }
-            }
-        }
-
-        //melee
-        if (frontLine[x, y + direction].contester != null)
-        {
-            if (frontLine[x, y + direction].contester.attacking != u.attacking)
-            {
-                ResolveCombat(u, field[x, y + direction].contester, true);
-                return;
-            }
-        }
-        if (x + 1 < frontLine.GetLength(0) && frontLine[x + 1, y + direction].contester != null)
-        {
-            if (frontLine[x + 1, y + direction].contester.attacking != u.attacking)
-            {
-                ResolveCombat(u, field[x + 1, y + direction].contester, true);
-                return;
-            }
-        }
-        if (x - 1 >= 0 && frontLine[x - 1, y + direction].contester != null)
-        {
-            if (frontLine[x - 1, y + direction].contester.attacking != u.attacking)
-            {
-                ResolveCombat(u, field[x - 1, y + direction].contester, true);
-                return;
-            }
-        }
-    }
-    public void EngageUnits()
-    {
-        //frontline
-        List<Classes.Unit> attUnits = GetUnits(frontLine, true);
-        List<Classes.Unit> defUnits = GetUnits(frontLine, false);
-
-        foreach (Classes.Unit u in attUnits)
-        {
-            FindTarget(u, frontLine);
-        }
-        foreach (Classes.Unit u in defUnits)
-        {
-            FindTarget(u, frontLine);
-        }
-    }
-    public void ResolveCombat(Classes.Unit attacker, Classes.Unit target, bool counterable)
-    {
-        //count damage
-        float dmgMod = attacker.GetCombatStrength(stage) / target.GetCombatStrength(stage);
-        int result = (int)Mathf.Round(dmgMod*1);
-        if (Random.Range(0, 1f) > 0.5f)
-        {
-            result = (int)Mathf.Round(result * 1.1f)+1;
-        }
-
-        //add damage
-        attacker.lastTarget = target;
-        attacker.dmgDealt += result;
-        target.dmgReceived += result;
-
-        //morale efffect
-
-        //counter attack
-        if (counterable)
-        {
-            ResolveCombat(target, attacker, false);
-        }
-    }
-    public void ResetVariables()
-    {
-        //frontline
-        List<Classes.Unit> attUnits = GetUnits(frontLine, true);
-        List<Classes.Unit> defUnits = GetUnits(frontLine, false);
-
-        foreach (Classes.Unit u in attUnits)
-        {
-            u.dmgDealt = 0;
-            u.dmgReceived = 0;
-            u.moved = false;
-        }
-        foreach (Classes.Unit u in defUnits)
-        {
-            u.dmgDealt = 0;
-            u.dmgReceived = 0;
-            u.moved = false;
-        }
-
-        //backline
-
-        //flanks
-    }
-    public void ApplyDamage()
-    {
-        //frontline
-        List<Classes.Unit> units = GetUnits(frontLine, true);
-        units.AddRange(GetUnits(frontLine, false));
-
-        foreach (Classes.Unit u in units)
-        {
-            int dmg = u.dmgReceived;
-
-            //check for route
-            if (dmg >= u.manpower / 2)
-            {
-                u.routing = true;
-            }
-            else if (u.morale < 0.5f)
-            {
-                if(Random.Range(0f, 1f) > u.morale){
-                    u.routing = true;
-                }
-            }
-
-            //apply dead
-            if (u.manpower - dmg > 0)
-            {
-                if (u.attacking)
-                {
-                    attackerCasualities += dmg;
-                }
-                else
-                {
-                    defenderCasualities += dmg;
-                }
-                u.manpower -= dmg;
-            }
-            else
-            {
-                if (u.attacking)
-                {
-                    attackerCasualities += u.manpower;
-                }
-                else
-                {
-                    defenderCasualities += u.manpower;
-                }
-                u.manpower = 0;
-                u.routed = true;
-                u.position.contester = null;
-                u.position = null;
-            }
-
-            //Debug.Log(u.dmgDealt + " / " + u.dmgReceived);
-            //apply morale
-            if (u.dmgDealt < u.dmgReceived)
-            {
-                //unit losing
-                u.morale -= 0.05f;
-            }
-        }
-
-        //backline
-
-        //flanks
-
-    }
-    public List<Classes.Unit> GetUnits(Grid[,] field, bool attacker)
-    {
-        List<Classes.Unit> units = new List<Classes.Unit>();
-        foreach (Grid grid in frontLine)
-        {
-            if (grid.contester != null)
-            {
-                if (grid.contester.attacking && attacker)
-                {
-                    units.Add(grid.contester);
-                }
-                else if (!grid.contester.attacking && !attacker)
-                {
-                    units.Add(grid.contester);
-                }
-            }
-        }
-        return units;
+        result = mor / man;
+        attackerMorale = result;
     }
 }

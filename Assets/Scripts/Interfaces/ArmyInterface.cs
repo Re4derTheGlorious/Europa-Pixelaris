@@ -17,7 +17,7 @@ public class ArmyInterface : Interface, IScrollHandler
     public ArmyInterface anotherInterface;
     public bool isAdditional;
 
-    public List<Classes.Army> armies;
+    public List<Army> armies;
 
     public int size = 2;
     private int shift = 0;
@@ -63,7 +63,7 @@ public class ArmyInterface : Interface, IScrollHandler
             totalFrames = armies.Count;
             bottomMore.SetActive(false);
             topMore.SetActive(false);
-            foreach (Classes.Army a in armies)
+            foreach (Army a in armies)
             {
                 if (i >= shift)
                 {
@@ -76,7 +76,7 @@ public class ArmyInterface : Interface, IScrollHandler
                         break;
                     }
                     GameObject newFrame = Instantiate(Resources.Load("Prefabs/UI_Unitframe") as GameObject, frames.transform);
-                    List<Classes.Army> newArmy = new List<Classes.Army>();
+                    List<Army> newArmy = new List<Army>();
                     newArmy.Add(a);
                     newFrame.GetComponent<Unitframe>().SetArmy(newArmy);
                 }
@@ -98,7 +98,7 @@ public class ArmyInterface : Interface, IScrollHandler
             int i = 0;
             bottomMore.SetActive(false);
             topMore.SetActive(false);
-            foreach (Classes.Unit u in armies.ElementAt(0).units)
+            foreach (Unit u in armies.ElementAt(0).units)
             {
                 if (i >= shift)
                 {
@@ -121,7 +121,7 @@ public class ArmyInterface : Interface, IScrollHandler
             }
 
             //add recruited units
-            foreach (Classes.Unit u in armies.ElementAt(0).recruiter.recruitementQueue)
+            foreach (Unit u in armies.ElementAt(0).recruiter.recruitementQueue)
             {
                 if (i >= shift)
                 {
@@ -177,7 +177,7 @@ public class ArmyInterface : Interface, IScrollHandler
         ClearFrames();
         gameObject.SetActive(false);
     }
-    public override void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null)
+    public override void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null)
     {
         
 
@@ -185,8 +185,8 @@ public class ArmyInterface : Interface, IScrollHandler
         if (armies != null)
         {
             //copy list
-            List<Classes.Army> newList = new List<Classes.Army>();
-            foreach(Classes.Army a in armies)
+            List<Army> newList = new List<Army>();
+            foreach(Army a in armies)
             {
                 newList.Add(a);
             }
@@ -195,7 +195,7 @@ public class ArmyInterface : Interface, IScrollHandler
         }
         else if(arm != null)
         {
-            List<Classes.Army> newList = new List<Classes.Army>();
+            List<Army> newList = new List<Army>();
             newList.Add(arm);
             this.armies = newList;
             Refresh();
@@ -254,7 +254,7 @@ public class ArmyInterface : Interface, IScrollHandler
                 {
                     if (MapTools.GetMap().activeArmies.Count > 0)
                     {
-                        foreach (Classes.Army a in MapTools.GetMap().activeArmies)
+                        foreach (Army a in MapTools.GetMap().activeArmies)
                         {
                             if (a.owner == MapTools.GetSave().GetActiveNation())
                             {
@@ -371,8 +371,8 @@ public class ArmyInterface : Interface, IScrollHandler
     {
         if (!anotherInterface.gameObject.activeSelf)
         {
-            Classes.Army target = null;
-            foreach (Classes.Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
+            Army target = null;
+            foreach (Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
             {
                 if (a.destProvince == null)
                 {
@@ -382,9 +382,9 @@ public class ArmyInterface : Interface, IScrollHandler
                     }
                 }
             }
-            List<Classes.Army> toDispose = new List<Classes.Army>();
+            List<Army> toDispose = new List<Army>();
 
-            foreach (Classes.Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
+            foreach (Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
             {
                 if (a != target)
                 {
@@ -396,7 +396,7 @@ public class ArmyInterface : Interface, IScrollHandler
                             {
                                 if (target.recruiter.recruitementQueue != null)
                                 {
-                                    foreach (Classes.Unit u in a.units)
+                                    foreach (Unit u in a.units)
                                     {
                                         target.AddUnit(u);
                                     }
@@ -424,7 +424,7 @@ public class ArmyInterface : Interface, IScrollHandler
                 }
             }
 
-            foreach (Classes.Army a in toDispose)
+            foreach (Army a in toDispose)
             {
                 armies.Remove(a);
                 a.Dispose();
@@ -441,20 +441,20 @@ public class ArmyInterface : Interface, IScrollHandler
     {
         if (!anotherInterface.gameObject.activeSelf)
         {
-            List<Classes.Army> newArmies = new List<Classes.Army>();
-            foreach (Classes.Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
+            List<Army> newArmies = new List<Army>();
+            foreach (Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
             {
                 if (a.units.Count > 1)
                 {
                     if (!a.IsOccupied())
                     {
-                        Classes.Army newArmy = new Classes.Army(a.location, a.owner);
+                        Army newArmy = new Army(a.location, a.owner);
 
                         for (int i = 0; i < a.units.Count; i += 2)
                         {
                             newArmy.AddUnit(a.units.ElementAt(i));
                         }
-                        foreach (Classes.Unit u in newArmy.units)
+                        foreach (Unit u in newArmy.units)
                         {
                             if (a.units.Contains(u))
                             {
@@ -475,7 +475,7 @@ public class ArmyInterface : Interface, IScrollHandler
                 }
             }
 
-            foreach (Classes.Army a in newArmies)
+            foreach (Army a in newArmies)
             {
                 GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Add(a);
                 this.armies.Add(a);
@@ -494,7 +494,7 @@ public class ArmyInterface : Interface, IScrollHandler
         {
             transform.parent.Find("ArmyFade").GetComponent<Fade>().FadeOut(0);
             transform.parent.Find("ArmyFade").GetComponent<RawImage>().raycastTarget = false;
-            List<Classes.Army> newList = new List<Classes.Army>();
+            List<Army> newList = new List<Army>();
             newList.Add(armies.ElementAt(0));
             newList.Add(anotherInterface.armies.ElementAt(0));
             Set(armies: newList);
@@ -524,7 +524,7 @@ public class ArmyInterface : Interface, IScrollHandler
             GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Cant reorganize more or less than two armies at once");
         }
     }
-    public void Reorganize(Classes.Army armyA, Classes.Army armyB)
+    public void Reorganize(Army armyA, Army armyB)
     {
         transform.parent.Find("ArmyFade").GetComponent<Fade>().FadeIn(0.5f);
         transform.parent.Find("ArmyFade").GetComponent<RawImage>().raycastTarget = true;
@@ -536,7 +536,7 @@ public class ArmyInterface : Interface, IScrollHandler
     {
         if (!anotherInterface.gameObject.activeSelf)
         {
-            foreach (Classes.Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
+            foreach (Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
             {
                 if (!a.IsStationed())
                 {
@@ -560,8 +560,8 @@ public class ArmyInterface : Interface, IScrollHandler
     {
         if (!anotherInterface.gameObject.activeSelf)
         {
-            List<Classes.Army> toDispose = new List<Classes.Army>();
-            foreach (Classes.Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
+            List<Army> toDispose = new List<Army>();
+            foreach (Army a in GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies)
             {
                 if (a.location.owner == a.owner)
                 {
@@ -580,7 +580,7 @@ public class ArmyInterface : Interface, IScrollHandler
                 }
             }
 
-            foreach (Classes.Army a in toDispose)
+            foreach (Army a in toDispose)
             {
                 int manRegained = (int)(a.CurrentManpower() * a.owner.mods.GetMod("manpower_getback"));
                 a.owner.ChangeManpower(manRegained, "Disbanded units");
@@ -596,34 +596,34 @@ public class ArmyInterface : Interface, IScrollHandler
     public void NewArmyAction()
     {
         if (!anotherInterface.gameObject.activeSelf) { 
-        Classes.Army newArmy = null;
-        if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Count == 1)
-        {
-            if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).units.Count > 1)
+            Army newArmy = null;
+            if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Count == 1)
             {
-                if (!GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).IsOccupied())
+                if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).units.Count > 1)
                 {
-                    newArmy = new Classes.Army(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).location, GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).owner);
-                    newArmy.AddUnit(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).units.ElementAt(0));
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).units.Remove(newArmy.units.ElementAt(0));
-                    GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Add(newArmy);
+                    if (!GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).IsOccupied())
+                    {
+                        newArmy = new Army(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).location, GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).owner);
+                        newArmy.AddUnit(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).units.ElementAt(0));
+                        GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0).units.Remove(newArmy.units.ElementAt(0));
+                        GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Add(newArmy);
+                    }
+                    else
+                    {
+                        GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Cannot make new army out of army that is occupied");
+                    }
                 }
                 else
                 {
-                    GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Cannot make new army out of army that is occupied");
+                    GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Need at least two units to create new army from existing one");
                 }
             }
             else
             {
-                GameObject.Find("UI_Toast").GetComponent<Toast>().Enable("Need at least two units to create new army from existing one");
-            }
-        }
-        else
-        {
 
-        }
-        Reorganize(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0), newArmy);
-        Refresh();
+            }
+            Reorganize(GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.ElementAt(0), newArmy);
+            Refresh();
         }
         else
         {

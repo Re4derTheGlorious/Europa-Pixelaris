@@ -71,7 +71,7 @@ public static class MapTools
         }
         return id;
     }
-    public static Classes.Nation IdToNat(int id)
+    public static Nation IdToNat(int id)
     {
         return GetSave().GetNations().Find((x) => x.id == id);
     }
@@ -80,7 +80,7 @@ public static class MapTools
         Vector2 local = ScaleToLocal(scale);
         return IdToProv(ColToId(GetMap().map_template.GetPixel((int)local.x, (int)local.y)));
     }
-    public static Classes.Army IdToArm(int id)
+    public static Army IdToArm(int id)
     {
         return GetSave().GetArmies().Find((x) => x.id == id);
     }
@@ -91,7 +91,7 @@ public static class MapTools
         do
         {
             randId = UnityEngine.Random.Range(0, 1000000000);
-            foreach (Classes.Army a in GetSave().GetArmies())
+            foreach (Army a in GetSave().GetArmies())
             {
                 if (a.id == randId)
                 {

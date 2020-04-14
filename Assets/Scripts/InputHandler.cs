@@ -34,8 +34,23 @@ public class InputHandler : MonoBehaviour
 
             //get color
             Color color = MapTools.GetMap().map_template.GetPixel(x, y);
-
             Province prov = MapTools.IdToProv(MapTools.ColToId(color));
+
+            if (prov == null && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0)))
+            {
+                for(int offX = 0; offX < 2; offX++)
+                {
+                    for(int offY = 0; offY < 2; offY++)
+                    {
+                        color = MapTools.GetMap().map_template.GetPixel(x+ (int)Mathf.Pow(-1, offX), y+ (int)Mathf.Pow(-1, offY));
+                        prov = MapTools.IdToProv(MapTools.ColToId(color));
+                        if (prov != null)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
 
             CameraInput();
             BasicInput(prov);
@@ -97,7 +112,7 @@ public class InputHandler : MonoBehaviour
                 selection.size = newSize;
             }
 
-            foreach (Classes.Army a in MapTools.GetSave().GetActiveNation().armies)
+            foreach (Army a in MapTools.GetSave().GetActiveNation().armies)
             {
                 if (selection.Contains(a.rep.transform.position))
                 {

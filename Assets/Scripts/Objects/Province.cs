@@ -36,7 +36,7 @@ public class Province: MonoBehaviour
 
 
     //Other
-    public Classes.Nation owner;
+    public Nation owner;
     public string provName;//
     public List<Province> links;//
     public List<Province> crossings;//
@@ -120,7 +120,7 @@ public class Province: MonoBehaviour
             }
         }
     }
-    public bool isAccesibleFor(Classes.Nation nat)
+    public bool isAccesibleFor(Nation nat)
     {
         if (nat == owner)
         {
@@ -135,9 +135,9 @@ public class Province: MonoBehaviour
     public List<Battle> EngageArmies()
     {
         List<Battle> battles = new List<Battle>();
-        foreach (Classes.Army attacker in armies.GetStack())
+        foreach (Army attacker in armies.GetStack())
         {
-            foreach (Classes.Army defender in armies.GetStack())
+            foreach (Army defender in armies.GetStack())
             {
                 if (attacker.owner != defender.owner)
                 {
@@ -151,8 +151,8 @@ public class Province: MonoBehaviour
                                 battle.StartBattle();
                                 if (GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Contains(attacker) || GameObject.Find("Map/Center").GetComponent<MapHandler>().activeArmies.Contains(defender))
                                 {
-                                    GameObject.Find("Canvas").GetComponent<InterfaceHandler>().EnableInterface("combat");
-                                    GameObject.Find("Canvas").GetComponent<InterfaceHandler>().interface_combat.GetComponent<CombatInterface>().Set(battle: battle);
+                                    MapTools.GetInterface().EnableInterface("combat");
+                                    MapTools.GetInterface().activeInterface.Set(battle: battle);
                                 }
                                 battles.Add(battle);
                             }

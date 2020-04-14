@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowPlacer : MonoBehaviour
 {
-    private Classes.Army army;
+    private Army army;
     private Province prov;
     // Start is called before the first frame update
     void Start()
@@ -12,7 +12,7 @@ public class ArrowPlacer : MonoBehaviour
         
     }
 
-    public Classes.Army GetOwner()
+    public Army GetOwner()
     {
         return army;
     }
@@ -36,7 +36,7 @@ public class ArrowPlacer : MonoBehaviour
         }
     }
 
-    public void SelfDestructAt(Province prov, Classes.Army army)
+    public void SelfDestructAt(Province prov, Army army)
     {
         this.prov = prov;
         this.army = army;

@@ -21,7 +21,7 @@ public abstract class Interface: MonoBehaviour
     }
 
     public abstract void Refresh();
-    public abstract void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null); 
+    public abstract void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null); 
     public abstract bool IsSet();
     public abstract void Disable();
     public abstract void Enable();

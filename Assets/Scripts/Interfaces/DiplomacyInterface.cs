@@ -8,7 +8,7 @@ using System.Linq;
 
 public class DiplomacyInterface : Interface
 {
-    public Classes.Nation owner;
+    public Nation owner;
     private TextMeshProUGUI nameText;
     private GameObject symbol;
     private GameObject rels;
@@ -124,7 +124,7 @@ public class DiplomacyInterface : Interface
         gameObject.SetActive(true);
     }
 
-    public override void Set(Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, Classes.TradeRoute route = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null, Battle battle = null)
+    public override void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null)
     {
         this.owner = nat;
         Refresh();
@@ -139,12 +139,12 @@ public class DiplomacyInterface : Interface
     public void FillRels()
     {
         ClearRels();
-        List<Classes.Nation> relations = new List<Classes.Nation>();
+        List<Nation> relations = new List<Nation>();
         if (button_war.isActive)
         {
             foreach(Classes.War war in owner.rel.wars)
             {
-                foreach (Classes.Nation n in war.GetEnemiesOf(owner))
+                foreach (Nation n in war.GetEnemiesOf(owner))
                 {
                     relations.Add(n);
                 }
@@ -172,7 +172,7 @@ public class DiplomacyInterface : Interface
             relations.Remove(owner);
         }
 
-        foreach (Classes.Nation rel in relations)
+        foreach (Nation rel in relations)
         {
             GameObject newRel = Instantiate(Resources.Load("Prefabs/UI_RelFrame") as GameObject, rels.transform);
             newRel.GetComponent<RelFrame>().nat = rel;

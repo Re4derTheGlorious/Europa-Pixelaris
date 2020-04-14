@@ -73,7 +73,7 @@ public class SaveManager
                 return false;
             }
 
-            Debug.Log(saveAsJson);
+            //Debug.Log(saveAsJson);
             FileStream file;
             if (name!=null)
             {

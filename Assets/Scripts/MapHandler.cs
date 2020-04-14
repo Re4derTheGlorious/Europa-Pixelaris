@@ -30,7 +30,7 @@ public class MapHandler : MonoBehaviour
     public Texture2D map_ingame;
 
     public Province activeProvince;
-    public List<Classes.Army> activeArmies;
+    public List<Army> activeArmies;
 
     public bool measurerActive;
     public bool linkerActive;
@@ -41,7 +41,7 @@ public class MapHandler : MonoBehaviour
     {
         save = new SaveFile();
 
-        activeArmies = new List<Classes.Army>();
+        activeArmies = new List<Army>();
 
         //load provinces
         StreamReader reader = new StreamReader(path_definitions);
@@ -113,7 +113,7 @@ public class MapHandler : MonoBehaviour
         {
             string line = reader.ReadLine();
             string[] fields = GetFields(line, ",");
-            Classes.Nation nation = new Classes.Nation();
+            Nation nation = new Nation();
             nation.id = int.Parse(fields[0]);
             nation.name = fields[1];
             string[] insideProvs = GetFields(fields[2], " ");
@@ -140,7 +140,7 @@ public class MapHandler : MonoBehaviour
         else
         {
             //load relations
-            foreach (Classes.Nation nat in save.GetNations())
+            foreach (Nation nat in save.GetNations())
             {
                 nat.rel.FillRelations(save.GetNations());
             }
@@ -157,41 +157,44 @@ public class MapHandler : MonoBehaviour
             {
                 string line = reader.ReadLine();
                 string[] fields = GetFields(line, ",");
-                Classes.Army newArmy = new Classes.Army(MapTools.IdToProv(int.Parse(fields[0])), MapTools.IdToNat(int.Parse(fields[1])));
+                Army newArmy = new Army(MapTools.IdToProv(int.Parse(fields[0])), MapTools.IdToNat(int.Parse(fields[1])));
 
-                if (newArmy.owner.id == 16)
+                if (newArmy.owner.id == 0) //16
                 {
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_light", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_light", 100, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_skirmish", 100, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_skirmish", 90, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_skirmish", 80, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_skirmish", 70, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 90, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 80, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 70, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 60, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_light", 60, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 50, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 50, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 90, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_heavy", 90, newArmy, 1f));
+                    newArmy.AddUnit(new Unit("inf_light", 100, newArmy, 1f));
                 }
                 else
                 {
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_light", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_heavy", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Classes.Unit("inf_light", 100, newArmy, 1f));
+                    for (int i = 0; i < 6; i++) { 
+                        newArmy.AddUnit(new Unit("inf_skirmish", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("inf_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("inf_heavy", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                    }
+                    for (int i = 0; i<6; i++)
+                    {
+                        newArmy.AddUnit(new Unit("cav_missile", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("cav_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("cav_shock", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        newArmy.AddUnit(new Unit("art_field", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("art_siege", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("art_heavy", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                    }
                 }
             }
             reader.Close();
@@ -279,7 +282,7 @@ public class MapHandler : MonoBehaviour
 
 
                 //Tick
-                foreach (Classes.Nation nat in save.GetNations())
+                foreach (Nation nat in save.GetNations())
                 {
                     nat.Tick(save.GetTime());
                 }
@@ -287,7 +290,7 @@ public class MapHandler : MonoBehaviour
                 //battles
                 for (int i = 0; i < save.GetBattles().Count; i++)
                 {
-                    if (save.GetBattles().ElementAt(i).Tick(save.GetTime()))
+                    if (save.GetBattles().ElementAt(i).Tick(save.GetTime().hour))
                     {
                         save.GetBattles().Remove(save.GetBattles().ElementAt(i));
                     }
@@ -410,8 +413,8 @@ public class MapHandler : MonoBehaviour
     public void HighlightBorder(int id, Color col)
     {
         Paint(false, true);
-        Classes.Nation nat = new Classes.Nation();
-        foreach(Classes.Nation nation in save.GetNations())
+        Nation nat = new Nation();
+        foreach(Nation nation in save.GetNations())
         {
             if (nation.id == id)
             {

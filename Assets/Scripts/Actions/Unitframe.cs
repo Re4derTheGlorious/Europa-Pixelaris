@@ -19,8 +19,8 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
     public RawImage icon;
     private GameObject fade;
 
-    private Classes.Unit unit;
-    public List<Classes.Army> armies = new List<Classes.Army>();
+    private Unit unit;
+    public List<Army> armies = new List<Army>();
 
     public Classes.Recruiter recruiter;
     public bool goTop = false;
@@ -111,7 +111,7 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
             int totalMan = 0;
             float morale = 0;
             bool act = true;
-            foreach(Classes.Army a in armies)
+            foreach(Army a in armies)
             {
                 currentMan += a.CurrentManpower();
                 totalMan += a.TotalManpower();
@@ -162,13 +162,13 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
         HideBars();
     }
 
-    public void SetArmy(List<Classes.Army> armies)
+    public void SetArmy(List<Army> armies)
     {
         this.armies.Clear();
         goBottom = false;
         goTop = false;
         actAll = false;
-        foreach (Classes.Army a in armies)
+        foreach (Army a in armies)
         {
             this.armies.Add(a);
             SetFade(0);
@@ -191,7 +191,7 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
     public void ActivateAll()
     {
         bool act = true;
-        foreach (Classes.Army a in transform.parent.GetComponent<ArmyInterface>().armies)
+        foreach (Army a in transform.parent.GetComponent<ArmyInterface>().armies)
         {
             if (!a.IsActive())
             {
@@ -199,7 +199,7 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
                 break;
             }
         }
-        foreach (Classes.Army a in transform.parent.GetComponent<ArmyInterface>().armies)
+        foreach (Army a in transform.parent.GetComponent<ArmyInterface>().armies)
         {
             a.SetActive(!act);
         }
@@ -239,7 +239,7 @@ public class Unitframe : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    public void SetUnit(Classes.Unit unit, Classes.Recruiter rec = null)
+    public void SetUnit(Unit unit, Classes.Recruiter rec = null)
     {
         goTop = false;
         goBottom = false;

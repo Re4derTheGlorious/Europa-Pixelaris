@@ -29,7 +29,7 @@ public class RelPole : MonoBehaviour
         
     }
 
-    public void SetNation(Classes.Nation natA, Classes.Nation natB)
+    public void SetNation(Nation natA, Nation natB)
     {
         Start();
 
@@ -42,7 +42,7 @@ public class RelPole : MonoBehaviour
         symbol.texture = Resources.Load("Symbols/Symb_" + id) as Texture2D;
     }
 
-    public void RefreshFlags(Classes.Nation natA, Classes.Nation natB)
+    public void RefreshFlags(Nation natA, Nation natB)
     {
         if (natA.rel.IsTrading(natB))
         {

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class NationSymbolClick : MonoBehaviour
 {
-    private Classes.Nation nat;
+    private Nation nat;
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +19,12 @@ public class NationSymbolClick : MonoBehaviour
         
     }
 
-    public void SetNation(Classes.Nation nat)
+    public void SetNation(Nation nat)
     {
         this.nat = nat;
     }
 
-    public Classes.Nation GetNation()
+    public Nation GetNation()
     {
         if (nat == null)
         {
@@ -35,7 +35,7 @@ public class NationSymbolClick : MonoBehaviour
 
     public void Button_Symbol()
     {
-        Classes.Nation targetNation = GetNation();
+        Nation targetNation = GetNation();
 
         if (MapTools.GetInterface().GetActiveInterface().Equals("diplomacy"))
         {

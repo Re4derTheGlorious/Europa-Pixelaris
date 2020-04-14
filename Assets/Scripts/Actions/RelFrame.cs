@@ -8,7 +8,7 @@ public class RelFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     RawImage symbol;
     NationSymbolClick clicker;
-    public Classes.Nation nat;
+    public Nation nat;
 
     // Start is called before the first frame update
     void Start()

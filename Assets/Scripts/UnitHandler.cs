@@ -8,7 +8,9 @@ using UnityEngine.EventSystems;
 
 public class UnitHandler : MonoBehaviour
 {
-    public List<Classes.Army> owners = new List<Classes.Army>();
+    public int scalingTreshold = 15;
+
+    public List<Army> owners = new List<Army>();
 
     private Vector3 orginalScale;
     private float ratio;
@@ -23,6 +25,7 @@ public class UnitHandler : MonoBehaviour
 
         //Set Highlight Colors
         SetColor();
+        Update();
     }
 
     public void RelocateTo(Province prov) {
@@ -46,7 +49,7 @@ public class UnitHandler : MonoBehaviour
         }
 
         //fixed size
-        if (Camera.main.orthographicSize < 15)
+        if (Camera.main.orthographicSize < scalingTreshold)
         {
             Resize(Camera.main.orthographicSize);
         }
@@ -103,7 +106,7 @@ public class UnitHandler : MonoBehaviour
 
             //set manpower
             int mp = 0;
-            foreach(Classes.Army o in owners)
+            foreach(Army o in owners)
             {
                 mp += o.CurrentManpower();
             }
@@ -123,12 +126,12 @@ public class UnitHandler : MonoBehaviour
         transform.GetChild(0).GetChild(level).gameObject.SetActive(true);
     }
 
-    void Resize(float zoom)
+    public void Resize(float zoom)
     {
         transform.localScale = orginalScale * zoom*2 * ratio * 3;
     }
 
-    public void ChangeOwner(List<Classes.Army> newOwners)
+    public void ChangeOwner(List<Army> newOwners)
     {
         owners = newOwners;
         SetColor();
@@ -144,14 +147,14 @@ public class UnitHandler : MonoBehaviour
     {
         if (active)
         {
-            foreach (Classes.Army o in owners)
+            foreach (Army o in owners)
             {
                 MapTools.GetMap().activeArmies.Add(o);
             }
         }
         else
         {
-            foreach (Classes.Army o in owners)
+            foreach (Army o in owners)
             {
                 MapTools.GetMap().activeArmies.Remove(o);
             }
@@ -168,7 +171,7 @@ public class UnitHandler : MonoBehaviour
     public bool IsActive()
     {
         bool isActive = false;
-        foreach (Classes.Army o in owners)
+        foreach (Army o in owners)
         {
             if (MapTools.GetMap().activeArmies.Contains(o))
             {
@@ -210,7 +213,7 @@ public class UnitHandler : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 //single selection
-                foreach (Classes.Army o in owners)
+                foreach (Army o in owners)
                 {
                     if (MapTools.GetSave().GetActiveNation() == o.owner)
                     {

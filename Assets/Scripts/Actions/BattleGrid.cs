@@ -31,7 +31,7 @@ public class BattleGrid : MonoBehaviour
         GetComponent<RawImage>().color = Color.white;
         GetComponent<StaticHint>().hintText = "This part of the battlefield is inpassable";
     }
-    public void SetUnit(Classes.Unit unit)
+    public void SetUnit(Unit unit)
     {
         //texture
         if (unit.type.Equals("inf_skirmish"))
@@ -52,23 +52,16 @@ public class BattleGrid : MonoBehaviour
         }
 
         //color
-        Color newColor = Color.clear;
-        if (unit.morale<=0.5f)
-        {
-            newColor = Color.yellow;
-        }
-        else if(unit.routing)
+        Color newColor = unit.owner.owner.color;
+        if (unit.routing)
         {
             newColor = Color.white;
         }
-        else if (unit.attacking)
+        else if (unit.morale<=0.5f)
         {
-            newColor = Color.red;
+            newColor = Color.yellow;
         }
-        else
-        {
-            newColor = Color.blue;
-        }
+
 
         float a = ((float)unit.manpower / unit.MaxManpower()) * 0.75f + 0.25f;
         newColor.a = a;

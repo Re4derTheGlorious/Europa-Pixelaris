@@ -248,7 +248,7 @@ public class InterfaceHandler : MonoBehaviour
         }
     }
 
-    public void EnableInterface(string name, Classes.Nation nat = null, Province prov = null, Classes.Army arm = null, List<Classes.Army> armies = null, List<Classes.Unit> units = null)
+    public void EnableInterface(string name, Nation nat = null, Province prov = null, Army arm = null, List<Army> armies = null, List<Unit> units = null)
     {
         //Debug.Log("Interface enabled: "+name);
         if (name.Equals("none"))
