@@ -178,19 +178,23 @@ public class InputHandler : MonoBehaviour
     public void BasicInput(Province prov)
     {
         //Keyboard
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject.Find("UI_Hint").GetComponent<Hint>().Disable();
+        }
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             MapTools.GetSave().GetTime().Faster();
         }
-        else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             MapTools.GetSave().GetTime().Slower();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             MapTools.GetSave().GetTime().Pause();
         }
-        else if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             MapTools.GetInterface().EnableInterface("trade");
         }

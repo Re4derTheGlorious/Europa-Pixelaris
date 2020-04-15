@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class PopHint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -15,6 +16,11 @@ public class PopHint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void Update()
     {
         
+    }
+
+    void OnDisable()
+    {
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)

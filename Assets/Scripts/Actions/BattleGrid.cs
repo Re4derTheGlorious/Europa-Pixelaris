@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class BattleGrid : MonoBehaviour
+public class BattleGrid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Texture2D textImpass;
     public Texture2D textUnavailable;
@@ -12,6 +13,8 @@ public class BattleGrid : MonoBehaviour
     public Texture2D textCav;
     public Texture2D textArt;
     public Texture2D textMiss;
+
+    private Unit unit;
 
     // Start is called before the first frame update
     void Start()
@@ -27,12 +30,16 @@ public class BattleGrid : MonoBehaviour
 
     public void SetImpass()
     {
+        unit = null;
         GetComponent<RawImage>().texture = textImpass;
         GetComponent<RawImage>().color = Color.white;
         GetComponent<StaticHint>().hintText = "This part of the battlefield is inpassable";
     }
     public void SetUnit(Unit unit)
     {
+        this.unit = unit;
+        this.unit.rep = this;
+
         //texture
         if (unit.type.Equals("inf_skirmish"))
         {
@@ -68,25 +75,72 @@ public class BattleGrid : MonoBehaviour
         GetComponent<RawImage>().color = newColor;
 
         //hint
-        string hintText = unit.unitName + " Contested by " + unit.manpower + " "+unit.owner.owner.name+" "+unit.type+"\n";
+        string hintText = " Contested by " + unit.manpower + " " + unit.owner.owner.name + " " + unit.type + "\n";
         hintText += unit.morale + " morale\n\n";
-        hintText += "Last tick:\n";
-        if (unit.lastTarget != null)
-        {
-            hintText += "Attacked " + unit.lastTarget.unitName + " for " + unit.dmgDealt;
-        }
         GetComponent<StaticHint>().hintText = hintText;
+        GetComponent<StaticHint>().SetDelay(2.5f);
     }
     public void SetEmpty()
     {
+        unit = null;
         GetComponent<RawImage>().texture = textEmpty;
         GetComponent<RawImage>().color = Color.white;
         GetComponent<StaticHint>().hintText = "This part of the battlefield is currently uncontested";
     }
     public void SetUnavailable()
     {
+        unit = null;
         GetComponent<RawImage>().texture = textUnavailable;
         GetComponent<RawImage>().color = Color.gray;
         GetComponent<StaticHint>().hintText = "This part of the battlefield is inaccesibile due to exceded engagement width";
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (unit != null)
+        {
+            //position
+            if (unit.prevPosition != null)
+            {
+                Vector2 pos = new Vector2(unit.rep.GetComponent<RectTransform>().position.x, unit.rep.GetComponent<RectTransform>().position.y) - new Vector2(unit.position.x - unit.prevPosition.x, unit.prevPosition.y - unit.position.y) * unit.rep.GetComponent<RectTransform>().rect.width * PlayerPrefs.GetFloat("UI_scale");
+                PlaceArrow(pos, unit.rep.GetComponent<RectTransform>().position, Color.blue);
+            }
+
+            //targeting
+            
+            foreach (Unit u in unit.targetedBy)
+            {
+                PlaceArrow(GetComponent<RectTransform>().position, u.rep.GetComponent<RectTransform>().position, Color.red);
+            }
+
+            //targeted by
+            if (unit.targeting != null)
+            {
+                if (unit.targetedBy.Contains(unit.targeting))
+                {
+                    PlaceArrow(GetComponent<RectTransform>().position, unit.targeting.rep.GetComponent<RectTransform>().position, Color.yellow, true);
+                }
+                else
+                {
+                    PlaceArrow(GetComponent<RectTransform>().position, unit.targeting.rep.GetComponent<RectTransform>().position, Color.green);
+                }
+            }
+        }
+    }
+
+    private void PlaceArrow(Vector2 start, Vector2 end, Color color, bool twoSided = false)
+    {
+        GameObject arr = Instantiate(Resources.Load("Prefabs/UI_Line") as GameObject, GameObject.Find("UI_Lines").transform);
+        arr.GetComponent<UnityEngine.UI.Extensions.UILineRenderer>().Points[0] = Camera.main.ScreenToViewportPoint(start);
+        arr.GetComponent<UnityEngine.UI.Extensions.UILineRenderer>().Points[1] = Camera.main.ScreenToViewportPoint(end);
+        arr.GetComponent<UnityEngine.UI.Extensions.UILineRenderer>().color = color; ;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        foreach(Transform arr in GameObject.Find("UI_Lines").transform)
+        {
+            Destroy(arr.gameObject);
+        }
     }
 }

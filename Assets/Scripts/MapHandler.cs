@@ -159,31 +159,21 @@ public class MapHandler : MonoBehaviour
                 string[] fields = GetFields(line, ",");
                 Army newArmy = new Army(MapTools.IdToProv(int.Parse(fields[0])), MapTools.IdToNat(int.Parse(fields[1])));
 
-                if (newArmy.owner.id == 0) //16
+                if (newArmy.owner.id == 16) //16
                 {
-                    newArmy.AddUnit(new Unit("inf_skirmish", 100, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_skirmish", 90, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_skirmish", 80, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_skirmish", 70, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 90, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 80, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 70, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 60, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_light", 60, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 50, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 50, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 90, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_heavy", 90, newArmy, 1f));
-                    newArmy.AddUnit(new Unit("inf_light", 100, newArmy, 1f));
+                    for (int i = 0; i < 4; i++)
+                    {
+                        newArmy.AddUnit(new Unit("inf_skirmish", 100, newArmy, 1f));
+                    }
                 }
-                else
-                {
-                    for (int i = 0; i < 6; i++) { 
+                //else
+                //{
+                    for (int i = 0; i < 5; i++) { 
                         newArmy.AddUnit(new Unit("inf_skirmish", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                         newArmy.AddUnit(new Unit("inf_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                         newArmy.AddUnit(new Unit("inf_heavy", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                     }
-                    for (int i = 0; i<6; i++)
+                    for (int i = 0; i<3; i++)
                     {
                         newArmy.AddUnit(new Unit("cav_missile", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                         newArmy.AddUnit(new Unit("cav_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
@@ -195,7 +185,7 @@ public class MapHandler : MonoBehaviour
                         newArmy.AddUnit(new Unit("art_siege", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                         newArmy.AddUnit(new Unit("art_heavy", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                     }
-                }
+                //}
             }
             reader.Close();
         }

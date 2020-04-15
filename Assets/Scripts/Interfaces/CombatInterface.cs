@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class CombatInterface : Interface
 {
@@ -25,7 +26,7 @@ public class CombatInterface : Interface
 
     void Update()
     {
-        
+
     }
 
     public override void MouseInput(Province prov)
@@ -39,15 +40,13 @@ public class CombatInterface : Interface
             MapTools.GetInterface().EnableInterface("none");
         }
     }
-
-
     public override void Refresh()
     {
         //show stage
         if (battle.stage == 0)
         {
             transform.Find("Stage/Stage1").gameObject.GetComponent<RawImage>().color = Color.green;
-            transform.Find("Balance/Bars/Defender/Icon").GetComponent<RawImage>().texture = Resources.Load("Icons/Inf_Skirmish") as Texture2D;
+            transform.Find("Balance/Bar/Handle Slide Area/Handle").GetComponent<RawImage>().texture = Resources.Load("Icons/Inf_Skirmish") as Texture2D;
 
             
         }
@@ -55,7 +54,7 @@ public class CombatInterface : Interface
         {
             transform.Find("Stage/Stage1").gameObject.GetComponent<RawImage>().color = Color.gray;
             transform.Find("Stage/Stage2").gameObject.GetComponent<RawImage>().color = Color.green;
-            transform.Find("Balance/Bars/Defender/Icon").GetComponent<RawImage>().texture = Resources.Load("Icons/Army_Engaged") as Texture2D;
+            transform.Find("Balance/Bar/Handle Slide Area/Handle").GetComponent<RawImage>().texture = Resources.Load("Icons/Army_Engaged") as Texture2D;
 
             
 
@@ -65,13 +64,13 @@ public class CombatInterface : Interface
             transform.Find("Stage/Stage1").gameObject.GetComponent<RawImage>().color = Color.gray;
             transform.Find("Stage/Stage2").gameObject.GetComponent<RawImage>().color = Color.gray;
             transform.Find("Stage/Stage3").gameObject.GetComponent<RawImage>().color = Color.green;
-            transform.Find("Balance/Bars/Defender/Icon").GetComponent<RawImage>().texture = Resources.Load("Icons/Army_Routing") as Texture2D;
+            transform.Find("Balance/Bar/Handle Slide Area/Handle").GetComponent<RawImage>().texture = Resources.Load("Icons/Army_Routing") as Texture2D;
 
         }
 
         OverlayUnits();
         LoadStats();
-        SetBalance(battle.powerBalance);
+        SetBalance(battle.powerBalance, battle.leftFlankBalance, battle.rightFlankBalance);
     }
     public override void Set(Nation nat = null, Province prov = null, Army arm = null, Classes.TradeRoute route = null, List<Army> armies = null, List<Unit> units = null, Battle battle = null)
     {
@@ -82,10 +81,6 @@ public class CombatInterface : Interface
             OverlayTerrain();
             OverlayUnits();
             Refresh();
-
-            transform.Find("Balance/Bars/Defender").GetComponent<RawImage>().color = battle.defenders.ElementAt(0).owner.color;
-            transform.Find("Balance/Bars/Attacker").GetComponent<RawImage>().color = battle.attackers.ElementAt(0).owner.color;
-
         }
     }
     public override bool IsSet()
@@ -135,19 +130,30 @@ public class CombatInterface : Interface
         transform.Find("Stage/Stage2").gameObject.GetComponent<RawImage>().color = Color.white;
         transform.Find("Stage/Stage3").gameObject.GetComponent<RawImage>().color = Color.white;
     }
-    public void SetBalance(float balance)
+    public void SetBalance(float balance, float leftFlank, float rightFlank)
     {
-        float offset = (transform.Find("Balance/Bars").GetComponent<RectTransform>().rect.width - 8f) * balance;
-        transform.Find("Balance/Bars/Defender").GetComponent<RectTransform>().offsetMin = new Vector2(offset, transform.Find("Balance/Bars/Defender").GetComponent<RectTransform>().offsetMin.y);
-        transform.Find("Balance/Bars/Attacker/Morale").GetComponent<RectTransform>().offsetMax = new Vector2(-offset, transform.Find("Balance/Bars/Attacker/Morale").GetComponent<RectTransform>().offsetMax.y);
+        //main
+        transform.Find("Balance/Bar").GetComponent<Slider>().value = battle.powerBalance;
+        transform.Find("Balance/Bar/Background/Morale").GetComponent<Slider>().value = battle.powerBalance+(1-battle.powerBalance)*(1-battle.defenderMorale);
+        transform.Find("Balance/Bar/Fill Area/Fill/Morale").GetComponent<Slider>().value = 1-battle.attackerMorale;
 
-        offset = (((transform.Find("Balance/Bars").GetComponent<RectTransform>().rect.width - 8f)-offset) * battle.attackerMorale);
-        transform.Find("Balance/Bars/Attacker/Morale").GetComponent<RectTransform>().offsetMin = new Vector2(offset, transform.Find("Balance/Bars/Defender/Morale").GetComponent<RectTransform>().offsetMin.y);
 
-        offset = transform.Find("Balance/Bars/Defender").GetComponent<RectTransform>().rect.width * battle.defenderMorale;
-        transform.Find("Balance/Bars/Defender/Morale").GetComponent<RectTransform>().offsetMax = new Vector2(-offset, transform.Find("Balance/Bars/Defender/Morale").GetComponent<RectTransform>().offsetMax.y);
+        transform.Find("Balance/Bar/Background").GetComponent<RawImage>().color = battle.defenders.ElementAt(0).owner.color;
+        transform.Find("Balance/Bar/Fill Area/Fill").GetComponent<RawImage>().color = battle.attackers.ElementAt(0).owner.color;
+
+        //flanks
+        transform.Find("Battlefield/Center/Left Bar").GetComponent<Slider>().value = battle.leftFlankBalance;
+        transform.Find("Battlefield/Center/Left Bar/Background").GetComponent<RawImage>().color = battle.defenders.ElementAt(0).owner.color;
+        transform.Find("Battlefield/Center/Left Bar/Fill Area/Fill").GetComponent<RawImage>().color = battle.attackers.ElementAt(0).owner.color;
+
+        transform.Find("Battlefield/Center/Right Bar").GetComponent<Slider>().value = battle.rightFlankBalance;
+        transform.Find("Battlefield/Center/Right Bar/Background").GetComponent<RawImage>().color = battle.defenders.ElementAt(0).owner.color;
+        transform.Find("Battlefield/Center/Right Bar/Fill Area/Fill").GetComponent<RawImage>().color = battle.attackers.ElementAt(0).owner.color;
     }
-    
+    public void Button_Route()
+    {
+        battle.Route(MapTools.GetSave().GetActiveNation());
+    }
     private void ResetTerrain()
     {
         foreach(Transform trans in field_front)
@@ -289,4 +295,6 @@ public class CombatInterface : Interface
         int shift = (fieldSize - field.GetLength(0))/2;
         return rep.GetChild(shift + x + y * fieldSize).gameObject;
     }
+
+
 }

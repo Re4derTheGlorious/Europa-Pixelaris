@@ -35,10 +35,14 @@ public class Unit
     public bool ranged = false;
     public bool longRanged = false;
     public Battle.Grid position;
-    public Unit lastTarget;
+    public Battle.Grid prevPosition;
     public float dmgDealt;
     public float dmgReceived;
     public bool routing = false;
+    public List<Unit> targetedBy = new List<Unit>();
+    public Unit targeting;
+    public BattleGrid rep;
+
 
     public Unit Restore(UnitAsSaveable unit_as, SaveFile saveBase)
     {
@@ -169,15 +173,6 @@ public class Unit
         this.type = type;
         this.owner = owner;
         this.morale = morale;
-
-        if (type.Equals("inf_skirmish") || type.Equals("cav_missile") || type.StartsWith("art_"))
-        {
-            ranged = true;
-        }
-        if (type.StartsWith("art_"))
-        {
-            longRanged = true;
-        }
 
         GenerateName(null, owner);
     }

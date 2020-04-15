@@ -7,6 +7,8 @@ using TMPro;
 public class Hint : MonoBehaviour
 {
     private Vector2 pivot;
+    private float delay;
+    private float enabledOn;
 
     // Start is called before the first frame update
     void Start()
@@ -37,9 +39,11 @@ public class Hint : MonoBehaviour
         }
     }
 
-    public void Enable(string text, Vector2 newPivot)
+    public void Enable(string text, Vector2 newPivot, float delay = 0.5f)
     {
         CancelInvoke();
+        this.delay = delay;
+        enabledOn = Time.time;
         InvokeRepeating("FadeIn", 0, 0.01f);
 
         //Position
@@ -67,11 +71,13 @@ public class Hint : MonoBehaviour
 
     private void FadeIn()
     {
-        transform.GetChild(0).GetComponent<CanvasGroup>().alpha += (float)(0.05);
+        if (Time.time >= enabledOn + delay) { 
+            transform.GetChild(0).GetComponent<CanvasGroup>().alpha += (float)(0.05);
 
-        if (transform.GetChild(0).GetComponent<CanvasGroup>().alpha >= 1)
-        {
-            CancelInvoke();
+            if (transform.GetChild(0).GetComponent<CanvasGroup>().alpha >= 1)
+            {
+                CancelInvoke();
+            }
         }
     }
     private void FadeOut()

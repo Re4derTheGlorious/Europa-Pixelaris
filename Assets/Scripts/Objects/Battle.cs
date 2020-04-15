@@ -53,6 +53,8 @@ public class Battle
     public int attackerWounded = 0;
     public int defenderWounded = 0;
     public float powerBalance = 0.5f;
+    public float leftFlankBalance = 0;
+    public float rightFlankBalance = 0;
     public float attackerMorale = 1;
     public float defenderMorale = 1;
 
@@ -117,8 +119,8 @@ public class Battle
 
         }
 
-        CountAllStats();
         SetBattlefield();
+        CountAllStats();
         Tick(0);
     }
     public void EndBattle()
@@ -143,6 +145,7 @@ public class Battle
         {
             UnitsMovement();
             UnitsRollout();
+            UnitsEngagement();
             ApplyDamage();
 
             if (hour == 23)
@@ -354,7 +357,42 @@ public class Battle
             }
         }
     }
+    public Grid RandomGrid()
+    {
+        int x = 0;
+        int y = 0;
+        switch (Random.Range(0, 5))
+        {
+            case 0:
+                x = Random.Range(0, frontLine.GetLength(0));
+                y = Random.Range(0, frontLine.GetLength(1));
+                return frontLine[x, y];
+            case 1:
+                x = Random.Range(0, rightFlank.GetLength(0));
+                y = Random.Range(0, rightFlank.GetLength(1));
+                return rightFlank[x, y];
+            case 2:
+                x = Random.Range(0, leftFlank.GetLength(0));
+                y = Random.Range(0, leftFlank.GetLength(1));
+                return leftFlank[x, y];
+            case 3:
+                x = Random.Range(0, attackerBack.GetLength(0));
+                y = Random.Range(0, attackerBack.GetLength(1));
+                return attackerBack[x, y];
+            case 4:
+                x = Random.Range(0, defenderBack.GetLength(0));
+                y = Random.Range(0, defenderBack.GetLength(1));
+                return defenderBack[x, y];
+        }
+        return null;
+    }
+    public bool IsTerrainValid()
+    {
 
+        return true;
+    }
+
+    //Rolling out
     public void UnitsRollout()
     {
         Rollout_Frontline();
@@ -498,6 +536,7 @@ public class Battle
         }
     }
 
+    //Movement
     public void UnitsMovement()
     {
         List<Unit> units = new List<Unit>();
@@ -505,6 +544,7 @@ public class Battle
         units.AddRange(defenderFielded);
         foreach (Unit u in units.Where((x) => !x.routing))
         {
+            u.prevPosition = null;
             int x = u.position.x;
             int y = u.position.y;
             if (u.type.StartsWith("inf_"))
@@ -521,6 +561,16 @@ public class Battle
             }
         }
     }
+    public void PlaceUnit(Grid grid, Unit u)
+    {
+        grid.contester = u;
+        if (u.position != null)
+        {
+            u.position.contester = null;
+        }
+        u.prevPosition = u.position;
+        u.position = grid;
+    }
     public void Movement_Frontline(Unit u, int x, int y)
     {
         int dir = 0;
@@ -528,7 +578,7 @@ public class Battle
         {
             dir = -1;
         }
-        else if (y < frontLine.GetLength(1) / 2)
+        else if (y < frontLine.GetLength(1) / 2-1)
         {
             dir = 1;
         }
@@ -585,11 +635,11 @@ public class Battle
     {
         bool left = leftFlank[x, y].contester==u;
         int dir = 0;
-        if (y >= frontLine.GetLength(1) / 2)
+        if (y > leftFlank.GetLength(1) / 2)
         {
             dir = -1;
         }
-        else if (y < frontLine.GetLength(1) / 2)
+        else if (y < leftFlank.GetLength(1) / 2-1)
         {
             dir = 1;
         }
@@ -607,24 +657,117 @@ public class Battle
         }
         else
         {
-            if (y + dir < rightFlank.GetLength(1) && y + dir > 0 && rightFlank[rightFlank.GetLength(0)-1-x, y + dir].contester == null)
+            if (y + dir < rightFlank.GetLength(1) && y + dir > 0 && rightFlank[x, y + dir].contester == null)
             {
-                PlaceUnit(rightFlank[rightFlank.GetLength(0) - 1 - x, y + dir], u);
+                PlaceUnit(rightFlank[x, y + dir], u);
             }
             else if (x-1 > 0 && rightFlank[x - 1, y].contester == null)
             {
                 PlaceUnit(rightFlank[x - 1, y], u);
             }
         }
-    }
+        }
 
-    public void UnitsEngage()
+    //Engaging
+    public void UnitsEngagement()
     {
-        Engage_Frontline();
+        List<Unit> units = attackerFielded.Where((x) => x.type.StartsWith("inf_")).ToList<Unit>();
+        units.AddRange(defenderFielded.Where((x) => x.type.StartsWith("inf_")));
+        Engage_Field(frontLine, units);
+
+
         Engage_Backline();
-        Engage_Flanks();
+
+        units = attackerFielded.Where((x) => x.type.StartsWith("cav_") && x.position.contester==leftFlank[x.position.x,x.position.y].contester).ToList<Unit>();
+        units.AddRange(defenderFielded.Where((x) => x.type.StartsWith("cav_") && x.position.contester == leftFlank[x.position.x, x.position.y].contester));
+        if (leftFlankBalance<= GlobalValues.flank_dominance_treshold || leftFlankBalance>=1- GlobalValues.flank_dominance_treshold)
+        {
+            Engage_Flank(leftFlank, units);
+        }
+        else
+        {
+            Engage_Field(leftFlank, units);
+        }
+
+        units = attackerFielded.Where((x) => x.type.StartsWith("cav_") && x.position.contester == rightFlank[x.position.x, x.position.y].contester).ToList<Unit>();
+        units.AddRange(defenderFielded.Where((x) => x.type.StartsWith("cav_") && x.position.contester == rightFlank[x.position.x, x.position.y].contester));
+        if (rightFlankBalance <= GlobalValues.flank_dominance_treshold || rightFlankBalance >= 1 - GlobalValues.flank_dominance_treshold)
+        {
+            Engage_Flank(rightFlank, units);
+        }
+        else
+        {
+            Engage_Field(rightFlank, units);
+        }
     }
-    public void Engage_Frontline()
+    public void ResolveEngagement(Unit attacker, Unit defender, int range, int flank)
+    {
+        attacker.targeting = defender;
+        defender.targetedBy.Add(attacker);
+    }
+    public void Engage_Field(Grid[,] field, List<Unit> units)
+    {
+        //clear stats
+        units.ForEach((x) => { x.targeting = null; x.targetedBy.Clear(); });
+
+        foreach (Unit u in units)
+        {
+            //range
+            int range = 1;
+            if (u.type.Equals("inf_skirmish") || u.type.Equals("cav_skirmish"))
+            {
+                range = 3;
+            }
+
+            //direction
+            int dir = 1;
+
+            if (u.position.y >= field.GetLength(1) / 2)
+            {
+                dir = -1;
+            }
+
+            //find
+            List<int> orderOfSearch = new List<int>() { 0, -1, 1 };
+            if (u.position.x < field.GetLength(0) / 2)
+            {
+                orderOfSearch = new List<int> { 0, 1, -1 };
+            }
+
+            u.targeting = null;
+            for (int y = u.position.y+dir; y >= 0 && y < field.GetLength(1) && System.Math.Abs(u.position.y-y)<=range && u.targeting==null; y += dir)
+            {
+                foreach (int offX in orderOfSearch)
+                {
+                    if(u.position.x + offX >= 0 && u.position.x + offX < field.GetLength(0)) { 
+                        Unit contester = field[u.position.x+offX, y].contester;
+                        if (contester != null)
+                        {
+                            Unit inFronter = field[u.position.x + offX, y - dir].contester;
+                            if (attackers.Contains(contester.owner) && !attackers.Contains(u.owner))
+                            {
+                                if (System.Math.Abs(u.position.y - y)<=1 || inFronter==null || (attackers.Contains(contester.owner) && attackers.Contains(inFronter.owner)) ||(defenders.Contains(contester.owner) && defenders.Contains(inFronter.owner)))
+                                {
+                                    ResolveEngagement(u, contester, System.Math.Abs(u.position.y - y), offX);
+                                    break;
+                                }
+                            }
+                            else if (defenders.Contains(contester.owner) && !defenders.Contains(u.owner))
+                            {
+                                if (System.Math.Abs(u.position.y - y) <= 1 || inFronter == null || (attackers.Contains(contester.owner) && attackers.Contains(inFronter.owner)) || (defenders.Contains(contester.owner) && defenders.Contains(inFronter.owner)))
+                                {
+                                    ResolveEngagement(u, contester, System.Math.Abs(u.position.y - y), offX);
+                                    break;
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void Engage_Flank(Grid[,] field, List<Unit> units)
     {
 
     }
@@ -632,54 +775,8 @@ public class Battle
     {
 
     }
-    public void Engage_Flanks()
-    {
 
-    }
-
-    public void PlaceUnit(Grid grid, Unit u) {
-        grid.contester = u;
-        if (u.position != null)
-        {
-            u.position.contester = null;
-        }
-        u.position = grid;
-    }
-    public Grid RandomGrid()
-    {
-        int x = 0;
-        int y = 0;
-        switch (Random.Range(0, 5))
-        {
-            case 0:
-                x = Random.Range(0, frontLine.GetLength(0));
-                y = Random.Range(0, frontLine.GetLength(1));
-                return frontLine[x, y];
-            case 1:
-                x = Random.Range(0, rightFlank.GetLength(0));
-                y = Random.Range(0, rightFlank.GetLength(1));
-                return rightFlank[x, y];
-            case 2:
-                x = Random.Range(0, leftFlank.GetLength(0));
-                y = Random.Range(0, leftFlank.GetLength(1));
-                return leftFlank[x, y];
-            case 3:
-                x = Random.Range(0, attackerBack.GetLength(0));
-                y = Random.Range(0, attackerBack.GetLength(1));
-                return attackerBack[x, y];
-            case 4:
-                x = Random.Range(0, defenderBack.GetLength(0));
-                y = Random.Range(0, defenderBack.GetLength(1));
-                return defenderBack[x, y];
-        }
-        return null;
-    }
-    public bool IsTerrainValid()
-    {
-
-        return true;
-    }
-
+    //Stats
     public void CountAllStats()
     {
         CountMorale();
@@ -688,6 +785,41 @@ public class Battle
     public void CountBalance()
     {
         powerBalance = (float) (attackerReserveSize/2+ attackerFieldedSize) / ((attackerReserveSize/2 + attackerFieldedSize) + (defenderReserveSize/2 + defenderFieldedSize));
+
+        float leftAttPower = 1;
+        float leftDefPower = 1;
+        float rightAttPower = 1;
+        float rightDefPower = 1;
+        for (int x = 0; x < leftFlank.GetLength(0); x++)
+        {
+            for (int y = 0; y < leftFlank.GetLength(1); y++)
+            {
+                if (leftFlank[x, y].contester != null)
+                {
+                    if (attackers.Contains(leftFlank[x, y].contester.owner))
+                    {
+                        leftAttPower += leftFlank[x, y].contester.manpower;
+                    }
+                    else
+                    {
+                        leftDefPower += leftFlank[x, y].contester.manpower;
+                    }
+                }
+                if (rightFlank[x, y].contester != null)
+                {
+                    if (attackers.Contains(rightFlank[x, y].contester.owner))
+                    {
+                        rightAttPower += rightFlank[x, y].contester.manpower;
+                    }
+                    else
+                    {
+                        rightDefPower += rightFlank[x, y].contester.manpower;
+                    }
+                }
+            }
+        }
+        leftFlankBalance = leftAttPower / (leftAttPower + leftDefPower);
+        rightFlankBalance = rightAttPower / (rightAttPower + rightDefPower);
     }
     public void CountMorale()
     {
@@ -722,5 +854,11 @@ public class Battle
         }
         result = mor / man;
         attackerMorale = result;
+    }
+
+    //Ending and phases
+    public void Route(Nation nat)
+    {
+        
     }
 }
