@@ -16,11 +16,12 @@ public class MapHandler : MonoBehaviour
 {
     public SaveFile save;
 
-    private string path_definitions = "Assets/Map/map_definitions.csv";
+    private string path_provinces = "Map/map_prov";
     private string path_nations = "Assets/Map/map_nations.csv";
     private string path_units = "Assets/Map/map_units.csv";
     private string path_mods = "Assets/Map/nation_default.csv";
     private string path_provmods = "Assets/Map/prov_mods.csv";
+    private string path_goods = "Map/def_goods";
 
     public GameObject unitPrefab;
     public GameObject arrowPrefab;
@@ -43,95 +44,9 @@ public class MapHandler : MonoBehaviour
 
         activeArmies = new List<Army>();
 
-        //load provinces
-        StreamReader reader = new StreamReader(path_definitions);
-        while (!reader.EndOfStream)
-        {
-            string line = reader.ReadLine();
-            string[] fields = GetFields(line, ",");
-            Province prov = Instantiate(Resources.Load("Prefabs/Town_Prefab") as GameObject, GameObject.Find("Map/Towns").transform).GetComponent<Province>();
-            prov.Init(new Vector2(int.Parse(GetFields(fields[7], " ")[0]), int.Parse(GetFields(fields[7], " ")[1])), fields[1]);
-            prov.id = Int32.Parse(fields[0]);
-            prov.provName = fields[1];
-            prov.graphicalCenter = new Vector2(int.Parse(GetFields(fields[2], " ")[0]), int.Parse(GetFields(fields[2], " ")[1]));
-            prov.graphicalSize = new Vector2(int.Parse(GetFields(fields[3], " ")[0]), int.Parse(GetFields(fields[3], " ")[1]));
-            prov.pop = int.Parse(fields[5]);
-            prov.dev = int.Parse(fields[6]);
-            foreach(string str in GetFields(fields[9], " "))
-            {
-                prov.traits.Add(str);
-            }
-            save.GetProvinces().Add(prov);
-        }
-        reader.Close();
-
-        //load prov mods
-        reader = new StreamReader(path_provmods);
-        while (!reader.EndOfStream)
-        {
-            string line = reader.ReadLine();
-            string[] fields = GetFields(line, ",");
-            int id = int.Parse(fields[0]);
-            for (int i = 1; i<fields.Length; i++)
-            {
-                string key = GetFields(fields[i], " ")[0];
-                
-                float value = float.Parse(GetFields(fields[i], " ")[1]);
-                MapTools.IdToProv(id).mods.AddMod(key, value, -1);
-            }
-        }
-        reader.Close();
-
-        //load links and crossings
-        reader = new StreamReader(path_definitions);
-        while (!reader.EndOfStream)
-        {
-            //links
-            string line = reader.ReadLine();
-            string[] fields = GetFields(GetFields(line, ",")[4], " ");
-            int id = int.Parse(GetFields(line, ",")[0]);
-            foreach (string linkId in fields)
-            {
-                MapTools.IdToProv(id).links.Add(MapTools.IdToProv(int.Parse(linkId)));
-            }
-            //crossings
-            fields = GetFields(GetFields(line, ",")[8], " ");
-            foreach (string linkId in fields)
-            {
-                MapTools.IdToProv(id).crossings.Add(MapTools.IdToProv(int.Parse(linkId)));
-            }
-            //IdToProv(id).Restore();
-        }
-        reader.Close();
-
-        //load default nation mods
-        Dictionary<string, Classes.ModBook.Pair> dict = LoadNationMods(path_mods);
-
-        //load nations
-        reader = new StreamReader(path_nations);
-        while (!reader.EndOfStream)
-        {
-            string line = reader.ReadLine();
-            string[] fields = GetFields(line, ",");
-            Nation nation = new Nation();
-            nation.id = int.Parse(fields[0]);
-            nation.name = fields[1];
-            string[] insideProvs = GetFields(fields[2], " ");
-            foreach (string id in insideProvs)
-            {
-                nation.provinces.Add(MapTools.IdToProv(int.Parse(id)));
-                MapTools.IdToProv(int.Parse(id)).owner = nation;
-            }
-
-            ColorUtility.TryParseHtmlString(fields[3], out nation.color);
-            nation.capital = MapTools.IdToProv(int.Parse(fields[4]));
-            nation.capital.mods.AddMod("capital_town", 1, -1);
-            nation.capital.mods.AddMod("trade_hub", 1, -1);
-            nation.mods.PassMods(dict);
-            nation.CountTradeHubs();
-            save.GetNations().Add(nation);
-        }
-        reader.Close();
+        LoadProvinces();
+        LoadNations();
+        LoadArmies();
 
         if (PlayerPrefs.GetString("LoadSave") != null && PlayerPrefs.GetString("LoadSave") != "")
         {
@@ -152,7 +67,7 @@ public class MapHandler : MonoBehaviour
 
 
             //load units
-            reader = new StreamReader(path_units);
+            StreamReader reader = new StreamReader(path_units);
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine();
@@ -163,27 +78,25 @@ public class MapHandler : MonoBehaviour
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        newArmy.AddUnit(new Unit("inf_skirmish", 100, newArmy, 1f));
+                       //newArmy.AddUnit(new Unit("cav_shock", 100, newArmy, 1f));
                     }
                 }
                 //else
                 //{
-                    for (int i = 0; i < 5; i++) { 
-                        newArmy.AddUnit(new Unit("inf_skirmish", UnityEngine.Random.Range(10, 100), newArmy, 1f));
-                        newArmy.AddUnit(new Unit("inf_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
-                        newArmy.AddUnit(new Unit("inf_heavy", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                    for (int i = 0; i < 8; i++) { 
+                        //newArmy.AddUnit(new Unit("inf_skirmish", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        //newArmy.AddUnit(new Unit("inf_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        newArmy.AddUnit(new Unit("inf_heavy", 1000, newArmy, 1f));
                     }
-                    for (int i = 0; i<3; i++)
+                    for (int i = 0; i<0; i++)
                     {
-                        newArmy.AddUnit(new Unit("cav_missile", UnityEngine.Random.Range(10, 100), newArmy, 1f));
-                        newArmy.AddUnit(new Unit("cav_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
-                        newArmy.AddUnit(new Unit("cav_shock", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        //newArmy.AddUnit(new Unit("cav_missile", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        //newArmy.AddUnit(new Unit("cav_light", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        //newArmy.AddUnit(new Unit("cav_shock", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                     }
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 20; i++)
                     {
-                        newArmy.AddUnit(new Unit("art_field", UnityEngine.Random.Range(10, 100), newArmy, 1f));
-                        newArmy.AddUnit(new Unit("art_siege", UnityEngine.Random.Range(10, 100), newArmy, 1f));
-                        newArmy.AddUnit(new Unit("art_heavy", UnityEngine.Random.Range(10, 100), newArmy, 1f));
+                        //newArmy.AddUnit(new Unit("art_field", UnityEngine.Random.Range(10, 100), newArmy, 1f));
                     }
                 //}
             }
@@ -208,6 +121,8 @@ public class MapHandler : MonoBehaviour
             Paint(true, true);
             refreshActive = false;
         }
+
+        //conv();
 
         //pathfinding
         CreateAstarGrid();
@@ -308,6 +223,68 @@ public class MapHandler : MonoBehaviour
                 save.GetTime().hour += 1;
             }
         }
+    }
+
+    private void LoadProvinces()
+    {
+        //load
+        string provAsText = (Resources.Load(path_provinces) as TextAsset).text;
+        List<Province.ProvinceAsStarting> provAsStarting = JsonUtility.FromJson<SaveManager.Wrapper<Province.ProvinceAsStarting>>(provAsText).array.ToList<Province.ProvinceAsStarting>();
+        
+        //add
+        provAsStarting.ForEach((x) => save.GetProvinces().Add((Instantiate(Resources.Load("Prefabs/Town_Prefab") as GameObject, GameObject.Find("Map/Towns").transform).GetComponent<Province>()).FromStarting(x)));
+
+        //relink
+        save.GetProvinces().ForEach(x => x.LinksFromStarting(provAsStarting.Find(y => y.id == x.id)));
+
+        //trade goods
+        string goodsAsText = (Resources.Load(path_goods) as TextAsset).text;
+        Classes.TradeGood[] tr_goods = JsonUtility.FromJson<SaveManager.Wrapper<Classes.TradeGood>>(goodsAsText).array;
+        foreach (Province prov in save.GetProvinces())
+        {
+            foreach(Classes.TradeGood trg in tr_goods)
+            {
+                if (trg.name == prov.tradeGood.name)
+                {
+                    prov.tradeGood = trg;
+                }
+            }
+        }
+    }
+    private void LoadNations()
+    {
+        //load default nation mods
+        Dictionary<string, Classes.ModBook.Pair> dict = LoadNationMods(path_mods);
+
+        //load nations
+        StreamReader reader = new StreamReader(path_nations);
+        while (!reader.EndOfStream)
+        {
+            string line = reader.ReadLine();
+            string[] fields = GetFields(line, ",");
+            Nation nation = new Nation();
+            nation.id = int.Parse(fields[0]);
+            nation.name = fields[1];
+            string[] insideProvs = GetFields(fields[2], " ");
+            foreach (string id in insideProvs)
+            {
+                nation.provinces.Add(MapTools.IdToProv(int.Parse(id)));
+                MapTools.IdToProv(int.Parse(id)).owner = nation;
+            }
+
+            ColorUtility.TryParseHtmlString(fields[3], out nation.color);
+            nation.capital = MapTools.IdToProv(int.Parse(fields[4]));
+            nation.capital.mods.AddMod("capital_town", 1, -1);
+            nation.capital.mods.AddMod("trade_hub", 1, -1);
+            nation.mods.PassMods(dict);
+            nation.CountTradeHubs();
+            save.GetNations().Add(nation);
+        }
+        reader.Close();
+    }
+    private void LoadArmies()
+    {
+
     }
 
     private void SwitchSave()
@@ -541,7 +518,7 @@ public class MapHandler : MonoBehaviour
     }
     public void ProvinceSaver(string separator)
     {
-        StreamWriter writer = new StreamWriter(path_definitions);
+        StreamWriter writer = new StreamWriter(path_provinces);
         foreach (Province prov in save.GetProvinces())
         {
             string line = prov.id + separator + prov.name + separator + prov.graphicalCenter.x + " " + prov.graphicalCenter.y + separator + prov.graphicalSize.x + " " + prov.graphicalSize.y +separator;
@@ -615,4 +592,16 @@ public class MapHandler : MonoBehaviour
         return true;
     }
 
+    private void conv()
+    {
+        SaveManager.Wrapper<Province.ProvinceAsStarting> wrap = new SaveManager.Wrapper<Province.ProvinceAsStarting>();
+        List<Province.ProvinceAsStarting> list = new List<Province.ProvinceAsStarting>();
+
+        save.GetProvinces().ForEach((x) => list.Add(x.AsStarting()));
+
+        wrap.array = list.ToArray();
+        StreamWriter writer = new StreamWriter("map_prov.json");
+        writer.Write(JsonUtility.ToJson(wrap));
+        writer.Close();
+    }
 }

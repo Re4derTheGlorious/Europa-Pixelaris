@@ -16,6 +16,8 @@ public class BattleGrid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private Unit unit;
 
+    private GameObject floater;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,10 +77,13 @@ public class BattleGrid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         GetComponent<RawImage>().color = newColor;
 
         //hint
-        string hintText = " Contested by " + unit.manpower + " " + unit.owner.owner.name + " " + unit.type + "\n";
-        hintText += unit.morale + " morale\n\n";
-        GetComponent<StaticHint>().hintText = hintText;
-        GetComponent<StaticHint>().SetDelay(2.5f);
+        SetHint();
+
+        if (unit.launchFloater)
+        {
+            LaunchFloater();
+            unit.launchFloater = false;
+        }
     }
     public void SetEmpty()
     {
@@ -93,6 +98,23 @@ public class BattleGrid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         GetComponent<RawImage>().texture = textUnavailable;
         GetComponent<RawImage>().color = Color.gray;
         GetComponent<StaticHint>().hintText = "This part of the battlefield is inaccesibile due to exceded engagement width";
+    }
+    private void SetHint()
+    {
+        if (unit.strengthBook != null)
+        {
+            string hintText = " Contested by " + unit.manpower + " " + unit.owner.owner.name + " " + unit.type + "\n\n";
+
+            hintText += "Combat Strength: " + unit.strengthBook.TotalValue() + "\n";
+            hintText += unit.strengthBook.GetFinanses();
+
+            hintText += "\n\nMorale: " + unit.morale + "\n";
+            hintText += "Losing morale due to:\n";
+            hintText += unit.moraleLoss.GetFinanses();
+
+            GetComponent<StaticHint>().hintText = hintText;
+            GetComponent<StaticHint>().SetDelay(1f);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -141,6 +163,31 @@ public class BattleGrid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         foreach(Transform arr in GameObject.Find("UI_Lines").transform)
         {
             Destroy(arr.gameObject);
+        }
+    }
+
+    public void LaunchFloater()
+    {
+        floater = Instantiate(Resources.Load("Prefabs/Floater") as GameObject, transform);
+
+        if (unit.manpower == 0)
+        {
+            floater.GetComponent<RawImage>().texture = Resources.Load("Icons/Combat_Cas") as Texture2D;
+        }
+
+        InvokeRepeating("FloaterFade", 0, 0.005f);
+    }
+
+    public void FloaterFade()
+    {
+        Color newColor = floater.GetComponent<RawImage>().color;
+        newColor = new Color(newColor.r, newColor.g, newColor.b, newColor.a - newColor.a / 100);
+        floater.GetComponent<RawImage>().color = newColor;
+
+        if (newColor.a < 0.01)
+        {
+            Destroy(floater);
+            CancelInvoke();
         }
     }
 }

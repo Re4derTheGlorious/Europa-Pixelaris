@@ -12,6 +12,10 @@ using System.Security.Cryptography;
 
 public class SaveManager
 {
+    public class Wrapper<T>{
+        public T[] array;
+    }
+
     public string location_path;
     public string save_extension = ".save";
 

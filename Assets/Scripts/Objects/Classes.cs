@@ -181,6 +181,18 @@ public class Classes : MonoBehaviour
         }
     }
     [System.Serializable]
+    public class TradeGood
+    {
+        public string name;
+        public double value;
+        public double bonus;
+
+        public TradeGood()
+        {
+
+        }
+    }
+    [System.Serializable]
     public class TimeAndPace
     {
         public int startYear;
@@ -533,13 +545,18 @@ public class Classes : MonoBehaviour
     public class FinanseBook
     {
         public Dictionary<string, float> exp;
+        public ModBook mods;
         public FinanseBook()
         {
             exp = new Dictionary<string, float>();
+            mods = new ModBook();
+            mods.AddMod("base", 1);
         }
         public void ResetBook()
         {
             exp = new Dictionary<string, float>();
+            mods = new ModBook();
+            mods.AddMod("base", 1);
         }
         public void AddExpense(float value, string name)
         {
@@ -576,6 +593,15 @@ public class Classes : MonoBehaviour
                 expStr += "\nOut:\n";
             }
 
+            if (mods.GetMods().Count > 1)
+            {
+                expStr += "\nModified by:\n";
+                foreach(KeyValuePair<string, ModBook.Pair> pair in mods.GetMods())
+                {
+                    expStr += pair.Key + ": " + pair.Value.value + "\n";
+                }
+            }
+
             expStr += "\nTotal:\n";
             expStr += TotalValue();
             return expStr;
@@ -591,7 +617,14 @@ public class Classes : MonoBehaviour
             {
                 total+=pair.Value;
             }
-            return total;
+
+             float mod = mods.GetMod("base");
+            foreach(KeyValuePair<string, ModBook.Pair> pair in mods.GetMods())
+            {
+                mod *= pair.Value.value;
+            }
+
+            return total*mod;
         }
         public float TotalIn()
         {
@@ -621,6 +654,21 @@ public class Classes : MonoBehaviour
     [System.Serializable]
     public class ModBook
     {
+        [System.Serializable]
+        public class ModAsSaveable
+        {
+            public string name;
+            public float value;
+            public int remaining;
+
+            public ModAsSaveable(string name, float value, int remaining)
+            {
+                this.name = name;
+                this.value = value;
+                this.remaining = remaining;
+            }
+        }
+
         public class Pair{
             public float value;
             public int monthsRemaining;
@@ -705,6 +753,24 @@ public class Classes : MonoBehaviour
                     mods.Remove(pair.Key);
                 }
             }
+        }
+
+        public void Restore(ModAsSaveable[] modsAS)
+        {
+            mods.Clear();
+            foreach(ModAsSaveable mod in modsAS)
+            {
+                AddMod(mod.name, mod.value, mod.remaining);
+            }
+        }
+        public List<ModAsSaveable> AsSaveable()
+        {
+            List <ModAsSaveable> modsAS = new List<ModAsSaveable>();
+            foreach(KeyValuePair<string, Pair> pair in mods)
+            {
+                modsAS.Add(new ModAsSaveable(pair.Key, pair.Value.value, pair.Value.monthsRemaining));
+            }
+            return modsAS;
         }
 
         public Dictionary<string, Pair> GetMods()

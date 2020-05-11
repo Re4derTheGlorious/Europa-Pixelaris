@@ -36,6 +36,10 @@ public class InterfaceHandler : MonoBehaviour
     public MapMode map_trade;
     public MapMode map_diplo;
     public MapMode map_political;
+    public Button button_map_political;
+    public Button button_map_diplo;
+    public Button button_map_trade;
+    public Button button_map_terrain;
 
     //interfaces
     public Interface activeInterface;
@@ -75,12 +79,18 @@ public class InterfaceHandler : MonoBehaviour
         map_trade = new TradeMapMode();
         map_diplo = new DiploMapMode();
         map_terrain = new TerrainMapMode();
+
+        button_map_political = frame_mapmode.transform.Find("Political").gameObject.GetComponent<Button>();
+        button_map_diplo = frame_mapmode.transform.Find("Diplo").gameObject.GetComponent<Button>();
+        button_map_terrain = frame_mapmode.transform.Find("Terrain").gameObject.GetComponent<Button>();
+        button_map_trade = frame_mapmode.transform.Find("Trade").gameObject.GetComponent<Button>();
+
         mapModes.Add(map_political);
         mapModes.Add(map_trade);
         mapModes.Add(map_diplo);
         mapModes.Add(map_terrain);
 
-        EnableMapMode("terrain");
+        //EnableMapMode("none");
 
         //interfaces
         interfaces = new List<Interface>();
@@ -206,15 +216,16 @@ public class InterfaceHandler : MonoBehaviour
         return null;
     }
 
+    //Mapmode
     public void EnableMapMode(string name)
     {
         //Debug.Log("Map Mode enabled: " + name);
-        if (name.Equals("none") || name.Equals("political"))
+        if (name.Equals("political"))
         {
             activeMapMode = map_political;
             map_political.Enable();
         }
-        else if (name.Equals("diplomacy"))
+        else if (name.Equals("diplo"))
         {
             activeMapMode = map_diplo;
             map_diplo.Enable();
@@ -239,13 +250,32 @@ public class InterfaceHandler : MonoBehaviour
             }
         }
     }
-
     public void RefreshMapMode()
     {
         if (activeMapMode != null)
         {
             activeMapMode.Refresh();
         }
+    }
+    public string GetActiveMapMode()
+    {
+        if (activeMapMode == map_diplo)
+        {
+            return "diplo";
+        }
+        else if (activeMapMode == map_terrain)
+        {
+            return "terrain";
+        }
+        else if (activeMapMode == map_political)
+        {
+            return "political";
+        }
+        else if (activeMapMode == map_trade)
+        {
+            return "trade";
+        }
+        return "none";
     }
 
     public void EnableInterface(string name, Nation nat = null, Province prov = null, Army arm = null, List<Army> armies = null, List<Unit> units = null)
@@ -355,6 +385,7 @@ public class InterfaceHandler : MonoBehaviour
     public void mapButtonTrade()
     {
         EnableMapMode("trade");
+        EnableInterface("trade");
     }
     public void mapButtonDiplo()
     {

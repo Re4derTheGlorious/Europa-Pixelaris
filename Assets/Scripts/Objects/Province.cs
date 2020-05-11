@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Province: MonoBehaviour
 {
@@ -21,6 +22,26 @@ public class Province: MonoBehaviour
             this.auto = auto;
         }
     }
+
+    [Serializable]
+    public class ProvinceAsStarting
+    {
+        public int id;
+        public string provName;
+        public int owner;
+        public Vector2 graphicalCenter;
+        public Vector2 center;
+        public Vector2 graphicalSize;
+        public string tradeGood;
+        public int[] links;
+        public int[] crossings;
+        public string[] traits;
+        public Classes.ModBook.ModAsSaveable[] mods;
+        public int pop;
+        public int dev;
+        public float auto;
+    }
+    
 
     //Serializable
     public int id;//
@@ -44,6 +65,7 @@ public class Province: MonoBehaviour
     public Vector2 center;//
     public Vector2 graphicalSize;//
     public Classes.ArmyStack armies;//
+    public Classes.TradeGood tradeGood;
 
     public Province Restore(ProvinceAsSaveable province_as, SaveFile saveBase)
     {
@@ -264,6 +286,76 @@ public class Province: MonoBehaviour
     public ProvinceAsSaveable AsSaveable()
     {
         return new ProvinceAsSaveable(id, pop, dev, auto);
+    }
+    public ProvinceAsStarting AsStarting()
+    {
+        ProvinceAsStarting pas = new ProvinceAsStarting();
+
+        pas.id = id;
+        pas.provName = provName;
+        pas.owner = owner.id;
+        pas.graphicalCenter = graphicalCenter;
+        pas.graphicalSize = graphicalSize;
+        pas.center = center;
+        pas.tradeGood = "Rice";
+
+        pas.links = new int[links.Count];
+        for (int i = 0; i < links.Count; i++)
+        {
+            pas.links[i] = links.ElementAt(i).id;
+        }
+        pas.crossings = new int[crossings.Count];
+        for (int i = 0; i < crossings.Count; i++)
+        {
+            pas.crossings[i] = crossings.ElementAt(i).id;
+        }
+        pas.traits = new string[traits.Count];
+        for (int i = 0; i < traits.Count; i++)
+        {
+            pas.traits[i] = traits.ElementAt(i);
+        }
+        pas.mods = mods.AsSaveable().ToArray();
+
+        pas.pop = pop;
+        pas.dev = dev;
+        pas.auto = auto;
+        return pas;
+    }
+    public Province FromStarting(ProvinceAsStarting pas)
+    {
+        Init(pas.center, pas.provName);
+
+        id = pas.id;
+        provName = pas.provName;
+        owner = MapTools.IdToNat(pas.owner);
+        graphicalCenter = pas.graphicalCenter;
+        graphicalSize = pas.graphicalSize;
+        center = pas.center;
+        tradeGood = new Classes.TradeGood();
+        tradeGood.name = pas.tradeGood;
+        pop = pas.pop;
+        dev = pas.dev;
+        auto = auto;
+
+        foreach (string trait in pas.traits)
+        {
+            traits.Add(trait);
+        }
+
+        mods.Restore(pas.mods);
+
+        return this;
+    }
+    public void LinksFromStarting(ProvinceAsStarting pas)
+    {
+        foreach(int i in pas.links)
+        {
+            links.Add(MapTools.IdToProv(i));
+        }
+        foreach (int i in pas.crossings)
+        {
+            crossings.Add(MapTools.IdToProv(i));
+        }
     }
     public void DesignateCapital()
     {

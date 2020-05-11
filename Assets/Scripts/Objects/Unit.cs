@@ -30,18 +30,25 @@ public class Unit
     public Army owner;//
     public string unitName = "";//
 
-
     //Other
-    public bool ranged = false;
-    public bool longRanged = false;
     public Battle.Grid position;
     public Battle.Grid prevPosition;
     public float dmgDealt;
     public float dmgReceived;
     public bool routing = false;
+    public bool flanked = false;
+    public bool flanksSecured = false;
+    public bool allyRouting = false;
+    public bool allyWiped = false;
+    public bool underFire = false;
+    public bool underCover = false;
+    public bool launchFloater = false;
+    public bool massiveCasualities = false;
     public List<Unit> targetedBy = new List<Unit>();
     public Unit targeting;
     public BattleGrid rep;
+    public Classes.FinanseBook strengthBook;
+    public Classes.FinanseBook moraleLoss = new Classes.FinanseBook();
 
 
     public Unit Restore(UnitAsSaveable unit_as, SaveFile saveBase)
@@ -71,55 +78,103 @@ public class Unit
         }
         return regimentSize;
     }
-    public float GetCombatStrength(int stage)
+    public float GetCombatStrength(Battle battle)
     {
         float strength = 1;
         float strengthMod = 1;
 
-        Classes.FinanseBook strengthBook = new Classes.FinanseBook();
+        if (strengthBook == null)
+        {
+            strengthBook = new Classes.FinanseBook();
+        }
+        else
+        {
+            strengthBook.ResetBook();
+        }
+
+        //base
+        strengthBook.AddExpense(manpower, "Manpower");
+
+        
 
         //stage mods
-        if (stage == 0)
-        {
-            if (type.Equals("inf_light") || type.Equals("cav_light"))
-            {
-                strengthBook.AddExpense(-0.5f, "Non skirmish unit on skirmish stage");
-            }
-            else if (type.Equals("inf_heavy") || type.Equals("cav_shock"))
-            {
-                strengthBook.AddExpense(-0.75f, "Heavy unit on skirmish stage");
-            }
-            else if (type.StartsWith("art_"))
-            {
-                strengthBook.AddExpense(-1f, "Artillery unit on skirmish stage");
-            }
-        }
-        else if (stage == 1)
+        if (battle.stage == 0)
         {
             if (type.Equals("inf_skirmish") || type.Equals("cav_missile"))
             {
-                strengthBook.AddExpense(-0.5f, "Skirmish unit on battle stage");
+                strengthBook.mods.AddMod("base", GlobalValues.skirmish_unit_mod);
+                strengthBook.mods.AddMod("Skirmish unit on skirmish stage", GlobalValues.skirmish_on_skirmish_mod);
             }
-        }
-        else if (stage == 2)
-        {
-            if (type.Equals("inf_heavy") || type.Equals("cav_shock"))
+            else if (type.Equals("inf_light") || type.Equals("cav_light"))
             {
-                strengthBook.AddExpense(-0.75f, "Heavy unit on disengagement stage");
+                strengthBook.mods.AddMod("base", GlobalValues.light_unit_mod);
+                strengthBook.mods.AddMod("Light unit on skirmish stage", GlobalValues.light_on_skirmish_mod);
+            }
+            else if (type.Equals("inf_heavy") || type.Equals("cav_shock"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.heavy_unit_mod);
+                strengthBook.mods.AddMod("Heavy unit on skirmish stage", GlobalValues.heavy_on_skirmish_mod);
             }
             else if (type.StartsWith("art_"))
             {
-                strengthBook.AddExpense(-1f, "Artillery unit on disengagement stage");
+                strengthBook.AddExpense(GlobalValues.art_on_skirmish, "Artillery unit on skirmish stage");
+            }
+        }
+        else if (battle.stage == 1)
+        {
+            if (type.Equals("inf_skirmish") || type.Equals("cav_missile"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.skirmish_unit_mod);
+                strengthBook.mods.AddMod("Skirmish unit on battle stage", GlobalValues.skirmish_on_battle_mod);
+            }
+            else if (type.Equals("inf_light") || type.Equals("cav_light"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.light_unit_mod);
+                strengthBook.mods.AddMod("Light unit on battle stage", GlobalValues.light_on_battle_mod);
+            }
+            else if (type.Equals("inf_heavy") || type.Equals("cav_shock"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.heavy_unit_mod);
+                strengthBook.mods.AddMod("Heavy unit on battle stage", GlobalValues.heavy_on_battle_mod);
+            }
+            else if (type.StartsWith("art_"))
+            {
+                strengthBook.AddExpense(GlobalValues.art_on_battle, "Artillery unit on battle stage");
+            }
+        }
+        else if (battle.stage == 2)
+        {
+            if (type.Equals("inf_skirmish") || type.Equals("cav_missile"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.skirmish_unit_mod);
+                strengthBook.mods.AddMod("Skirmish unit on chase stage", GlobalValues.skirmish_on_chase_mod);
+            }
+            else if (type.Equals("inf_light") || type.Equals("cav_light"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.light_unit_mod);
+                strengthBook.mods.AddMod("Light unit on chase stage", GlobalValues.light_on_chase_mod);
+            }
+            else if (type.Equals("inf_heavy") || type.Equals("cav_shock"))
+            {
+                strengthBook.mods.AddMod("base", GlobalValues.heavy_unit_mod);
+                strengthBook.mods.AddMod("Heavy unit on chase stage", GlobalValues.heavy_on_chase_mod);
+            }
+            else if (type.StartsWith("art_"))
+            {
+                strengthBook.AddExpense(GlobalValues.art_on_chase, "Artillery unit on chase stage");
+
             }
         }
 
-        if (1 + strengthBook.TotalValue() <= 0.1f)
+        if (routing)
         {
-            return 0.1f;
+            strengthBook.mods.AddMod("Unit routing", 0);
         }
-        strengthMod = (1 + strengthBook.TotalValue());
-        strength = strengthMod * manpower;
-        return strength;
+        if (flanksSecured) {
+            strengthBook.mods.AddMod("Flanks secured", GlobalValues.flanks_secured_boost);
+        }
+
+        return strengthBook.TotalValue();
     }
     public void ResetCombatInfo()
     {

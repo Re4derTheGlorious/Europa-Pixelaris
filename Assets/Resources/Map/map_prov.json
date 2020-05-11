@@ -1,0 +1,5405 @@
+{
+  "array": [
+    {
+      "id": 0,
+      "provName": "Osumi",
+      "owner": 5,
+      "graphicalCenter": {
+        "x": 695,
+        "y": 76
+      },
+      "center": {
+        "x": 705,
+        "y": 103
+      },
+      "graphicalSize": {
+        "x": 58,
+        "y": 124
+      },
+      "tradeGood": "Rice",
+      "links": [
+        1,
+        2
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 1,
+      "provName": "Satsuma",
+      "owner": 6,
+      "graphicalCenter": {
+        "x": 663,
+        "y": 114
+      },
+      "center": {
+        "x": 674,
+        "y": 127
+      },
+      "graphicalSize": {
+        "x": 69,
+        "y": 71
+      },
+      "tradeGood": "Rice",
+      "links": [
+        3,
+        0,
+        2
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 2,
+      "provName": "Hyuga",
+      "owner": 5,
+      "graphicalCenter": {
+        "x": 733,
+        "y": 142
+      },
+      "center": {
+        "x": 732,
+        "y": 148
+      },
+      "graphicalSize": {
+        "x": 72,
+        "y": 101
+      },
+      "tradeGood": "Rice",
+      "links": [
+        1,
+        0,
+        3,
+        5
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 3,
+      "provName": "Higo",
+      "owner": 7,
+      "graphicalCenter": {
+        "x": 693,
+        "y": 182
+      },
+      "center": {
+        "x": 707,
+        "y": 180
+      },
+      "graphicalSize": {
+        "x": 82,
+        "y": 73
+      },
+      "tradeGood": "Rice",
+      "links": [
+        1,
+        7,
+        2,
+        5
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_mountains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 4,
+      "provName": "Hizen",
+      "owner": 8,
+      "graphicalCenter": {
+        "x": 633,
+        "y": 215
+      },
+      "center": {
+        "x": 664,
+        "y": 232
+      },
+      "graphicalSize": {
+        "x": 119,
+        "y": 69
+      },
+      "tradeGood": "Rice",
+      "links": [
+        8,
+        7
+      ],
+      "crossings": [
+        7
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_forest",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 5,
+      "provName": "Bungo",
+      "owner": 3,
+      "graphicalCenter": {
+        "x": 743,
+        "y": 220
+      },
+      "center": {
+        "x": 743,
+        "y": 206
+      },
+      "graphicalSize": {
+        "x": 67,
+        "y": 68
+      },
+      "tradeGood": "Rice",
+      "links": [
+        3,
+        7,
+        8,
+        6,
+        2,
+        10
+      ],
+      "crossings": [
+        10
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 6,
+      "provName": "Buzen",
+      "owner": 3,
+      "graphicalCenter": {
+        "x": 723,
+        "y": 250
+      },
+      "center": {
+        "x": 722,
+        "y": 243
+      },
+      "graphicalSize": {
+        "x": 40,
+        "y": 45
+      },
+      "tradeGood": "Rice",
+      "links": [
+        8,
+        5,
+        15
+      ],
+      "crossings": [
+        15
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 7,
+      "provName": "Chikugo",
+      "owner": 8,
+      "graphicalCenter": {
+        "x": 694,
+        "y": 220
+      },
+      "center": {
+        "x": 698,
+        "y": 223
+      },
+      "graphicalSize": {
+        "x": 32,
+        "y": 29
+      },
+      "tradeGood": "Rice",
+      "links": [
+        4,
+        3,
+        8,
+        5
+      ],
+      "crossings": [
+        4,
+        8
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 8,
+      "provName": "Chikuzen",
+      "owner": 8,
+      "graphicalCenter": {
+        "x": 664,
+        "y": 278
+      },
+      "center": {
+        "x": 691,
+        "y": 248
+      },
+      "graphicalSize": {
+        "x": 97,
+        "y": 103
+      },
+      "tradeGood": "Rice",
+      "links": [
+        4,
+        7,
+        6,
+        5
+      ],
+      "crossings": [
+        7
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 9,
+      "provName": "Tosa",
+      "owner": 10,
+      "graphicalCenter": {
+        "x": 861,
+        "y": 218
+      },
+      "center": {
+        "x": 870,
+        "y": 244
+      },
+      "graphicalSize": {
+        "x": 98,
+        "y": 77
+      },
+      "tradeGood": "Rice",
+      "links": [
+        10,
+        12
+      ],
+      "crossings": [
+        10
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_mountains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 10,
+      "provName": "Iyo",
+      "owner": 11,
+      "graphicalCenter": {
+        "x": 827,
+        "y": 235
+      },
+      "center": {
+        "x": 819,
+        "y": 240
+      },
+      "graphicalSize": {
+        "x": 99,
+        "y": 83
+      },
+      "tradeGood": "Rice",
+      "links": [
+        9,
+        11,
+        12,
+        5
+      ],
+      "crossings": [
+        9,
+        5
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_forest",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 11,
+      "provName": "Sanuki",
+      "owner": 12,
+      "graphicalCenter": {
+        "x": 896,
+        "y": 287
+      },
+      "center": {
+        "x": 891,
+        "y": 282
+      },
+      "graphicalSize": {
+        "x": 51,
+        "y": 37
+      },
+      "tradeGood": "Rice",
+      "links": [
+        10,
+        12
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_mountains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 12,
+      "provName": "Awa",
+      "owner": 13,
+      "graphicalCenter": {
+        "x": 905,
+        "y": 257
+      },
+      "center": {
+        "x": 911,
+        "y": 260
+      },
+      "graphicalSize": {
+        "x": 60,
+        "y": 47
+      },
+      "tradeGood": "Rice",
+      "links": [
+        9,
+        10,
+        11,
+        13
+      ],
+      "crossings": [
+        13
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_mountains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 13,
+      "provName": "Awaji",
+      "owner": 13,
+      "graphicalCenter": {
+        "x": 944,
+        "y": 293
+      },
+      "center": {
+        "x": 942,
+        "y": 286
+      },
+      "graphicalSize": {
+        "x": 20,
+        "y": 28
+      },
+      "tradeGood": "Rice",
+      "links": [
+        60,
+        12
+      ],
+      "crossings": [
+        12,
+        60
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 14,
+      "provName": "Kii",
+      "owner": 14,
+      "graphicalCenter": {
+        "x": 991,
+        "y": 255
+      },
+      "center": {
+        "x": 982,
+        "y": 246
+      },
+      "graphicalSize": {
+        "x": 74,
+        "y": 60
+      },
+      "tradeGood": "Rice",
+      "links": [
+        60,
+        61,
+        62,
+        57
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 15,
+      "provName": "Nagato",
+      "owner": 25,
+      "graphicalCenter": {
+        "x": 740,
+        "y": 295
+      },
+      "center": {
+        "x": 738,
+        "y": 289
+      },
+      "graphicalSize": {
+        "x": 53,
+        "y": 48
+      },
+      "tradeGood": "Rice",
+      "links": [
+        6,
+        16,
+        23
+      ],
+      "crossings": [
+        6
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 16,
+      "provName": "Suo",
+      "owner": 25,
+      "graphicalCenter": {
+        "x": 771,
+        "y": 279
+      },
+      "center": {
+        "x": 775,
+        "y": 281
+      },
+      "graphicalSize": {
+        "x": 42,
+        "y": 34
+      },
+      "tradeGood": "Rice",
+      "links": [
+        15,
+        23,
+        17
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 17,
+      "provName": "Aki",
+      "owner": 25,
+      "graphicalCenter": {
+        "x": 810,
+        "y": 307
+      },
+      "center": {
+        "x": 799,
+        "y": 307
+      },
+      "graphicalSize": {
+        "x": 55,
+        "y": 46
+      },
+      "tradeGood": "Rice",
+      "links": [
+        16,
+        23,
+        18
+      ],
+      "crossings": [
+        18,
+        23
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 18,
+      "provName": "Bingo",
+      "owner": 24,
+      "graphicalCenter": {
+        "x": 843,
+        "y": 319
+      },
+      "center": {
+        "x": 845,
+        "y": 317
+      },
+      "graphicalSize": {
+        "x": 43,
+        "y": 54
+      },
+      "tradeGood": "Rice",
+      "links": [
+        17,
+        23,
+        24,
+        25,
+        19
+      ],
+      "crossings": [
+        23,
+        17
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 19,
+      "provName": "Bitchu",
+      "owner": 23,
+      "graphicalCenter": {
+        "x": 869,
+        "y": 325
+      },
+      "center": {
+        "x": 867,
+        "y": 326
+      },
+      "graphicalSize": {
+        "x": 27,
+        "y": 48
+      },
+      "tradeGood": "Rice",
+      "links": [
+        18,
+        25,
+        21,
+        20
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 20,
+      "provName": "Bizen",
+      "owner": 22,
+      "graphicalCenter": {
+        "x": 894,
+        "y": 314
+      },
+      "center": {
+        "x": 893,
+        "y": 317
+      },
+      "graphicalSize": {
+        "x": 39,
+        "y": 33
+      },
+      "tradeGood": "Rice",
+      "links": [
+        19,
+        21,
+        22
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 21,
+      "provName": "Mimasaka",
+      "owner": 22,
+      "graphicalCenter": {
+        "x": 894,
+        "y": 344
+      },
+      "center": {
+        "x": 891,
+        "y": 346
+      },
+      "graphicalSize": {
+        "x": 52,
+        "y": 29
+      },
+      "tradeGood": "Rice",
+      "links": [
+        19,
+        25,
+        20,
+        26,
+        22
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 22,
+      "provName": "Harima",
+      "owner": 21,
+      "graphicalCenter": {
+        "x": 936,
+        "y": 331
+      },
+      "center": {
+        "x": 935,
+        "y": 330
+      },
+      "graphicalSize": {
+        "x": 49,
+        "y": 44
+      },
+      "tradeGood": "Rice",
+      "links": [
+        20,
+        21,
+        26,
+        27,
+        29,
+        59
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 23,
+      "provName": "Iwami",
+      "owner": 26,
+      "graphicalCenter": {
+        "x": 793,
+        "y": 326
+      },
+      "center": {
+        "x": 799,
+        "y": 335
+      },
+      "graphicalSize": {
+        "x": 58,
+        "y": 67
+      },
+      "tradeGood": "Rice",
+      "links": [
+        15,
+        16,
+        17,
+        24,
+        18
+      ],
+      "crossings": [
+        24,
+        18,
+        17
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 24,
+      "provName": "Izumo",
+      "owner": 26,
+      "graphicalCenter": {
+        "x": 838,
+        "y": 376
+      },
+      "center": {
+        "x": 837,
+        "y": 356
+      },
+      "graphicalSize": {
+        "x": 46,
+        "y": 83
+      },
+      "tradeGood": "Rice",
+      "links": [
+        23,
+        18,
+        25
+      ],
+      "crossings": [
+        23
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 25,
+      "provName": "Hoki",
+      "owner": 26,
+      "graphicalCenter": {
+        "x": 875,
+        "y": 387
+      },
+      "center": {
+        "x": 874,
+        "y": 366
+      },
+      "graphicalSize": {
+        "x": 49,
+        "y": 91
+      },
+      "tradeGood": "Rice",
+      "links": [
+        18,
+        24,
+        19,
+        21,
+        26
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 26,
+      "provName": "Inaba",
+      "owner": 27,
+      "graphicalCenter": {
+        "x": 910,
+        "y": 366
+      },
+      "center": {
+        "x": 912,
+        "y": 365
+      },
+      "graphicalSize": {
+        "x": 33,
+        "y": 32
+      },
+      "tradeGood": "Rice",
+      "links": [
+        25,
+        21,
+        22,
+        27
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 27,
+      "provName": "Tajima",
+      "owner": 27,
+      "graphicalCenter": {
+        "x": 942,
+        "y": 365
+      },
+      "center": {
+        "x": 939,
+        "y": 365
+      },
+      "graphicalSize": {
+        "x": 38,
+        "y": 37
+      },
+      "tradeGood": "Rice",
+      "links": [
+        26,
+        22,
+        28,
+        29
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 28,
+      "provName": "Tango",
+      "owner": 28,
+      "graphicalCenter": {
+        "x": 965,
+        "y": 375
+      },
+      "center": {
+        "x": 959,
+        "y": 377
+      },
+      "graphicalSize": {
+        "x": 36,
+        "y": 32
+      },
+      "tradeGood": "Rice",
+      "links": [
+        27,
+        29,
+        35
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 29,
+      "provName": "Tamba",
+      "owner": 29,
+      "graphicalCenter": {
+        "x": 972,
+        "y": 347
+      },
+      "center": {
+        "x": 975,
+        "y": 348
+      },
+      "graphicalSize": {
+        "x": 42,
+        "y": 38
+      },
+      "tradeGood": "Rice",
+      "links": [
+        22,
+        27,
+        28,
+        59,
+        35,
+        63
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 30,
+      "provName": "Echigo",
+      "owner": 36,
+      "graphicalCenter": {
+        "x": 1170,
+        "y": 518
+      },
+      "center": {
+        "x": 1169,
+        "y": 486
+      },
+      "graphicalSize": {
+        "x": 120,
+        "y": 124
+      },
+      "tradeGood": "Rice",
+      "links": [
+        31,
+        40,
+        39,
+        70,
+        69
+      ],
+      "crossings": [
+        69,
+        70,
+        39
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 31,
+      "provName": "Etchu",
+      "owner": 33,
+      "graphicalCenter": {
+        "x": 1085,
+        "y": 445
+      },
+      "center": {
+        "x": 1079,
+        "y": 444
+      },
+      "graphicalSize": {
+        "x": 55,
+        "y": 51
+      },
+      "tradeGood": "Rice",
+      "links": [
+        33,
+        41,
+        32,
+        40,
+        30
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 32,
+      "provName": "Noto",
+      "owner": 14,
+      "graphicalCenter": {
+        "x": 1072,
+        "y": 487
+      },
+      "center": {
+        "x": 1067,
+        "y": 495
+      },
+      "graphicalSize": {
+        "x": 41,
+        "y": 45
+      },
+      "tradeGood": "Rice",
+      "links": [
+        33,
+        31
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 33,
+      "provName": "Kaga",
+      "owner": 32,
+      "graphicalCenter": {
+        "x": 1046,
+        "y": 438
+      },
+      "center": {
+        "x": 1048,
+        "y": 426
+      },
+      "graphicalSize": {
+        "x": 35,
+        "y": 58
+      },
+      "tradeGood": "Rice",
+      "links": [
+        34,
+        41,
+        31,
+        32
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 34,
+      "provName": "Echizen",
+      "owner": 32,
+      "graphicalCenter": {
+        "x": 1036,
+        "y": 398
+      },
+      "center": {
+        "x": 1029,
+        "y": 401
+      },
+      "graphicalSize": {
+        "x": 51,
+        "y": 54
+      },
+      "tradeGood": "Rice",
+      "links": [
+        35,
+        43,
+        42,
+        33,
+        41
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 35,
+      "provName": "Wakasa",
+      "owner": 31,
+      "graphicalCenter": {
+        "x": 997,
+        "y": 369
+      },
+      "center": {
+        "x": 1001,
+        "y": 368
+      },
+      "graphicalSize": {
+        "x": 35,
+        "y": 22
+      },
+      "tradeGood": "Rice",
+      "links": [
+        28,
+        29,
+        63,
+        43,
+        34
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 36,
+      "provName": "North Dewa",
+      "owner": 1,
+      "graphicalCenter": {
+        "x": 1246,
+        "y": 679
+      },
+      "center": {
+        "x": 1252,
+        "y": 678
+      },
+      "graphicalSize": {
+        "x": 61,
+        "y": 72
+      },
+      "tradeGood": "Rice",
+      "links": [
+        37,
+        69,
+        68
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 37,
+      "provName": "North Mutsu",
+      "owner": 2,
+      "graphicalCenter": {
+        "x": 1282,
+        "y": 721
+      },
+      "center": {
+        "x": 1298,
+        "y": 705
+      },
+      "graphicalSize": {
+        "x": 120,
+        "y": 148
+      },
+      "tradeGood": "Rice",
+      "links": [
+        36,
+        68,
+        64
+      ],
+      "crossings": [
+        64
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 38,
+      "provName": "Schimotsuke",
+      "owner": 20,
+      "graphicalCenter": {
+        "x": 1229,
+        "y": 453
+      },
+      "center": {
+        "x": 1233,
+        "y": 449
+      },
+      "graphicalSize": {
+        "x": 53,
+        "y": 65
+      },
+      "tradeGood": "Rice",
+      "links": [
+        39,
+        70,
+        45,
+        44
+      ],
+      "crossings": [
+        39
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 39,
+      "provName": "Kozuke",
+      "owner": 20,
+      "graphicalCenter": {
+        "x": 1186,
+        "y": 439
+      },
+      "center": {
+        "x": 1185,
+        "y": 440
+      },
+      "graphicalSize": {
+        "x": 75,
+        "y": 75
+      },
+      "tradeGood": "Rice",
+      "links": [
+        40,
+        30,
+        48,
+        70,
+        38,
+        45
+      ],
+      "crossings": [
+        30,
+        38,
+        40,
+        48
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 40,
+      "provName": "Shinano",
+      "owner": 35,
+      "graphicalCenter": {
+        "x": 1129,
+        "y": 410
+      },
+      "center": {
+        "x": 1129,
+        "y": 415
+      },
+      "graphicalSize": {
+        "x": 79,
+        "y": 129
+      },
+      "tradeGood": "Rice",
+      "links": [
+        41,
+        42,
+        54,
+        31,
+        30,
+        53,
+        52,
+        49,
+        39,
+        48
+      ],
+      "crossings": [
+        39,
+        49,
+        42
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 41,
+      "provName": "Hida",
+      "owner": 34,
+      "graphicalCenter": {
+        "x": 1080,
+        "y": 406
+      },
+      "center": {
+        "x": 1084,
+        "y": 408
+      },
+      "graphicalSize": {
+        "x": 49,
+        "y": 54
+      },
+      "tradeGood": "Rice",
+      "links": [
+        34,
+        42,
+        33,
+        31,
+        40
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 42,
+      "provName": "Mino",
+      "owner": 16,
+      "graphicalCenter": {
+        "x": 1068,
+        "y": 374
+      },
+      "center": {
+        "x": 1056,
+        "y": 372
+      },
+      "graphicalSize": {
+        "x": 79,
+        "y": 64
+      },
+      "tradeGood": "Rice",
+      "links": [
+        43,
+        34,
+        57,
+        55,
+        41,
+        54,
+        40
+      ],
+      "crossings": [
+        40
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 43,
+      "provName": "Omi",
+      "owner": 16,
+      "graphicalCenter": {
+        "x": 1019,
+        "y": 351
+      },
+      "center": {
+        "x": 1025,
+        "y": 340
+      },
+      "graphicalSize": {
+        "x": 38,
+        "y": 61
+      },
+      "tradeGood": "Rice",
+      "links": [
+        63,
+        35,
+        58,
+        34,
+        57,
+        42
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 44,
+      "provName": "Hitachi",
+      "owner": 20,
+      "graphicalCenter": {
+        "x": 1260,
+        "y": 431
+      },
+      "center": {
+        "x": 1262,
+        "y": 426
+      },
+      "graphicalSize": {
+        "x": 51,
+        "y": 79
+      },
+      "tradeGood": "Rice",
+      "links": [
+        45,
+        38,
+        70
+      ],
+      "crossings": [
+        45
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 45,
+      "provName": "Shimosa",
+      "owner": 19,
+      "graphicalCenter": {
+        "x": 1257,
+        "y": 399
+      },
+      "center": {
+        "x": 1250,
+        "y": 391
+      },
+      "graphicalSize": {
+        "x": 69,
+        "y": 50
+      },
+      "tradeGood": "Rice",
+      "links": [
+        48,
+        39,
+        38,
+        44,
+        46
+      ],
+      "crossings": [
+        44,
+        48,
+        42
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 46,
+      "provName": "Kazusa",
+      "owner": 19,
+      "graphicalCenter": {
+        "x": 1252,
+        "y": 367
+      },
+      "center": {
+        "x": 1252,
+        "y": 362
+      },
+      "graphicalSize": {
+        "x": 44,
+        "y": 38
+      },
+      "tradeGood": "Rice",
+      "links": [
+        47,
+        45
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 47,
+      "provName": "Awa",
+      "owner": 19,
+      "graphicalCenter": {
+        "x": 1245,
+        "y": 338
+      },
+      "center": {
+        "x": 1237,
+        "y": 339
+      },
+      "graphicalSize": {
+        "x": 34,
+        "y": 23
+      },
+      "tradeGood": "Rice",
+      "links": [
+        46
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 48,
+      "provName": "Musashi",
+      "owner": 18,
+      "graphicalCenter": {
+        "x": 1203,
+        "y": 393
+      },
+      "center": {
+        "x": 1204,
+        "y": 397
+      },
+      "graphicalSize": {
+        "x": 68,
+        "y": 62
+      },
+      "tradeGood": "Rice",
+      "links": [
+        49,
+        40,
+        39,
+        50,
+        45
+      ],
+      "crossings": [
+        45,
+        39,
+        50,
+        49
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 49,
+      "provName": "Kai",
+      "owner": 35,
+      "graphicalCenter": {
+        "x": 1165,
+        "y": 374
+      },
+      "center": {
+        "x": 1162,
+        "y": 378
+      },
+      "graphicalSize": {
+        "x": 53,
+        "y": 54
+      },
+      "tradeGood": "Rice",
+      "links": [
+        40,
+        52,
+        48,
+        50
+      ],
+      "crossings": [
+        48,
+        50,
+        40
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 50,
+      "provName": "Sagami",
+      "owner": 18,
+      "graphicalCenter": {
+        "x": 1202,
+        "y": 361
+      },
+      "center": {
+        "x": 1201,
+        "y": 365
+      },
+      "graphicalSize": {
+        "x": 49,
+        "y": 38
+      },
+      "tradeGood": "Rice",
+      "links": [
+        52,
+        49,
+        51,
+        48
+      ],
+      "crossings": [
+        48,
+        49,
+        52
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 51,
+      "provName": "Izu",
+      "owner": 18,
+      "graphicalCenter": {
+        "x": 1180,
+        "y": 326
+      },
+      "center": {
+        "x": 1180,
+        "y": 326
+      },
+      "graphicalSize": {
+        "x": 25,
+        "y": 40
+      },
+      "tradeGood": "Rice",
+      "links": [
+        52,
+        50
+      ],
+      "crossings": [
+        52
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 52,
+      "provName": "Suruga",
+      "owner": 17,
+      "graphicalCenter": {
+        "x": 1160,
+        "y": 345
+      },
+      "center": {
+        "x": 1148,
+        "y": 339
+      },
+      "graphicalSize": {
+        "x": 53,
+        "y": 61
+      },
+      "tradeGood": "Rice",
+      "links": [
+        53,
+        40,
+        49,
+        51,
+        50
+      ],
+      "crossings": [
+        50,
+        51,
+        53
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 53,
+      "provName": "Totomi",
+      "owner": 17,
+      "graphicalCenter": {
+        "x": 1120,
+        "y": 332
+      },
+      "center": {
+        "x": 1123,
+        "y": 329
+      },
+      "graphicalSize": {
+        "x": 43,
+        "y": 52
+      },
+      "tradeGood": "Rice",
+      "links": [
+        54,
+        40,
+        52
+      ],
+      "crossings": [
+        52
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 54,
+      "provName": "Mikawa",
+      "owner": 17,
+      "graphicalCenter": {
+        "x": 1091,
+        "y": 327
+      },
+      "center": {
+        "x": 1091,
+        "y": 333
+      },
+      "graphicalSize": {
+        "x": 51,
+        "y": 50
+      },
+      "tradeGood": "Rice",
+      "links": [
+        55,
+        42,
+        53,
+        40
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 55,
+      "provName": "Owari",
+      "owner": 16,
+      "graphicalCenter": {
+        "x": 1067,
+        "y": 335
+      },
+      "center": {
+        "x": 1067,
+        "y": 344
+      },
+      "graphicalSize": {
+        "x": 34,
+        "y": 47
+      },
+      "tradeGood": "Rice",
+      "links": [
+        57,
+        42,
+        54
+      ],
+      "crossings": [
+        55,
+        57
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 56,
+      "provName": "Shima",
+      "owner": 16,
+      "graphicalCenter": {
+        "x": 1057,
+        "y": 290
+      },
+      "center": {
+        "x": 1059,
+        "y": 290
+      },
+      "graphicalSize": {
+        "x": 16,
+        "y": 20
+      },
+      "tradeGood": "Rice",
+      "links": [
+        57
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 57,
+      "provName": "Ise",
+      "owner": 16,
+      "graphicalCenter": {
+        "x": 1034,
+        "y": 313
+      },
+      "center": {
+        "x": 1038,
+        "y": 295
+      },
+      "graphicalSize": {
+        "x": 39,
+        "y": 76
+      },
+      "tradeGood": "Rice",
+      "links": [
+        62,
+        14,
+        58,
+        43,
+        42,
+        56,
+        55
+      ],
+      "crossings": [
+        55
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 58,
+      "provName": "Iga",
+      "owner": 30,
+      "graphicalCenter": {
+        "x": 1020,
+        "y": 313
+      },
+      "center": {
+        "x": 1021,
+        "y": 311
+      },
+      "graphicalSize": {
+        "x": 15,
+        "y": 24
+      },
+      "tradeGood": "Rice",
+      "links": [
+        62,
+        63,
+        43,
+        57
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 59,
+      "provName": "Settsu",
+      "owner": 13,
+      "graphicalCenter": {
+        "x": 972,
+        "y": 319
+      },
+      "center": {
+        "x": 972,
+        "y": 321
+      },
+      "graphicalSize": {
+        "x": 32,
+        "y": 29
+      },
+      "tradeGood": "Rice",
+      "links": [
+        22,
+        29,
+        60,
+        61,
+        63
+      ],
+      "crossings": [
+        63,
+        61,
+        60
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 60,
+      "provName": "Izumi",
+      "owner": 13,
+      "graphicalCenter": {
+        "x": 970,
+        "y": 294
+      },
+      "center": {
+        "x": 972,
+        "y": 291
+      },
+      "graphicalSize": {
+        "x": 28,
+        "y": 22
+      },
+      "tradeGood": "Rice",
+      "links": [
+        14,
+        61,
+        59,
+        13
+      ],
+      "crossings": [
+        59,
+        13
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 61,
+      "provName": "Kawachi",
+      "owner": 14,
+      "graphicalCenter": {
+        "x": 986,
+        "y": 304
+      },
+      "center": {
+        "x": 987,
+        "y": 292
+      },
+      "graphicalSize": {
+        "x": 18,
+        "y": 41
+      },
+      "tradeGood": "Rice",
+      "links": [
+        14,
+        60,
+        59,
+        63,
+        62
+      ],
+      "crossings": [
+        59
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 62,
+      "provName": "Yamato",
+      "owner": 15,
+      "graphicalCenter": {
+        "x": 1003,
+        "y": 283
+      },
+      "center": {
+        "x": 1004,
+        "y": 278
+      },
+      "graphicalSize": {
+        "x": 39,
+        "y": 59
+      },
+      "tradeGood": "Rice",
+      "links": [
+        14,
+        61,
+        63,
+        58,
+        57
+      ],
+      "crossings": [
+        0
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 63,
+      "provName": "Kyoto",
+      "owner": 9,
+      "graphicalCenter": {
+        "x": 999,
+        "y": 335
+      },
+      "center": {
+        "x": 1002,
+        "y": 320
+      },
+      "graphicalSize": {
+        "x": 30,
+        "y": 47
+      },
+      "tradeGood": "Rice",
+      "links": [
+        59,
+        29,
+        61,
+        35,
+        62,
+        43,
+        58
+      ],
+      "crossings": [
+        59
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "shogunate_residence",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 64,
+      "provName": "Oshima",
+      "owner": 4,
+      "graphicalCenter": {
+        "x": 1245,
+        "y": 851
+      },
+      "center": {
+        "x": 1228,
+        "y": 863
+      },
+      "graphicalSize": {
+        "x": 105,
+        "y": 138
+      },
+      "tradeGood": "Rice",
+      "links": [
+        65,
+        37
+      ],
+      "crossings": [
+        37
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_forest",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 65,
+      "provName": "Sum'Un'Kur",
+      "owner": 4,
+      "graphicalCenter": {
+        "x": 1345,
+        "y": 891
+      },
+      "center": {
+        "x": 1338,
+        "y": 900
+      },
+      "graphicalSize": {
+        "x": 119,
+        "y": 129
+      },
+      "tradeGood": "Rice",
+      "links": [
+        64,
+        67,
+        66
+      ],
+      "crossings": [
+        66,
+        67
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_mountains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 3,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 2,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "capital_town",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 1,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 66,
+      "provName": "Menas'Un'Kur",
+      "owner": 4,
+      "graphicalCenter": {
+        "x": 1474,
+        "y": 946
+      },
+      "center": {
+        "x": 1435,
+        "y": 925
+      },
+      "graphicalSize": {
+        "x": 185,
+        "y": 143
+      },
+      "tradeGood": "Rice",
+      "links": [
+        65,
+        67
+      ],
+      "crossings": [
+        65
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_forest",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 67,
+      "provName": "Isikar'Un'Kur",
+      "owner": 4,
+      "graphicalCenter": {
+        "x": 1377,
+        "y": 1006
+      },
+      "center": {
+        "x": 1346,
+        "y": 993
+      },
+      "graphicalSize": {
+        "x": 222,
+        "y": 127
+      },
+      "tradeGood": "Rice",
+      "links": [
+        65,
+        66
+      ],
+      "crossings": [
+        65
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_forest",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 68,
+      "provName": "Central Mutsu",
+      "owner": 2,
+      "graphicalCenter": {
+        "x": 1305,
+        "y": 611
+      },
+      "center": {
+        "x": 1302,
+        "y": 610
+      },
+      "graphicalSize": {
+        "x": 81,
+        "y": 109
+      },
+      "tradeGood": "Rice",
+      "links": [
+        69,
+        70,
+        36,
+        37
+      ],
+      "crossings": [
+        69,
+        70
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 69,
+      "provName": "South Dewa",
+      "owner": 1,
+      "graphicalCenter": {
+        "x": 1242,
+        "y": 585
+      },
+      "center": {
+        "x": 1248,
+        "y": 596
+      },
+      "graphicalSize": {
+        "x": 65,
+        "y": 124
+      },
+      "tradeGood": "Rice",
+      "links": [
+        30,
+        70,
+        36,
+        68
+      ],
+      "crossings": [
+        68,
+        30
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    },
+    {
+      "id": 70,
+      "provName": "South Mutsu",
+      "owner": 14,
+      "graphicalCenter": {
+        "x": 1244,
+        "y": 514
+      },
+      "center": {
+        "x": 1251,
+        "y": 503
+      },
+      "graphicalSize": {
+        "x": 105,
+        "y": 94
+      },
+      "tradeGood": "Rice",
+      "links": [
+        30,
+        39,
+        38,
+        69,
+        44,
+        68
+      ],
+      "crossings": [
+        68,
+        30
+      ],
+      "traits": [],
+      "mods": [
+        {
+          "name": "terrain_plains",
+          "value": 1,
+          "remaining": -1
+        },
+        {
+          "name": "const_fort",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_road",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_farm",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_resource",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_law",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "const_religion",
+          "value": 0,
+          "remaining": -1
+        },
+        {
+          "name": "trade_hub",
+          "value": 0,
+          "remaining": -1
+        }
+      ],
+      "pop": 1,
+      "dev": 1,
+      "auto": 0
+    }
+  ]
+}

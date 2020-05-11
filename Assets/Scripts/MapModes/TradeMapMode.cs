@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TradeMapMode : MapMode
 {
@@ -18,7 +19,12 @@ public class TradeMapMode : MapMode
 
     public override void Enable()
     {
-        foreach(Province prov in GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetProvinces())
+        if (MapTools.GetInterface().activeMapMode != this)
+        {
+            MapTools.GetInterface().button_map_trade.onClick.Invoke();
+        }
+
+        foreach (Province prov in GameObject.Find("Map/Center").GetComponent<MapHandler>().save.GetProvinces())
         {
             prov.RefreshIcon("trade");
         }

@@ -1,0 +1,28 @@
+{
+  "array": [
+    {
+      "name": "Rice",
+      "value": 1
+    },
+    {
+      "name": "Timber",
+      "value": 2
+    },
+    {
+      "name": "Iron",
+      "value": 3
+    },
+    {
+      "name": "Chinaware",
+      "value": 4
+    },
+    {
+      "name": "Silk",
+      "value": 5
+    },
+    {
+      "name": "Gold",
+      "value": 6
+    }
+  ]
+}

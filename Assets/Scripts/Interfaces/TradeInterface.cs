@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using TMPro;
 using Pathfinding;
@@ -35,18 +36,27 @@ public class TradeInterface : Interface
 
     public override void MouseInput(Province prov)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            MapTools.GetInterface().interface_trade.GetComponent<TradeInterface>().AddToRoute(prov);
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            MapTools.GetInterface().interface_trade.GetComponent<TradeInterface>().RemoveFromRoute(prov);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                MapTools.GetInterface().EnableMapMode("trade");
+                MapTools.GetInterface().interface_trade.GetComponent<TradeInterface>().AddToRoute(prov);
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                MapTools.GetInterface().EnableMapMode("trade");
+                MapTools.GetInterface().interface_trade.GetComponent<TradeInterface>().RemoveFromRoute(prov);
+            }
         }
     }
     public override void KeyboardInput(Province prov)
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MapTools.GetInterface().EnableInterface("none");
+        }
     }
 
 
