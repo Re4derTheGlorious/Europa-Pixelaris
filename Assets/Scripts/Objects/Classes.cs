@@ -184,12 +184,17 @@ public class Classes : MonoBehaviour
     public class TradeGood
     {
         public string name;
-        public double value;
-        public double bonus;
+        public float value;
+        public float bonus;
 
         public TradeGood()
         {
 
+        }
+
+        public TradeGood Copy()
+        {
+            return (TradeGood) this.MemberwiseClone();
         }
     }
     [System.Serializable]

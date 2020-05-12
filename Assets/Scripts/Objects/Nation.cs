@@ -176,6 +176,18 @@ public class Nation
             provinces.Add(prov);
         }
     }
+    public float GetProduction(string goodName)
+    {
+        float prod = 0;
+        foreach(Province prov in provinces)
+        {
+            if (prov.tradeGood.name == goodName)
+            {
+                prod+=prov.dev*prov.pop*prov.tradeGood.value;
+            }
+        }
+        return prod;
+    }
     public NationAsSaveable AsSaveable()
     {
         return new NationAsSaveable(id, power, man, wealth, provinces, capital.id);

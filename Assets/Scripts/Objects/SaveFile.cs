@@ -17,6 +17,8 @@ public class SaveFile
     private bool IronMan;
 
     //enviroment
+    private Economy eco;
+
     private List<Province> provinces;
     [SerializeField]
     public List<Province.ProvinceAsSaveable> provinces_as;
@@ -164,6 +166,10 @@ public class SaveFile
     public List<Classes.War> GetWars()
     {
         return wars;
+    }
+    public ref Economy GetEconomy()
+    {
+        return ref eco;
     }
 
     public ref Classes.TimeAndPace GetTime()

@@ -23,6 +23,66 @@
     {
       "name": "Gold",
       "value": 6
+    },
+    {
+      "name": "Marble",
+      "value": 0
+    },
+    {
+      "name": "Silver",
+      "value": 0
+    },
+    {
+      "name": "Copper",
+      "value": 0
+    },
+    {
+      "name": "Trinkets",
+      "value": 0
+    },
+    {
+      "name": "Cloth",
+      "value": 0
+    },
+    {
+      "name": "Furs",
+      "value": 0
+    },
+    {
+      "name": "Coal",
+      "value": 0
+    },
+    {
+      "name": "Fish",
+      "value": 0
+    },
+    {
+      "name": "Amber",
+      "value": 0
+    },
+    {
+      "name": "Jevelry",
+      "value": 0
+    },
+    {
+      "name": "Powder",
+      "value": 0
+    },
+    {
+      "name": "Ivory",
+      "value": 0
+    },
+    {
+      "name": "Spices",
+      "value": 0
+    },
+    {
+      "name": "Salt",
+      "value": 0
+    },
+    {
+      "name": "Coal",
+      "value": 0
     }
   ]
 }

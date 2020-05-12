@@ -5,18 +5,6 @@ using UnityEngine.UI;
 
 public class TradeMapMode : MapMode
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void Enable()
     {
         if (MapTools.GetInterface().activeMapMode != this)
@@ -28,6 +16,14 @@ public class TradeMapMode : MapMode
         {
             prov.RefreshIcon("trade");
         }
+
+        if (GameObject.Find("Armies"))
+        {
+            GameObject.Find("Armies").SetActive(false);
+        }
+        //Vector3 newPos = MapTools.GetMap().transform.Find("Armies").position;
+        //newPos.z = -100;
+        //MapTools.GetMap().transform.Find("Armies").position = newPos;
     }
     public override void Disable()
     {
@@ -35,6 +31,11 @@ public class TradeMapMode : MapMode
         {
             prov.RefreshIcon("none");
         }
+
+        GameObject.Find("Map").transform.Find("Armies").gameObject.SetActive(true);
+        //Vector3 newPos = MapTools.GetMap().transform.Find("Armies").position;
+        //newPos.z = 0;
+        //MapTools.GetMap().transform.Find("Armies").position = newPos;
     }
     public override void Refresh()
     {

@@ -116,7 +116,7 @@ public class InterfaceHandler : MonoBehaviour
         interface_diplo.SetActive(false);
         interface_menu.SetActive(false);
 
-        activeInterface = interface_start.GetComponent<StartInterface>(); ;
+        activeInterface = interface_start.GetComponent<StartInterface>();
         activeInterface.Enable();
     }
 

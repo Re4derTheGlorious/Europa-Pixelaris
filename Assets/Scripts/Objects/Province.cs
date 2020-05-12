@@ -117,17 +117,29 @@ public class Province: MonoBehaviour
     {
         if (mode.Equals("trade"))
         {
+            Texture2D tex = Resources.Load("Icons/Trade/Trade_" + tradeGood.name) as Texture2D;
+            Material mat = GetComponent<MeshRenderer>().material;
+            if (tex == null)
+            {
+                tex = Resources.Load("Towns/Mat_Hub") as Texture2D;
+            }
+
+            Color newColor;
             if (mods.GetMod("trade_hub") == 1)
             {
-                GetComponent<MeshRenderer>().material = Resources.Load("Towns/Mat_Hub") as Material;
+                newColor = new Color(mat.color.r, mat.color.g, mat.color.b, 1f);
+
             }
             else
             {
-                GetComponent<MeshRenderer>().material = Resources.Load("Towns/Mat_Town") as Material;
+                newColor = new Color(mat.color.r, mat.color.g, mat.color.b, 0.25f);
             }
+            mat.color = newColor;
+            mat.mainTexture = tex;
         }
         else
         {
+
             if (mods.GetMod("capital_town") == 1)
             {
                 GetComponent<MeshRenderer>().material = Resources.Load("Towns/Mat_Capital") as Material;
@@ -297,7 +309,7 @@ public class Province: MonoBehaviour
         pas.graphicalCenter = graphicalCenter;
         pas.graphicalSize = graphicalSize;
         pas.center = center;
-        pas.tradeGood = "Rice";
+        pas.tradeGood = tradeGood.name;
 
         pas.links = new int[links.Count];
         for (int i = 0; i < links.Count; i++)

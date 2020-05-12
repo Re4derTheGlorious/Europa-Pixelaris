@@ -36,6 +36,7 @@ public class MapHandler : MonoBehaviour
     public bool measurerActive;
     public bool linkerActive;
     public bool refreshActive;
+    public bool backuperActive;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class MapHandler : MonoBehaviour
 
         activeArmies = new List<Army>();
 
+        LoadEconomy();
         LoadProvinces();
         LoadNations();
         LoadArmies();
@@ -114,6 +116,11 @@ public class MapHandler : MonoBehaviour
             ProvinceLinker();
             linkerActive = false;
         }
+        if (backuperActive)
+        {
+            ProvinceBackuper();
+            backuperActive = false;
+        }
 
         //paint provinces
         if (refreshActive)
@@ -121,8 +128,6 @@ public class MapHandler : MonoBehaviour
             Paint(true, true);
             refreshActive = false;
         }
-
-        //conv();
 
         //pathfinding
         CreateAstarGrid();
@@ -187,6 +192,7 @@ public class MapHandler : MonoBehaviour
 
 
                 //Tick
+                save.GetEconomy().Tick(save.GetTime());
                 foreach (Nation nat in save.GetNations())
                 {
                     nat.Tick(save.GetTime());
@@ -225,6 +231,12 @@ public class MapHandler : MonoBehaviour
         }
     }
 
+    private void LoadEconomy()
+    {
+        save.GetEconomy() = new Economy();
+        save.GetEconomy().LoadDef(path_goods);
+
+    }
     private void LoadProvinces()
     {
         //load
@@ -238,15 +250,14 @@ public class MapHandler : MonoBehaviour
         save.GetProvinces().ForEach(x => x.LinksFromStarting(provAsStarting.Find(y => y.id == x.id)));
 
         //trade goods
-        string goodsAsText = (Resources.Load(path_goods) as TextAsset).text;
-        Classes.TradeGood[] tr_goods = JsonUtility.FromJson<SaveManager.Wrapper<Classes.TradeGood>>(goodsAsText).array;
+        
         foreach (Province prov in save.GetProvinces())
         {
-            foreach(Classes.TradeGood trg in tr_goods)
+            foreach(Classes.TradeGood trg in save.GetEconomy().tradeGoods)
             {
                 if (trg.name == prov.tradeGood.name)
                 {
-                    prov.tradeGood = trg;
+                    prov.tradeGood = trg.Copy();
                 }
             }
         }
@@ -592,7 +603,7 @@ public class MapHandler : MonoBehaviour
         return true;
     }
 
-    private void conv()
+    public void ProvinceBackuper()
     {
         SaveManager.Wrapper<Province.ProvinceAsStarting> wrap = new SaveManager.Wrapper<Province.ProvinceAsStarting>();
         List<Province.ProvinceAsStarting> list = new List<Province.ProvinceAsStarting>();

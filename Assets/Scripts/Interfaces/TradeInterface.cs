@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using Pathfinding;
@@ -15,8 +17,8 @@ public class TradeInterface : Interface
 
     void Start()
     {
-        selectors = transform.GetChild(0).gameObject;
-        frames = transform.GetChild(1).gameObject;
+        selectors = transform.Find("Routes").GetChild(0).gameObject;
+        frames = transform.Find("Routes").GetChild(1).gameObject;
     }
 
     void Update()
@@ -38,6 +40,42 @@ public class TradeInterface : Interface
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
+            //for developer to setup trade goods
+            //if (prov)
+            //{
+            //    if (Input.GetMouseButtonDown(0))
+            //    {
+            //        if (prov.tradeGood.name.Equals("Rice"))
+            //        {
+            //            prov.tradeGood.name = "Timber";
+            //        }
+            //        else if (prov.tradeGood.name.Equals("Timber"))
+            //        {
+            //            prov.tradeGood.name = "Iron";
+            //        }
+            //        else if (prov.tradeGood.name.Equals("Iron"))
+            //        {
+            //            prov.tradeGood.name = "Chinaware";
+            //        }
+            //        else if (prov.tradeGood.name.Equals("Chinaware"))
+            //        {
+            //            prov.tradeGood.name = "Silk";
+            //        }
+            //        else if (prov.tradeGood.name.Equals("Silk"))
+            //        {
+            //            prov.tradeGood.name = "Gold";
+            //        }
+            //        else
+            //        {
+            //            prov.tradeGood.name = "Rice";
+            //        }
+            //        prov.RefreshIcon("trade");
+            //    }
+            //    if (Input.GetMouseButtonDown(1))
+            //    {
+            //        MapTools.GetMap().ProvinceBackuper();
+            //    }
+            //}
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -75,6 +113,7 @@ public class TradeInterface : Interface
     {
         GameObject.Find("Canvas").GetComponent<InterfaceHandler>().EnableMapMode("trade");
         gameObject.SetActive(true);
+        LoadEconomySelectors();
     }
 
     public override void Refresh()
@@ -248,4 +287,77 @@ public class TradeInterface : Interface
         }
         selectors.transform.DetachChildren();
     }
+
+    public void LoadEconomySelectors()
+    {
+        if (transform.Find("Economy/Selectors/Viewport/Content/").childCount == 0)
+        {
+            foreach(Classes.TradeGood good in MapTools.GetSave().GetEconomy().tradeGoods)
+            {
+                GameObject icon = Instantiate(Resources.Load("Prefabs/UI_InteractableIcon") as GameObject, transform.Find("Economy/Selectors/Viewport/Content/"));
+                Texture2D tex = Resources.Load("Icons/Trade/Trade_" + good.name) as Texture2D;
+                if (tex == null)
+                {
+                    tex = Resources.Load("Icons/Trade/Trade_Icon") as Texture2D;
+                }
+                icon.GetComponent<RawImage>().texture = tex;
+                icon.GetComponent<Button>().onClick.AddListener(delegate { LoadGlobalEconomy(good); });
+            }
+        }
+    }
+    public void LoadGlobalEconomy(Classes.TradeGood good)
+    {
+        Texture2D tex = Resources.Load("Icons/Trade/Trade_" + good.name) as Texture2D;
+        if (tex == null)
+        {
+            tex = Resources.Load("Icons/Trade/Trade_Icon") as Texture2D;
+        }
+        transform.Find("Economy/GlobalEconomy/Icon").GetComponent<RawImage>().texture = tex;
+        transform.Find("Economy/GlobalEconomy/Name").GetComponent<TextMeshProUGUI>().text = good.name+" Market";
+
+        List<Economy.Pair> ranking = MapTools.GetSave().GetEconomy().ranking[good];
+
+        foreach(Transform trans in transform.Find("Economy/GlobalEconomy/Chart/Scroll/Viewport/Content/"))
+        {
+            Destroy(trans.gameObject);
+        }
+        transform.Find("Economy/GlobalEconomy/Chart/Scroll/Viewport/Content/").DetachChildren();
+
+        int i = 0;
+        for(i = 0; i<3; i++)
+        {
+            transform.Find("Economy/GlobalEconomy/Chart/Top/Chart_" + (i + 1) + "/Background/Text_Key").gameObject.SetActive(false);
+        }
+        transform.Find("Economy/GlobalEconomy/Chart/Chart_Player").gameObject.SetActive(false);
+
+
+        i = 0;
+        foreach(Economy.Pair pair in ranking)
+        {
+            if (i < 3)
+            {
+                transform.Find("Economy/GlobalEconomy/Chart/Top/Chart_" + (i + 1) + "/Background/Text_Key").gameObject.SetActive(true);
+                transform.Find("Economy/GlobalEconomy/Chart/Top/Chart_"+(i+1)+"/Background/Text_Key").GetComponent<TextMeshProUGUI>().text = (i+1)+"."+ranking.ElementAt(i).nat.name;
+                transform.Find("Economy/GlobalEconomy/Chart/Top/Chart_" + (i + 1) + "/Background/Text_Value").GetComponent<TextMeshProUGUI>().text = "+" + ranking.ElementAt(i).value;
+            }
+            else
+            {
+                Transform newEntry = GameObject.Instantiate(Resources.Load("Prefabs/UI_Chart_Entry") as GameObject, transform.Find("Economy/GlobalEconomy/Chart/Scroll/Viewport/Content")).transform;
+                newEntry.Find("Background/Text_Key").GetComponent<TextMeshProUGUI>().text = (i + 1) + "." + ranking.ElementAt(i).nat.name;
+                newEntry.Find("Background/Text_Value").GetComponent<TextMeshProUGUI>().text = "+" + ranking.ElementAt(0).value;
+            }
+
+            if (pair.nat == MapTools.GetSave().GetActiveNation())
+            {
+                if (ranking.Count >= 3) { 
+                    transform.Find("Economy/GlobalEconomy/Chart/Chart_Player").gameObject.SetActive(true);
+                    transform.Find("Economy/GlobalEconomy/Chart/Chart_Player/Background/Text_Key").GetComponent<TextMeshProUGUI>().text = (i + 1) + "." + ranking.ElementAt(i).nat.name;
+                    transform.Find("Economy/GlobalEconomy/Chart/Chart_Player/Background/Text_Value").GetComponent<TextMeshProUGUI>().text = "+" + ranking.ElementAt(i).value;
+                }
+            }
+
+            i++;
+        }
+    }
+
 }

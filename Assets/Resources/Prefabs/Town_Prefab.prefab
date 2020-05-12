@@ -107,3 +107,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b550ef3ec692f49b4f8aa754f164db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  recruiter:
+    holderProv: {fileID: 0}
+    recruitementProgress: 0
+  constructor:
+    holder: {fileID: 0}
+    constructionQueue: []
+  growthMods: {}
+  traits: []
+  pop: 1
+  dev: 1
+  auto: 0
+  provName: 
+  links: []
+  crossings: []
+  graphicalCenter: {x: 0, y: 0}
+  center: {x: 0, y: 0}
+  graphicalSize: {x: 0, y: 0}
+  armies:
+    rep: {fileID: 0}
+    owner: {fileID: 0}
+  tradeGood:
+    name: 
+    value: 0
+    bonus: 0
